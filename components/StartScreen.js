@@ -6,8 +6,11 @@ function StartScreen() {
   const navigation = useNavigation();
 
   const navigateToNewTrip = () => {
-    // Use the navigate function to go to the 'newTrip' screen
     navigation.navigate('newTrip');
+  };
+
+  const navigateToCalendar = () => {
+    navigation.navigate('calendar');
   };
 
   return (
@@ -17,6 +20,13 @@ function StartScreen() {
       <TouchableOpacity onPress={navigateToNewTrip}>
         <View style={{ backgroundColor: 'blue', padding: 10, borderRadius: 5 }}>
           <Text style={{ color: 'white' }}>Create New Trip</Text>
+        </View>
+      </TouchableOpacity>
+
+        {/* TouchableOpacity for navigating to 'calendar' screen */}
+        <TouchableOpacity onPress={navigateToCalendar}>
+        <View style={{ backgroundColor: 'green', padding: 10, borderRadius: 5 }}>
+          <Text style={{ color: 'white' }}>Go to Calendar</Text>
         </View>
       </TouchableOpacity>
     </View>
