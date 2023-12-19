@@ -106,11 +106,11 @@ function CalendarComponent() {
     <View style={styles.mainContainer}>
       <View style={styles.navContainer}>
         <TouchableOpacity onPress={goToPreviousMonth}>
-          <Text>{"<"}</Text>
+          <Text style={styles.arrow}>{"<"}</Text>
         </TouchableOpacity>
-        <Text>Current Month</Text>
+
         <TouchableOpacity onPress={goToNextMonth}>
-          <Text>{">"}</Text>
+          <Text style={styles.arrow}>{">"}</Text>
         </TouchableOpacity>
       </View>
       <View>{generateCalendar()}</View>
@@ -123,18 +123,17 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 50,
+
     width: "18rem",
   },
   navContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     width: "28rem",
-    marginBottom: 20,
   },
   container: {
     alignItems: "center",
-    width: "100%",
+    //width: "80%",
   },
   monthTitle: {
     fontSize: 24,
@@ -144,18 +143,26 @@ const styles = StyleSheet.create({
   daysContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
-    justifyContent: "center",
+    justifyContent: "space-between",
+    //backgroundColor: "yellow",
+    width: "90%",
+    padding: 5, // Optional padding between boxes
   },
+
   dayContainer: {
-    borderWidth: 1,
-    borderColor: "lightgray",
-    width: 40,
-    height: 40,
+    width: "14%", // Set each day container to occupy approximately 1/7th of the row
+    aspectRatio: 1, // Ensure boxes maintain a square shape
     alignItems: "center",
     justifyContent: "center",
+
+    marginBottom: 5,
   },
   dayText: {
     fontSize: 18,
+  },
+  arrow: {
+    fontSize: 25,
+    color: "green",
   },
 });
 
