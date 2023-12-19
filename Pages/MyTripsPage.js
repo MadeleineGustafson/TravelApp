@@ -1,9 +1,9 @@
-function SavedPages() {
+function MyTripsPage() {
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text> Saved Pages Screen</Text>
+      <Text> My trips Screen</Text>
     </View>
   );
 }
 
-export default SavedPages
+export default MyTripsPage
