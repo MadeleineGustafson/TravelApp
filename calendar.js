@@ -5,6 +5,7 @@ function CalendarComponent() {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [calendarData, setCalendarData] = useState([]);
 
+  // hämta api
   useEffect(() => {
     const fetchCalendarData = async () => {
       try {
@@ -23,18 +24,31 @@ function CalendarComponent() {
     fetchCalendarData();
   }, [currentDate]);
 
+  // Klicka till tidigare månad
   const goToPreviousMonth = () => {
     setCurrentDate(
       new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1)
     );
   };
 
+  // KLicka till nästa månad
   const goToNextMonth = () => {
     setCurrentDate(
       new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1)
     );
   };
 
+  // Antal veckodagar
+  const generateDaysOfWeek = () => {
+    const daysOfWeek = ["M", "T", "W", "T", "F", "S", "S"];
+    return daysOfWeek.map((day, index) => (
+      <View key={`dayOfWeek_${index}`} style={styles.dayOfWeek}>
+        <Text style={styles.dayText}>{day}</Text>
+      </View>
+    ));
+  };
+
+  // Antal månader
   const generateCalendar = () => {
     const monthNames = [
       "January",
@@ -50,6 +64,8 @@ function CalendarComponent() {
       "November",
       "December",
     ];
+
+    // räkna ut tomma boxar
 
     const firstDayOfMonth = new Date(
       currentDate.getFullYear(),
@@ -84,6 +100,7 @@ function CalendarComponent() {
         );
       }
     }
+
     if (days.length <= 34) {
       days.push(
         <View key={`empty_end`} style={styles.dayContainer}>
@@ -97,6 +114,7 @@ function CalendarComponent() {
         <Text style={styles.monthTitle}>
           {monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
         </Text>
+        <View style={styles.daysOfWeekContainer}>{generateDaysOfWeek()}</View>
         <View style={styles.daysContainer}>{days}</View>
       </View>
     );
@@ -108,7 +126,6 @@ function CalendarComponent() {
         <TouchableOpacity onPress={goToPreviousMonth}>
           <Text style={styles.arrow}>{"<"}</Text>
         </TouchableOpacity>
-
         <TouchableOpacity onPress={goToNextMonth}>
           <Text style={styles.arrow}>{">"}</Text>
         </TouchableOpacity>
@@ -117,23 +134,19 @@ function CalendarComponent() {
     </View>
   );
 }
-
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-
-    width: "18rem",
   },
   navContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    width: "28rem",
+    width: "auto",
   },
   container: {
     alignItems: "center",
-    //width: "80%",
   },
   monthTitle: {
     fontSize: 24,
@@ -144,7 +157,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-between",
-    //backgroundColor: "yellow",
+
     width: "90%",
     padding: 5, // Optional padding between boxes
   },
@@ -163,6 +176,19 @@ const styles = StyleSheet.create({
   arrow: {
     fontSize: 25,
     color: "green",
+  },
+  daysOfWeekContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "90%",
+    paddingHorizontal: 5,
+    marginBottom: 5,
+  },
+  dayOfWeek: {
+    width: "14%",
+    aspectRatio: 1,
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
 
