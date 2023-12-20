@@ -1,12 +1,52 @@
+import { Button, Center, FormControl, Input, Modal, NativeBaseProvider } from "native-base";
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+
+
+    function TodoModal({ isVisible, onClose }) {
+        const [showModal, setShowModal] = useState(isVisible);
+
+        return <Center>
+            <Button onPress={onClose}>Button</Button>
+            <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
+              <Modal.Content maxWidth="400px">
+                <Modal.CloseButton />
+                <Modal.Header>Contact Us</Modal.Header>
+                <Modal.Body>
+                  <FormControl>
+                    <FormControl.Label>Name</FormControl.Label>
+                    <Input />
+                  </FormControl>
+                  <FormControl mt="3">
+                    <FormControl.Label>Email</FormControl.Label>
+                    <Input />
+                  </FormControl>
+                </Modal.Body>
+                <Modal.Footer>
+                  <Button.Group space={2}>
+                    <Button variant="ghost" colorScheme="blueGray" onPress={() => {
+                    setShowModal(false);
+                  }}>
+                      Cancel
+                    </Button>
+                    <Button onPress={() => {
+                    setShowModal(false);
+                  }}>
+                      Save
+                    </Button>
+                  </Button.Group>
+                </Modal.Footer>
+              </Modal.Content>
+            </Modal>
+          </Center>;
+      };
 
 function CalendarScreen() {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [calendarData, setCalendarData] = useState([]);
   const [isModalVisible, setModalVisible] = useState(false);
-
-
+  
+  
   // hämta api
   useEffect(() => {
     const fetchCalendarData = async () => {
@@ -121,11 +161,6 @@ function CalendarScreen() {
         </View>
       );
     }
-
-    function TodoModal({ isVisible, onClose }) {
-      // Your modal content and functionality
-      // ...
-    }
     
 
     return (
@@ -140,6 +175,8 @@ function CalendarScreen() {
   };
 
   return (
+    <NativeBaseProvider>
+
       <View style={styles.mainContainer}>
         <View style={styles.navContainer}>
           <TouchableOpacity onPress={goToPreviousMonth}>
@@ -150,13 +187,14 @@ function CalendarScreen() {
           </TouchableOpacity>
         </View>
         <View>{generateCalendar()}</View>
-        <TouchableOpacity onPress={() => setModalVisible(true)}>
-          <Text style={styles.openModalButton}>Open Modal</Text>
-        </TouchableOpacity>
-        {isModalVisible && (
-          <TodoModal isVisible={isModalVisible} onClose={() => setModalVisible(false)} />
+         <TouchableOpacity onPress={() => setModalVisible(true)}>
+        <Text style={styles.openModalButton}>Open Modal</Text>
+      </TouchableOpacity>
+      {isModalVisible && (
+        <TodoModal isVisible={isModalVisible} onClose={() => setModalVisible(false)} />
         )}
-      </View>
+    </View>
+        </NativeBaseProvider>
     );
 
 }
