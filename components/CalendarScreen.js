@@ -65,6 +65,9 @@ function CalendarScreen() {
       "December",
     ];
 
+    // dagens datum
+    const today = new Date();
+
     // räkna ut tomma boxar
 
     const firstDayOfMonth = new Date(
@@ -86,16 +89,24 @@ function CalendarScreen() {
     const days = [];
 
     for (let i = 0; i < totalRows * 7; i++) {
+      const dayNumber = i - startingIndex + 1;
+      const isToday =
+        dayNumber === today.getDate() &&
+        currentDate.getMonth() === today.getMonth() &&
+        currentDate.getFullYear() === today.getFullYear();
+
       if (i < startingIndex || i >= startingIndex + daysInMonth) {
         days.push(
           <View key={`empty_${i}`} style={styles.dayContainer}>
-            <Text style={styles.dayText}>{""}</Text>
+            <Text style={[styles.dayText, isToday && styles.todayText]}>{""}</Text>
           </View>
         );
       } else {
         days.push(
           <View key={`day_${i}`} style={styles.dayContainer}>
-            <Text style={styles.dayText}>{i - startingIndex + 1}</Text>
+            <Text style={[styles.dayText, isToday && styles.todayText]}>
+              {dayNumber}
+            </Text>
           </View>
         );
       }
@@ -189,6 +200,10 @@ const styles = StyleSheet.create({
     aspectRatio: 1,
     alignItems: "center",
     justifyContent: "center",
+  },
+  todayText: {
+    color: "red",
+    fontWeight: "bold",
   },
 });
 
