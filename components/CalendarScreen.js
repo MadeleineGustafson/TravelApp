@@ -4,6 +4,8 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 function CalendarScreen() {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [calendarData, setCalendarData] = useState([]);
+  const [isModalVisible, setModalVisible] = useState(false);
+
 
   // hämta api
   useEffect(() => {
@@ -120,6 +122,12 @@ function CalendarScreen() {
       );
     }
 
+    function TodoModal({ isVisible, onClose }) {
+      // Your modal content and functionality
+      // ...
+    }
+    
+
     return (
       <View style={styles.container}>
         <Text style={styles.monthTitle}>
@@ -132,18 +140,25 @@ function CalendarScreen() {
   };
 
   return (
-    <View style={styles.mainContainer}>
-      <View style={styles.navContainer}>
-        <TouchableOpacity onPress={goToPreviousMonth}>
-          <Text style={styles.arrow}>{"<"}</Text>
+      <View style={styles.mainContainer}>
+        <View style={styles.navContainer}>
+          <TouchableOpacity onPress={goToPreviousMonth}>
+            <Text style={styles.arrow}>{"<"}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={goToNextMonth}>
+            <Text style={styles.arrow}>{">"}</Text>
+          </TouchableOpacity>
+        </View>
+        <View>{generateCalendar()}</View>
+        <TouchableOpacity onPress={() => setModalVisible(true)}>
+          <Text style={styles.openModalButton}>Open Modal</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={goToNextMonth}>
-          <Text style={styles.arrow}>{">"}</Text>
-        </TouchableOpacity>
+        {isModalVisible && (
+          <TodoModal isVisible={isModalVisible} onClose={() => setModalVisible(false)} />
+        )}
       </View>
-      <View>{generateCalendar()}</View>
-    </View>
-  );
+    );
+
 }
 const styles = StyleSheet.create({
   mainContainer: {
