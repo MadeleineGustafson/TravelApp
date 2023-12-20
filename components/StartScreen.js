@@ -1,34 +1,58 @@
-import { useNavigation } from '@react-navigation/native';
-import React from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { useNavigation } from "@react-navigation/native";
+import React from "react";
+import { Text, TouchableOpacity, View } from "react-native";
 
 function StartScreen() {
   const navigation = useNavigation();
 
   const navigateToNewTrip = () => {
-    navigation.navigate('newTrip');
-  };
-
-  const navigateToCalendar = () => {
-    navigation.navigate('calendar');
+    navigation.navigate("newTrip");
   };
 
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Start Page</Text>
-      {/* TouchableOpacity for navigation */}
-      <TouchableOpacity onPress={navigateToNewTrip}>
-        <View style={{ backgroundColor: 'blue', padding: 10, borderRadius: 5 }}>
-          <Text style={{ color: 'white' }}>Create New Trip</Text>
-        </View>
-      </TouchableOpacity>
+    <View
+      style={{
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "#163532",
+      }}
+    >
+      <View style={{ justifyContent: "flex-start", width: "100%" }}>
+        <Text
+          style={{
+            fontSize: 40,
+            color: "#D1FFA0",
+            margin: 20,
+          }}
+        >
+          Travel Planner
+        </Text>
+        <Text
+          style={{
+            margin: 20,
+            color: "#EDF2E1",
+          }}
+        >
+          En liten slogan
+        </Text>
 
-        {/* TouchableOpacity for navigating to 'calendar' screen */}
-        <TouchableOpacity onPress={navigateToCalendar}>
-        <View style={{ backgroundColor: 'green', padding: 10, borderRadius: 5 }}>
-          <Text style={{ color: 'white' }}>Go to Calendar</Text>
-        </View>
-      </TouchableOpacity>
+        {/* TouchableOpacity for navigation */}
+        <TouchableOpacity onPress={navigateToNewTrip}>
+          <View
+            style={{
+              backgroundColor: "#D1FFA0",
+              padding: 10,
+              borderRadius: 14,
+              justifyContent: "flex-start",
+              width: 130,
+              margin: 20,
+            }}
+          >
+            <Text style={{ color: "#163532" }}>Create New Trip</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }

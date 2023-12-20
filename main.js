@@ -14,14 +14,19 @@ const Stack = createNativeStackNavigator();
 function Main() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Start">
+      <Stack.Navigator
+        initialRouteName="Start"
+        screenOptions={{
+          headerShown: false, // This will hide the header for all screens
+        }}
+      >
         <Stack.Screen name="Start" component={StartScreen} />
         <Stack.Screen name="newTrip" component={NewTripScreen} />
         <Stack.Screen name="calendar" component={CalendarScreen} />
-        <Stack.Screen name="myTrips" component={MyTripsScreen}/>
+        <Stack.Screen name="myTrips" component={MyTripsScreen} />
         <Stack.Screen name="TripHomePage" component={TripHomePageScreen} />
         <Stack.Screen name="notes" component={NotesScreen} />
-        <Stack.Screen name="savedPages" component={SavedPageScreen} /> 
+        <Stack.Screen name="savedPages" component={SavedPageScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
