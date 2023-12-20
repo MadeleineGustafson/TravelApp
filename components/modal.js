@@ -1,23 +1,22 @@
 import { Button, Center, FormControl, Input, Modal } from "native-base";
 import React, { useState } from "react";
 
-function TodoModal({ isVisible, onClose }) {
+function TodoModal({ isVisible }) {
   const [showModal, setShowModal] = useState(isVisible);
 
   return (
     <Center>
-      <Button onPress={onClose}>Button</Button>
       <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
         <Modal.Content maxWidth="400px">
           <Modal.CloseButton />
-          <Modal.Header>Contact Us</Modal.Header>
+          <Modal.Header>Add Todo</Modal.Header>
           <Modal.Body>
             <FormControl>
-              <FormControl.Label>Name</FormControl.Label>
+              <FormControl.Label>New todo</FormControl.Label>
               <Input />
             </FormControl>
             <FormControl mt="3">
-              <FormControl.Label>Email</FormControl.Label>
+              <FormControl.Label>Date</FormControl.Label>
               <Input />
             </FormControl>
           </Modal.Body>
@@ -37,7 +36,7 @@ function TodoModal({ isVisible, onClose }) {
                   setShowModal(false);
                 }}
               >
-                Save
+                Add Todo
               </Button>
             </Button.Group>
           </Modal.Footer>

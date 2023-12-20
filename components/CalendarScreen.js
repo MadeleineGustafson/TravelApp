@@ -149,7 +149,7 @@ function CalendarScreen() {
         </View>
         <View>{generateCalendar()}</View>
         <TouchableOpacity onPress={() => setModalVisible(true)}>
-          <Text style={styles.openModalButton}>Open Modal</Text>
+          <Text style={styles.openModalButton}>Add Todo</Text>
         </TouchableOpacity>
         {isModalVisible && (
           <TodoModal isVisible={isModalVisible} onClose={() => setModalVisible(false)} />
