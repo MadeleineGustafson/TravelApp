@@ -24,7 +24,7 @@ function Main() {
         <Stack.Screen name="newTrip" component={NewTripScreen} />
         <Stack.Screen name="calendar" component={CalendarScreen} />
         <Stack.Screen name="myTrips" component={MyTripsScreen} />
-        <Stack.Screen name="TripHomePage" component={TripHomePageScreen} />
+        <Stack.Screen name="tripHomePage" component={TripHomePageScreen} />
         <Stack.Screen name="notes" component={NotesScreen} />
         <Stack.Screen name="savedPages" component={SavedPageScreen} />
       </Stack.Navigator>
