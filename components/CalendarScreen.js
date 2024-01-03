@@ -1,12 +1,11 @@
 import { NativeBaseProvider } from "native-base";
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import TodoModal from "./modal";
+import { Pressable, StyleSheet, Text, View } from "react-native";
+import ToDoList from "./ToDoList";
 
 function CalendarScreen() {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [calendarData, setCalendarData] = useState([]);
-  const [isModalVisible, setModalVisible] = useState(false);
   
   
   // hämta api
@@ -132,6 +131,7 @@ function CalendarScreen() {
         </Text>
         <View style={styles.daysOfWeekContainer}>{generateDaysOfWeek()}</View>
         <View style={styles.daysContainer}>{days}</View>
+        <ToDoList />
       </View>
     );
   };
@@ -140,20 +140,14 @@ function CalendarScreen() {
     <NativeBaseProvider>
       <View style={styles.mainContainer}>
         <View style={styles.navContainer}>
-          <TouchableOpacity onPress={goToPreviousMonth}>
+          <Pressable onPress={goToPreviousMonth}>
             <Text style={styles.arrow}>{"<"}</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={goToNextMonth}>
+          </Pressable>
+          <Pressable onPress={goToNextMonth}>
             <Text style={styles.arrow}>{">"}</Text>
-          </TouchableOpacity>
+          </Pressable>
         </View>
         <View>{generateCalendar()}</View>
-        <TouchableOpacity onPress={() => setModalVisible(true)}>
-          <Text style={styles.openModalButton}>Add Todo</Text>
-        </TouchableOpacity>
-        {isModalVisible && (
-          <TodoModal isVisible={isModalVisible} onClose={() => setModalVisible(false)} />
-        )}
       </View>
     </NativeBaseProvider>
   );
