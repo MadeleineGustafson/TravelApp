@@ -12,10 +12,10 @@ function ToDoList() {
     setTask(null);
   }
 
-  const completeTask = (index) => {
+  const deleteTask = (index) => {
     let itemsCopy = [...taskItems];
     itemsCopy.splice(index, 1);
-    setTaskItems(itemsCopy)
+    setTaskItems(itemsCopy);
   }
 
   return (
@@ -36,7 +36,7 @@ function ToDoList() {
           {
             taskItems.map((item, index) => {
               return (
-                <TouchableOpacity key={index}  onPress={() => completeTask(index)}>
+                <TouchableOpacity key={index}  onPress={() => deleteTask(index)}>
                   <Task text={item} /> 
                 </TouchableOpacity>
               )
