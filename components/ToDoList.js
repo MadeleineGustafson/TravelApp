@@ -72,8 +72,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#E8EAED',
   },
   todosWrapper: {
-    paddingTop: 80,
-    paddingHorizontal: 20,
+    paddingTop: 10,
+    paddingHorizontal: 100,
   },
   sectionTitle: {
     fontSize: 24,
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
   },
   writeTodoWrapper: {
     position: 'absolute',
-    bottom: 60,
+    bottom: 100,
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-around',
