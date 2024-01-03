@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-const Task = (props) => {
+const Todo = (props) => {
 
   return (
     <View style={styles.item}>
@@ -49,4 +49,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Task;
+export default Todo;

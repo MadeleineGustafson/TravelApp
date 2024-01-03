@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
 import { Keyboard, KeyboardAvoidingView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import Task from './Task';
+import Todo from './Todo';
 
 function ToDoList() {
-  const [task, setTask] = useState();
-  const [taskItems, setTaskItems] = useState([]);
+  const [todo, setTodo] = useState();
+  const [todoItems, setTodoItems] = useState([]);
 
-  const handleAddTask = () => {
+  const handleAddTodo = () => {
     Keyboard.dismiss();
-    setTaskItems([...taskItems, task])
-    setTask(null);
+    setTodoItems([...todoItems, todo])
+    setTodo(null);
   }
 
-  const deleteTask = (index) => {
-    let itemsCopy = [...taskItems];
+  const deleteTodo = (index) => {
+    let itemsCopy = [...todoItems];
     itemsCopy.splice(index, 1);
-    setTaskItems(itemsCopy);
+    setTodoItems(itemsCopy);
   }
 
   return (
@@ -28,16 +28,16 @@ function ToDoList() {
         keyboardShouldPersistTaps='handled'
       >
 
-      {/* Today's Tasks */}
-      <View style={styles.tasksWrapper}>
-        <Text style={styles.sectionTitle}>Today's tasks</Text>
+      {/* Add todo */}
+      <View style={styles.todosWrapper}>
+        <Text style={styles.sectionTitle}>Add todo</Text>
         <View style={styles.items}>
-          {/* This is where the tasks will go! */}
+          {/* This is where the todo will go! */}
           {
-            taskItems.map((item, index) => {
+            todoItems.map((item, index) => {
               return (
-                <TouchableOpacity key={index}  onPress={() => deleteTask(index)}>
-                  <Task text={item} /> 
+                <TouchableOpacity key={index}  onPress={() => deleteTodo(index)}>
+                  <Todo text={item} /> 
                 </TouchableOpacity>
               )
             })
@@ -47,14 +47,15 @@ function ToDoList() {
         
       </ScrollView>
 
-      {/* Write a task */}
+      {/* Write a todo */}
       {/* Uses a keyboard avoiding view which ensures the keyboard does not cover the items on screen */}
       <KeyboardAvoidingView 
-        // behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={styles.writeTaskWrapper}
+        behavior="padding"
+        style={styles.writeTodoWrapper}
       >
-        <TextInput style={styles.input} placeholder={'Write a task'} value={task} onChangeText={text => setTask(text)} />
-        <TouchableOpacity onPress={() => handleAddTask()}>
+
+        <TextInput style={styles.input} placeholder={'Add a todo'} value={todo} onChangeText={text => setTodo(text)} />
+        <TouchableOpacity onPress={() => handleAddTodo()}>
           <View style={styles.addWrapper}>
             <Text style={styles.addText}>+</Text>
           </View>
@@ -70,7 +71,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#E8EAED',
   },
-  tasksWrapper: {
+  todosWrapper: {
     paddingTop: 80,
     paddingHorizontal: 20,
   },
@@ -81,7 +82,7 @@ const styles = StyleSheet.create({
   items: {
     marginTop: 30,
   },
-  writeTaskWrapper: {
+  writeTodoWrapper: {
     position: 'absolute',
     bottom: 60,
     width: '100%',
