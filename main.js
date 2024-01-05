@@ -16,7 +16,7 @@ function Main() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="calendar"
+        initialRouteName="Start"
         screenOptions={{
           headerShown: false, // This will hide the header for all screens
         }}
