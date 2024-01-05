@@ -1,10 +1,18 @@
+import { useNavigation } from '@react-navigation/native';
+import { NativeBaseProvider } from "native-base";
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 
 function CalendarScreen() {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [calendarData, setCalendarData] = useState([]);
-
+  const navigation = useNavigation();
+  
+  const handleAddTodoPress = () => {
+    // Navigate to the TodoPage when the "Add Todo" button is pressed
+    navigation.navigate('TodoPage');
+  };
+  
   // hämta api
   useEffect(() => {
     const fetchCalendarData = async () => {
@@ -119,6 +127,7 @@ function CalendarScreen() {
         </View>
       );
     }
+    
 
     return (
       <View style={styles.container}>
@@ -127,24 +136,33 @@ function CalendarScreen() {
         </Text>
         <View style={styles.daysOfWeekContainer}>{generateDaysOfWeek()}</View>
         <View style={styles.daysContainer}>{days}</View>
+        {/* <ToDoList /> */}
       </View>
     );
   };
 
   return (
-    <View style={styles.mainContainer}>
-      <View style={styles.navContainer}>
-        <TouchableOpacity onPress={goToPreviousMonth}>
-          <Text style={styles.arrow}>{"<"}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={goToNextMonth}>
-          <Text style={styles.arrow}>{">"}</Text>
-        </TouchableOpacity>
+    <NativeBaseProvider>
+      <View style={styles.mainContainer}>
+        <View style={styles.navContainer}>
+          <Pressable onPress={goToPreviousMonth}>
+            <Text style={styles.arrow}>{"<"}</Text>
+          </Pressable>
+          <Pressable onPress={goToNextMonth}>
+            <Text style={styles.arrow}>{">"}</Text>
+          </Pressable>
+        </View>
+        <View>{generateCalendar()}</View>
+
+         {/* Add Todo button */}
+         <Pressable onPress={handleAddTodoPress}>
+          <Text style={styles.addButton}>Add Todo</Text>
+        </Pressable>
       </View>
-      <View>{generateCalendar()}</View>
-    </View>
+    </NativeBaseProvider>
   );
 }
+
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
@@ -204,6 +222,11 @@ const styles = StyleSheet.create({
   todayText: {
     color: "red",
     fontWeight: "bold",
+  },
+  addButton: {
+    fontSize: 18,
+    color: 'blue',
+    marginTop: 10,
   },
 });
 
