@@ -1,12 +1,17 @@
+import { useNavigation } from '@react-navigation/native';
 import { NativeBaseProvider } from "native-base";
 import React, { useEffect, useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import ToDoList from "./ToDoList";
 
 function CalendarScreen() {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [calendarData, setCalendarData] = useState([]);
+  const navigation = useNavigation();
   
+  const handleAddTodoPress = () => {
+    // Navigate to the TodoPage when the "Add Todo" button is pressed
+    navigation.navigate('TodoPage');
+  };
   
   // hämta api
   useEffect(() => {
@@ -131,7 +136,7 @@ function CalendarScreen() {
         </Text>
         <View style={styles.daysOfWeekContainer}>{generateDaysOfWeek()}</View>
         <View style={styles.daysContainer}>{days}</View>
-        <ToDoList />
+        {/* <ToDoList /> */}
       </View>
     );
   };
@@ -148,6 +153,11 @@ function CalendarScreen() {
           </Pressable>
         </View>
         <View>{generateCalendar()}</View>
+
+         {/* Add Todo button */}
+         <Pressable onPress={handleAddTodoPress}>
+          <Text style={styles.addButton}>Add Todo</Text>
+        </Pressable>
       </View>
     </NativeBaseProvider>
   );
@@ -212,6 +222,11 @@ const styles = StyleSheet.create({
   todayText: {
     color: "red",
     fontWeight: "bold",
+  },
+  addButton: {
+    fontSize: 18,
+    color: 'blue',
+    marginTop: 10,
   },
 });
 

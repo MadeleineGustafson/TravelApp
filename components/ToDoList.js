@@ -3,7 +3,7 @@ import { Keyboard, KeyboardAvoidingView, ScrollView, StyleSheet, Text, TextInput
 import Todo from './Todo';
 
 function ToDoList() {
-  const [todo, setTodo] = useState();
+  const [todo, setTodo] = useState("");
   const [todoItems, setTodoItems] = useState([]);
 
   const handleAddTodo = () => {
