@@ -9,8 +9,14 @@ function ToDoList() {
   const handleAddTodo = () => {
     Keyboard.dismiss();
     setTodoItems([...todoItems, todo])
-    setTodo(null);
+    setTodo("");
   }
+
+  const editTodo = (index, newText) => {
+    let itemsCopy = [...todoItems];
+    itemsCopy[index] = newText;
+    setTodoItems(itemsCopy);
+  };
 
   const deleteTodo = (index) => {
     let itemsCopy = [...todoItems];
@@ -37,7 +43,11 @@ function ToDoList() {
             todoItems.map((item, index) => {
               return (
                 <TouchableOpacity key={index}  onPress={() => deleteTodo(index)}>
-                  <Todo text={item} /> 
+                  <Todo
+                    text={item}
+                    onDelete={() => deleteTodo(index)}
+                    onEdit={(newText) => editTodo(index, newText)}
+                />
                 </TouchableOpacity>
               )
             })
