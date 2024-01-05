@@ -7,6 +7,7 @@ import NewTripScreen from "./components/NewTripScreen";
 import NotesScreen from "./components/NotesScreen";
 import SavedPageScreen from "./components/SavedPageScreen";
 import StartScreen from "./components/StartScreen";
+import ToDoList from "./components/ToDoList";
 import TripHomePageScreen from "./components/TripHomePageScreen";
 
 const Stack = createNativeStackNavigator();
@@ -15,7 +16,7 @@ function Main() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Start"
+        initialRouteName="calendar"
         screenOptions={{
           headerShown: false, // This will hide the header for all screens
         }}
@@ -27,6 +28,7 @@ function Main() {
         <Stack.Screen name="tripHomePage" component={TripHomePageScreen} />
         <Stack.Screen name="notes" component={NotesScreen} />
         <Stack.Screen name="savedPages" component={SavedPageScreen} />
+        <Stack.Screen name="TodoPage" component={ToDoList} />
       </Stack.Navigator>
     </NavigationContainer>
   );
