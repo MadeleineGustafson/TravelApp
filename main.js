@@ -2,6 +2,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import * as React from "react";
+import { FaCalendarAlt, FaHome, FaStickyNote } from 'react-icons/fa';
 import CalendarScreen from "./components/CalendarScreen";
 import MyTripsScreen from "./components/MyTripsScreen";
 import NewTripScreen from "./components/NewTripScreen";
@@ -13,8 +14,6 @@ import TripHomePageScreen from "./components/TripHomePageScreen";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
-
-
 
 function StackNavigator() {
   return (
@@ -37,8 +36,32 @@ function StackNavigator() {
 }
 
 function TabNavigator() {
+  const getTabBarIcon = (route, focused) => {
+    const { name } = route;
+
+    switch (name) {
+      case 'Home':
+        return <FaHome size={20} color={focused ? '#163532' : 'gray'} />;
+      case 'Notes':
+        return <FaStickyNote size={20} color={focused ? '#163532' : 'gray'} />;
+      case 'Calendar':
+        return <FaCalendarAlt size={20} color={focused ? '#163532' : 'gray'} />;
+      default:
+        return null;
+    }
+  };
+
   return (
-    <Tab.Navigator>
+    <Tab.Navigator
+    screenOptions={({ route }) => ({
+      headerShown: false,
+      tabBarIcon: ({ focused }) => getTabBarIcon(route, focused),
+    })}
+    tabBarOptions={{
+      activeTintColor: '#163532',
+      inactiveTintColor: '#163532', 
+    }}
+  >
       <Tab.Screen name="Home" component={StartScreen} />
       <Tab.Screen name="Notes" component={NotesScreen} />
       <Tab.Screen name="Calendar" component={CalendarScreen} />
