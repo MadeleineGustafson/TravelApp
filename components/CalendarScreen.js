@@ -88,6 +88,17 @@ function CalendarScreen() {
 }
 
 const styles = StyleSheet.create({
+  titleText: {
+    fontSize: 20,
+    fontWeight: "bold",
+    textAlign: "center",
+    marginTop: 10,
+  },
+  detailText: {
+    fontSize: 16,
+    marginLeft: 10,
+    marginTop: 10,
+  },
   day: {
     textAlign: "center",
     fontSize: 18,
