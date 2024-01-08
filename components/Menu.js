@@ -1,20 +1,25 @@
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import React from 'react';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { NavigationContainer } from '@react-navigation/native';
+import * as React from 'react';
 import CalendarScreen from './CalendarScreen';
 import StartScreen from './StartScreen';
-import ToDoList from './ToDoList';
 
-const Tab = createNativeStackNavigator();
 
-function Menu() {
+const Tab = createBottomTabNavigator();
+
+function MyTabs() {
   return (
     <Tab.Navigator>
-      <Tab.Screen name="Start" component={StartScreen} />
-      <Tab.Screen name="calendar" component={CalendarScreen} />
-      <Tab.Screen name="TodoPage" component={ToDoList} />
-      {/* Add more screens as needed */}
+      <Tab.Screen name="Home" component={StartScreen} />
+      <Tab.Screen name="Calendar" component={CalendarScreen} />
     </Tab.Navigator>
   );
 }
 
-export default Menu;
+export default function Menu() {
+  return (
+    <NavigationContainer>
+      <MyTabs />
+    </NavigationContainer>
+  );
+}
