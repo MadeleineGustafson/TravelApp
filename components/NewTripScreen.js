@@ -72,14 +72,14 @@ function NewTripScreen() {
   };
 
   const navigateToCalendar = () => {
-    const tripData = {
+    const serializedTripData = {
       name: name,
       destination: destination,
-      departureDate: endDate,
-      arrivalDate: startDate,
+      startDate: startDate.toISOString(),
+      endDate: endDate.toISOString(),
     };
 
-    navigation.navigate("calendar", { tripData });
+    navigation.navigate("calendar", { tripData: serializedTripData });
   };
 
   return (
