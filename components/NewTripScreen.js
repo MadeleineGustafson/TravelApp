@@ -29,8 +29,11 @@ function NewTripScreen() {
     setShowPicker(!showPicker);
   };
   const toggleEndDatePicker = () => {
-    setShowEndPicker(!showPicker);
+    setShowEndPicker(!showEndPicker);
   };
+
+  const [chosenStartDate, setChosenStartDate] = useState(todayString);
+  const [chosenEndDate, setChosenEndDate] = useState(todayString);
 
   const onChange = ({ type }, selectedDate) => {
     if (type == "set") {
@@ -59,8 +62,13 @@ function NewTripScreen() {
   };
 
   const confirmIOSDate = () => {
-    setStartDate(startDate);
+    setChosenStartDate(startDate.toISOString().split("T")[0]);
     toggleStartDatePicker();
+  };
+
+  const confirmIOSEndDate = () => {
+    setChosenEndDate(endDate.toISOString().split("T")[0]);
+    toggleEndDatePicker();
   };
 
   const navigateToCalendar = () => {
@@ -98,7 +106,7 @@ function NewTripScreen() {
         {!showPicker && (
           <Pressable onPress={toggleStartDatePicker}>
             <TextInput
-              placeholder={todayString}
+              placeholder={chosenStartDate}
               editable={false}
               onPressIn={toggleStartDatePicker}
               style={styles.input}
@@ -107,7 +115,6 @@ function NewTripScreen() {
           </Pressable>
         )}
 
-        {/* DatePicker for Departure Date */}
         {showPicker && (
           <DateTimePicker
             mode="date"
@@ -134,7 +141,7 @@ function NewTripScreen() {
         {!showEndPicker && (
           <Pressable onPress={toggleEndDatePicker}>
             <TextInput
-              placeholder={todayString}
+              placeholder={chosenEndDate}
               editable={false}
               onPressIn={toggleEndDatePicker}
               style={styles.input}
@@ -142,7 +149,7 @@ function NewTripScreen() {
             />
           </Pressable>
         )}
-        {/* DatePicker for Departure Date */}
+
         {showEndPicker && (
           <DateTimePicker
             mode="date"
@@ -159,7 +166,7 @@ function NewTripScreen() {
             <TouchableOpacity onPress={toggleEndDatePicker}>
               <Text style={styles.smallButton}> Cancel</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={confirmIOSDate}>
+            <TouchableOpacity onPress={confirmIOSEndDate}>
               <Text style={styles.smallButton}> Confirm</Text>
             </TouchableOpacity>
           </View>
