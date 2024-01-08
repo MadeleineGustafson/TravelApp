@@ -12,7 +12,7 @@ function CalendarScreen() {
   const today = new Date(); // Get today's date
   const dateString = today.toISOString().split("T")[0]; // Format the date as 'YYYY-MM-DD'
 
-  const renderDay = (day, item) => {
+  const renderDay = (day) => {
     // Check if the day being rendered matches today's date
     const isToday = day.dateString === dateString;
 
@@ -23,7 +23,7 @@ function CalendarScreen() {
   const { tripData } = route.params || {}; // Retrieve tripData from route params
 
   // Retrieve departureDate and arrivalDate from tripData
-  const { departureDate, arrivalDate } = tripData || {};
+  const { name, destination, departureDate, arrivalDate } = tripData || {};
 
   // Function to convert date string to 'YYYY-MM-DD' format
   const convertToYYYYMMDD = (dateString) => {
@@ -59,6 +59,13 @@ function CalendarScreen() {
 
   return (
     <>
+      <Text style={styles.titleText}>This is </Text>
+      {name && <Text style={styles.detailText}>{name}s</Text>}
+      {destination && (
+        <Text style={styles.detailText}>
+          trip to {destination}, let's plan it!
+        </Text>
+      )}
       <Calendar
         style={{
           marginTop: 50,
