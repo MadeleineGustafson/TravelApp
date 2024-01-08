@@ -1,4 +1,4 @@
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { React } from "react";
 import { Pressable, StyleSheet, Text } from "react-native";
 import { Calendar } from "react-native-calendars";
@@ -19,6 +19,44 @@ function CalendarScreen() {
     return <Text style={[styles.day, isToday && styles.today]}>{day.day}</Text>;
   };
 
+  const route = useRoute();
+  const { tripData } = route.params || {}; // Retrieve tripData from route params
+
+  // Retrieve departureDate and arrivalDate from tripData
+  const { departureDate, arrivalDate } = tripData || {};
+
+  // Function to convert date string to 'YYYY-MM-DD' format
+  const convertToYYYYMMDD = (dateString) => {
+    const date = new Date(dateString);
+    return date.toISOString().split("T")[0];
+  };
+
+  // Mark the departureDate and arrivalDate on the Calendar
+  const createDateRange = (startDate, endDate) => {
+    const dateRange = [];
+    let currentDate = new Date(startDate);
+    const end = new Date(endDate);
+
+    while (currentDate <= end) {
+      dateRange.push(convertToYYYYMMDD(currentDate));
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+    return dateRange;
+  };
+
+  // Mark the period between departureDate and arrivalDate on the Calendar
+  const markedDates = {};
+  if (departureDate && arrivalDate) {
+    const start = convertToYYYYMMDD(departureDate);
+    const end = convertToYYYYMMDD(arrivalDate);
+    const dateRange = createDateRange(start, end);
+    dateRange.forEach((date) => {
+      markedDates[date] = { color: "purple", textColor: "white" };
+    });
+    markedDates[start].startingDay = true;
+    markedDates[end].endingDay = true;
+  }
+
   return (
     <>
       <Calendar
@@ -33,24 +71,7 @@ function CalendarScreen() {
         renderDay={renderDay}
         // Other calendar configurations...
         markingType={"period"}
-        markedDates={{
-          "2024-01-15": { marked: true, dotColor: "purple" },
-          "2024-01-16": { marked: true, dotColor: "purple" },
-          "2024-01-21": {
-            startingDay: true,
-            color: "green",
-            textColor: "white",
-          },
-          "2024-01-22": { color: "green", textColor: "white" },
-          "2024-01-23": {
-            color: "green",
-            textColor: "white",
-            marked: true,
-            dotColor: "purple",
-          },
-          "2024-01-24": { color: "green", textColor: "white" },
-          "2024-01-25": { endingDay: true, color: "green", textColor: "white" },
-        }}
+        markedDates={markedDates}
       />
       <Pressable onPress={handleAddTodoPress}>
         <Text style={styles.addButton}>Add Todo</Text>
