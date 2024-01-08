@@ -16,7 +16,7 @@ function Main() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="calendar"
+        initialRouteName="Start"
         screenOptions={{
           headerShown: false, // This will hide the header for all screens
         }}
@@ -25,7 +25,7 @@ function Main() {
         <Stack.Screen name="newTrip" component={NewTripScreen} />
         <Stack.Screen name="calendar" component={CalendarScreen} />
         <Stack.Screen name="myTrips" component={MyTripsScreen} />
-        <Stack.Screen name="TripHomePage" component={TripHomePageScreen} />
+        <Stack.Screen name="tripHomePage" component={TripHomePageScreen} />
         <Stack.Screen name="notes" component={NotesScreen} />
         <Stack.Screen name="savedPages" component={SavedPageScreen} />
         <Stack.Screen name="TodoPage" component={ToDoList} />
