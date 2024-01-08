@@ -16,7 +16,7 @@ function NewTripScreen() {
   const [departureDate, setDepartureDate] = useState("");
   const [arrivalDate, setArrivalDate] = useState("");
 
-  const navigateToMainPage = () => {
+  const navigateToCalendar = () => {
     const tripData = {
       name: name,
       destination: destination,
@@ -24,7 +24,7 @@ function NewTripScreen() {
       arrivalDate: arrivalDate,
     };
 
-    navigation.navigate("tripHomePage", { tripData });
+    navigation.navigate("calendar", { tripData });
   };
 
   return (
@@ -60,7 +60,7 @@ function NewTripScreen() {
           onChangeText={(text) => setArrivalDate(text)}
         />
 
-        <TouchableOpacity onPress={navigateToMainPage}>
+        <TouchableOpacity onPress={navigateToCalendar}>
           <View style={styles.button}>
             <Text style={styles.buttonText}>Create New Trip</Text>
           </View>
