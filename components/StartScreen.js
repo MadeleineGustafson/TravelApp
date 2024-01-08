@@ -9,6 +9,10 @@ function StartScreen() {
     navigation.navigate("newTrip");
   };
 
+  const navigateToNotes = () => {
+    navigation.navigate("notes");
+  }
+
   return (
     <View
       style={{
@@ -50,6 +54,12 @@ function StartScreen() {
             }}
           >
             <Text style={{ color: "#163532" }}>Create New Trip</Text>
+          </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={navigateToNotes}>
+          <View>
+            <Text style={{ color: "white" }}>Add note</Text>
           </View>
         </TouchableOpacity>
       </View>
