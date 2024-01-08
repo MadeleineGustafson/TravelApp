@@ -1,169 +1,112 @@
-import { useNavigation } from '@react-navigation/native';
-import { NativeBaseProvider } from "native-base";
-import React, { useEffect, useState } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { React } from "react";
+import { Pressable, StyleSheet, Text } from "react-native";
+import { Calendar } from "react-native-calendars";
 
 function CalendarScreen() {
-  const [currentDate, setCurrentDate] = useState(new Date());
-  const [calendarData, setCalendarData] = useState([]);
   const navigation = useNavigation();
-  
   const handleAddTodoPress = () => {
     // Navigate to the TodoPage when the "Add Todo" button is pressed
-    navigation.navigate('TodoPage');
+    navigation.navigate("TodoPage");
   };
-  
-  // hämta api
-  useEffect(() => {
-    const fetchCalendarData = async () => {
-      try {
-        const response = await fetch(
-          `https://sholiday.faboul.se/dagar/v2.1/${currentDate.getFullYear()}/${
-            currentDate.getMonth() + 1
-          }`
-        );
-        const data = await response.json();
-        setCalendarData(data.dagar);
-      } catch (error) {
-        console.error("Error fetching calendar data:", error);
-      }
-    };
+  const today = new Date(); // Get today's date
+  const dateString = today.toISOString().split("T")[0]; // Format the date as 'YYYY-MM-DD'
 
-    fetchCalendarData();
-  }, [currentDate]);
+  const renderDay = (day) => {
+    // Check if the day being rendered matches today's date
+    const isToday = day.dateString === dateString;
 
-  // Klicka till tidigare månad
-  const goToPreviousMonth = () => {
-    setCurrentDate(
-      new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1)
-    );
+    return <Text style={[styles.day, isToday && styles.today]}>{day.day}</Text>;
   };
 
-  // KLicka till nästa månad
-  const goToNextMonth = () => {
-    setCurrentDate(
-      new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1)
-    );
+  const route = useRoute();
+  const { tripData } = route.params || {}; // Retrieve tripData from route params
+
+  // Retrieve departureDate and arrivalDate from tripData
+  const { name, destination, departureDate, arrivalDate } = tripData || {};
+
+  // Function to convert date string to 'YYYY-MM-DD' format
+  const convertToYYYYMMDD = (dateString) => {
+    const date = new Date(dateString);
+    return date.toISOString().split("T")[0];
   };
 
-  // Antal veckodagar
-  const generateDaysOfWeek = () => {
-    const daysOfWeek = ["M", "T", "W", "T", "F", "S", "S"];
-    return daysOfWeek.map((day, index) => (
-      <View key={`dayOfWeek_${index}`} style={styles.dayOfWeek}>
-        <Text style={styles.dayText}>{day}</Text>
-      </View>
-    ));
-  };
+  // Mark the departureDate and arrivalDate on the Calendar
+  const createDateRange = (startDate, endDate) => {
+    const dateRange = [];
+    let currentDate = new Date(startDate);
+    const end = new Date(endDate);
 
-  // Antal månader
-  const generateCalendar = () => {
-    const monthNames = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ];
-
-    // dagens datum
-    const today = new Date();
-
-    // räkna ut tomma boxar
-
-    const firstDayOfMonth = new Date(
-      currentDate.getFullYear(),
-      currentDate.getMonth(),
-      1
-    ).getDay();
-
-    const startingIndex = firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1;
-
-    const daysInMonth = new Date(
-      currentDate.getFullYear(),
-      currentDate.getMonth() + 1,
-      0
-    ).getDate();
-
-    const totalBoxes = startingIndex + daysInMonth;
-    const totalRows = Math.ceil(totalBoxes / 7);
-    const days = [];
-
-    for (let i = 0; i < totalRows * 7; i++) {
-      const dayNumber = i - startingIndex + 1;
-      const isToday =
-        dayNumber === today.getDate() &&
-        currentDate.getMonth() === today.getMonth() &&
-        currentDate.getFullYear() === today.getFullYear();
-
-      if (i < startingIndex || i >= startingIndex + daysInMonth) {
-        days.push(
-          <View key={`empty_${i}`} style={styles.dayContainer}>
-            <Text style={[styles.dayText, isToday && styles.todayText]}>{""}</Text>
-          </View>
-        );
-      } else {
-        days.push(
-          <View key={`day_${i}`} style={styles.dayContainer}>
-            <Text style={[styles.dayText, isToday && styles.todayText]}>
-              {dayNumber}
-            </Text>
-          </View>
-        );
-      }
+    while (currentDate <= end) {
+      dateRange.push(convertToYYYYMMDD(currentDate));
+      currentDate.setDate(currentDate.getDate() + 1);
     }
-
-    if (days.length <= 34) {
-      days.push(
-        <View key={`empty_end`} style={styles.dayContainer}>
-          <Text style={styles.dayText}>{""}</Text>
-        </View>
-      );
-    }
-    
-
-    return (
-      <View style={styles.container}>
-        <Text style={styles.monthTitle}>
-          {monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
-        </Text>
-        <View style={styles.daysOfWeekContainer}>{generateDaysOfWeek()}</View>
-        <View style={styles.daysContainer}>{days}</View>
-        {/* <ToDoList /> */}
-      </View>
-    );
+    return dateRange;
   };
+
+  // Mark the period between departureDate and arrivalDate on the Calendar
+  const markedDates = {};
+  if (departureDate && arrivalDate) {
+    const start = convertToYYYYMMDD(departureDate);
+    const end = convertToYYYYMMDD(arrivalDate);
+    const dateRange = createDateRange(start, end);
+    dateRange.forEach((date) => {
+      markedDates[date] = { color: "purple", textColor: "white" };
+    });
+    markedDates[start].startingDay = true;
+    markedDates[end].endingDay = true;
+  }
 
   return (
-    <NativeBaseProvider>
-      <View style={styles.mainContainer}>
-        <View style={styles.navContainer}>
-          <Pressable onPress={goToPreviousMonth}>
-            <Text style={styles.arrow}>{"<"}</Text>
-          </Pressable>
-          <Pressable onPress={goToNextMonth}>
-            <Text style={styles.arrow}>{">"}</Text>
-          </Pressable>
-        </View>
-        <View>{generateCalendar()}</View>
-
-         {/* Add Todo button */}
-         <Pressable onPress={handleAddTodoPress}>
-          <Text style={styles.addButton}>Add Todo</Text>
-        </Pressable>
-      </View>
-    </NativeBaseProvider>
+    <>
+      <Text style={styles.titleText}>This is </Text>
+      {name && <Text style={styles.detailText}>{name}s</Text>}
+      {destination && (
+        <Text style={styles.detailText}>
+          trip to {destination}, let's plan it!
+        </Text>
+      )}
+      <Calendar
+        style={{
+          marginTop: 50,
+        }}
+        // Callback that gets called when the user selects a day
+        onDayPress={(day) => {
+          console.log("selected day", day);
+        }}
+        // Custom render function for each day
+        renderDay={renderDay}
+        // Other calendar configurations...
+        markingType={"period"}
+        markedDates={markedDates}
+      />
+      <Pressable onPress={handleAddTodoPress}>
+        <Text style={styles.addButton}>Add Todo</Text>
+      </Pressable>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
+  titleText: {
+    fontSize: 20,
+    fontWeight: "bold",
+    textAlign: "center",
+    marginTop: 10,
+  },
+  detailText: {
+    fontSize: 16,
+    marginLeft: 10,
+    marginTop: 10,
+  },
+  day: {
+    textAlign: "center",
+    fontSize: 18,
+  },
+  today: {
+    fontWeight: "bold",
+    color: "red", // You can adjust the color for today's date
+  },
   mainContainer: {
     flex: 1,
     justifyContent: "center",
@@ -177,55 +120,10 @@ const styles = StyleSheet.create({
   container: {
     alignItems: "center",
   },
-  monthTitle: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 10,
-  },
-  daysContainer: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
 
-    width: "90%",
-    padding: 5, // Optional padding between boxes
-  },
-
-  dayContainer: {
-    width: "14%", // Set each day container to occupy approximately 1/7th of the row
-    aspectRatio: 1, // Ensure boxes maintain a square shape
-    alignItems: "center",
-    justifyContent: "center",
-
-    marginBottom: 5,
-  },
-  dayText: {
-    fontSize: 18,
-  },
-  arrow: {
-    fontSize: 25,
-    color: "green",
-  },
-  daysOfWeekContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: "90%",
-    paddingHorizontal: 5,
-    marginBottom: 5,
-  },
-  dayOfWeek: {
-    width: "14%",
-    aspectRatio: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  todayText: {
-    color: "red",
-    fontWeight: "bold",
-  },
   addButton: {
     fontSize: 18,
-    color: 'blue',
+    color: "blue",
     marginTop: 10,
   },
 });
