@@ -1,6 +1,9 @@
+import DateTimePicker from "@react-native-community/datetimepicker";
 import { useNavigation } from "@react-navigation/native";
-import React, { useState } from "react";
+import { useState } from "react";
 import {
+  Platform,
+  Pressable,
   SafeAreaView,
   StyleSheet,
   Text,
@@ -13,15 +16,59 @@ function NewTripScreen() {
   const navigation = useNavigation();
   const [name, setName] = useState("");
   const [destination, setDestination] = useState("");
-  const [departureDate, setDepartureDate] = useState("");
-  const [arrivalDate, setArrivalDate] = useState("");
+
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+  const [showPicker, setShowPicker] = useState(false);
+  const [showEndPicker, setShowEndPicker] = useState(false);
+
+  const today = new Date(); // Get today's date
+  const todayString = today.toISOString().split("T")[0]; // Format the date as 'YYYY-MM-DD'
+
+  const toggleStartDatePicker = () => {
+    setShowPicker(!showPicker);
+  };
+  const toggleEndDatePicker = () => {
+    setShowEndPicker(!showPicker);
+  };
+
+  const onChange = ({ type }, selectedDate) => {
+    if (type == "set") {
+      const currentDate = selectedDate;
+      setStartDate(currentDate);
+      if (Platform.OS === "android") {
+        setStartDate(currentDate);
+        toggleStartDatePicker();
+      }
+    } else {
+      toggleStartDatePicker();
+    }
+  };
+
+  const onChangeEndDate = ({ type }, selectedDate) => {
+    if (type == "set") {
+      const currentDate = selectedDate;
+      setEndDate(currentDate);
+      if (Platform.OS === "android") {
+        setEndDate(currentDate);
+        toggleEndDatePicker();
+      }
+    } else {
+      toggleEndDatePicker();
+    }
+  };
+
+  const confirmIOSDate = () => {
+    setStartDate(startDate);
+    toggleStartDatePicker();
+  };
 
   const navigateToCalendar = () => {
     const tripData = {
       name: name,
       destination: destination,
-      departureDate: departureDate,
-      arrivalDate: arrivalDate,
+      departureDate: endDate,
+      arrivalDate: startDate,
     };
 
     navigation.navigate("calendar", { tripData });
@@ -45,20 +92,78 @@ function NewTripScreen() {
           value={destination}
           onChangeText={(text) => setDestination(text)}
         />
-        <Text style={styles.labelText}>When are you going?</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter start date"
-          value={departureDate}
-          onChangeText={(text) => setDepartureDate(text)}
-        />
-        <Text style={styles.labelText}>When are you coming home?</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter end date"
-          value={arrivalDate}
-          onChangeText={(text) => setArrivalDate(text)}
-        />
+
+        <Text style={styles.labelText}>Enter first day of your trip:</Text>
+
+        {!showPicker && (
+          <Pressable onPress={toggleStartDatePicker}>
+            <TextInput
+              placeholder={todayString}
+              editable={false}
+              onPressIn={toggleStartDatePicker}
+              style={styles.input}
+              placeholderTextColor="#ffffff"
+            />
+          </Pressable>
+        )}
+
+        {/* DatePicker for Departure Date */}
+        {showPicker && (
+          <DateTimePicker
+            mode="date"
+            display="spinner"
+            value={startDate}
+            onChange={onChange}
+            style={styles.DateTimePicker}
+          />
+        )}
+        {showPicker && Platform.OS === "ios" && (
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-around" }}
+          >
+            <TouchableOpacity onPress={toggleStartDatePicker}>
+              <Text style={styles.smallButton}> Cancel</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={confirmIOSDate}>
+              <Text style={styles.smallButton}> Confirm</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+
+        <Text style={styles.labelText}>Enter the last day of your trip</Text>
+        {!showEndPicker && (
+          <Pressable onPress={toggleEndDatePicker}>
+            <TextInput
+              placeholder={todayString}
+              editable={false}
+              onPressIn={toggleEndDatePicker}
+              style={styles.input}
+              placeholderTextColor="#ffffff"
+            />
+          </Pressable>
+        )}
+        {/* DatePicker for Departure Date */}
+        {showEndPicker && (
+          <DateTimePicker
+            mode="date"
+            display="spinner"
+            value={endDate}
+            onChange={onChangeEndDate}
+            style={styles.DateTimePicker}
+          />
+        )}
+        {showEndPicker && Platform.OS === "ios" && (
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-around" }}
+          >
+            <TouchableOpacity onPress={toggleEndDatePicker}>
+              <Text style={styles.smallButton}> Cancel</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={confirmIOSDate}>
+              <Text style={styles.smallButton}> Confirm</Text>
+            </TouchableOpacity>
+          </View>
+        )}
 
         <TouchableOpacity onPress={navigateToCalendar}>
           <View style={styles.button}>
@@ -117,6 +222,19 @@ const styles = StyleSheet.create({
     color: "#163532",
     fontSize: 18,
     fontWeight: "bold",
+  },
+  datePicker: {
+    width: "100%",
+    marginBottom: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "gray",
+  },
+  DateTimePicker: {
+    height: 120,
+    marginTop: -10,
+  },
+  smallButton: {
+    color: "white",
   },
 });
 
