@@ -11,6 +11,7 @@ import ToDoList from "./components/ToDoList";
 import TripHomePageScreen from "./components/TripHomePageScreen";
 import Restaurant from "./Pages/Restaurant";
 import Sights from "./Pages/Sights";
+import Weather from "./Pages/Weather";
 
 const Stack = createNativeStackNavigator();
 
@@ -31,6 +32,7 @@ function Main() {
         <Stack.Screen name="restaurants" component={Restaurant} />
         <Stack.Screen name="sights" component={Sights} />
         <Stack.Screen name="notes" component={NotesScreen} />
+        <Stack.Screen name="weather" component={Weather} />
         <Stack.Screen name="savedPages" component={SavedPageScreen} />
         <Stack.Screen name="TodoPage" component={ToDoList} />
       </Stack.Navigator>

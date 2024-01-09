@@ -1,12 +1,13 @@
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import React from "react";
 import { TouchableOpacity, View } from "react-native";
 
 function IconBar() {
   const navigation = useNavigation();
 
-  const navigateToRestaurant = () => {
-    navigation.navigate("restaurants");
+  const navigateToScreen = (screenName) => {
+    navigation.navigate(screenName);
   };
 
   return (
@@ -19,12 +20,23 @@ function IconBar() {
         padding: 30,
       }}
     >
-      <TouchableOpacity onPress={navigateToRestaurant}>
+      <TouchableOpacity onPress={() => navigateToScreen("restaurants")}>
         <MaterialCommunityIcons name="food" size={50} color="green" />
       </TouchableOpacity>
-      <MaterialCommunityIcons name="ferris-wheel" size={50} color="green" />
-      <MaterialIcons name="notes" size={50} color="green" />
-      <MaterialCommunityIcons name="sun-thermometer" size={50} color="green" />
+
+      <TouchableOpacity onPress={() => navigateToScreen("sights")}>
+        <MaterialCommunityIcons name="ferris-wheel" size={50} color="green" />
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigateToScreen("notes")}>
+        <MaterialIcons name="notes" size={50} color="green" />
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigateToScreen("weather")}>
+        <MaterialCommunityIcons
+          name="sun-thermometer"
+          size={50}
+          color="green"
+        />
+      </TouchableOpacity>
     </View>
   );
 }

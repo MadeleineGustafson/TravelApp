@@ -1,9 +1,9 @@
 import { Text, View } from "react-native";
 
-function Sights() {
+function Notes() {
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>Saved Sights</Text>
+      <Text>Saved Notes</Text>
     </View>
   );
 }
