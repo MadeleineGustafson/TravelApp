@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import Countdown from "./countdown";
 
 function NewTripScreen() {
   const navigation = useNavigation();
@@ -178,6 +179,7 @@ function NewTripScreen() {
           </View>
         </TouchableOpacity>
       </SafeAreaView>
+         <Countdown startDate={startDate} endDate={endDate} />
     </View>
   );
 }

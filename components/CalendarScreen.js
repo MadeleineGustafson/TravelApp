@@ -2,6 +2,7 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { React } from "react";
 import { Pressable, StyleSheet, Text } from "react-native";
 import { Calendar } from "react-native-calendars";
+// import Countdown from "./countdown";
 
 function CalendarScreen() {
   const navigation = useNavigation();
@@ -85,6 +86,9 @@ function CalendarScreen() {
       <Pressable onPress={handleAddTodoPress}>
         <Text style={styles.addButton}>Add Todo</Text>
       </Pressable>
+
+      {/* <Countdown startDate={startDate} endDate={endDate} /> */}
+
     </>
   );
 }
