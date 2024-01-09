@@ -1,6 +1,8 @@
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { ImageBackground, Text, TouchableOpacity, View } from "react-native";
+
+import backgroundImage from "../assets/backgroundTrain.jpg";
 
 function StartScreen() {
   const navigation = useNavigation();
@@ -10,14 +12,15 @@ function StartScreen() {
   };
 
   return (
-    <View
-      style={{
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: "#163532",
-      }}
-    >
+    <ImageBackground
+    source={backgroundImage}
+    style={{
+      flex: 1,
+      alignItems: "center",
+      justifyContent: "center",
+      backgroundColor: "#163532",
+    }}
+  >
       <View style={{ justifyContent: "flex-start", width: "100%" }}>
         <Text
           style={{
@@ -53,7 +56,7 @@ function StartScreen() {
           </View>
         </TouchableOpacity>
       </View>
-    </View>
+      </ImageBackground>
   );
 }
 
