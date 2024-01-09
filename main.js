@@ -62,7 +62,7 @@ function TabNavigator() {
       inactiveTintColor: '#163532', 
     }}
   >
-      <Tab.Screen name="Home" component={StartScreen} />
+       <Tab.Screen name="Home" component={StackNavigator} />
       <Tab.Screen name="Notes" component={NotesScreen} />
       <Tab.Screen name="Calendar" component={CalendarScreen} />
     </Tab.Navigator>
