@@ -11,6 +11,8 @@
   "dependencies": {
     "@expo/cli": "^0.10.16",
     "@expo/webpack-config": "^19.0.0",
+    "@react-native-community/datetimepicker": "7.2.0",
+    "@react-navigation/bottom-tabs": "^6.5.11",
     "@react-navigation/native": "^6.1.9",
     "@react-navigation/native-stack": "^6.9.17",
     "@react-navigation/stack": "^6.3.20",
@@ -26,8 +28,7 @@
     "react-native-datepicker": "^1.7.2",
     "react-native-safe-area-context": "4.6.3",
     "react-native-svg": "13.9.0",
-    "react-native-web": "~0.19.6",
-    "@react-native-community/datetimepicker": "7.2.0"
+    "react-native-web": "~0.19.6"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
