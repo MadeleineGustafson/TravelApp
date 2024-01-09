@@ -19,7 +19,6 @@ const Todo = (props) => {
   return (
     <View style={styles.item}>
       <View style={styles.itemLeft}>
-        {/* <View style={styles.square}></View> */}
         {isEditing ? (
           <TextInput
             style={styles.editInput}
