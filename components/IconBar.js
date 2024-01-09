@@ -16,7 +16,7 @@ function IconBar() {
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        marginTop: 60,
+        marginTop: 20,
         padding: 30,
       }}
     >

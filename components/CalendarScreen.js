@@ -1,6 +1,6 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { React } from "react";
-import { Pressable, StyleSheet, Text } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import { Calendar } from "react-native-calendars";
 import IconBar from "./IconBar";
 
@@ -65,14 +65,21 @@ function CalendarScreen() {
 
   return (
     <>
+      <View
+        style={{
+          justifyContent: "center",
+          alignItems: "center",
+          marginTop: 65,
+          padding: 30,
+        }}
+      >
+        {name && destination && (
+          <Text style={styles.detailText}>
+            {name}'s trip to {destination}!
+          </Text>
+        )}
+      </View>
       <IconBar />
-
-      {name && <Text style={styles.detailText}>{name}s</Text>}
-      {destination && (
-        <Text style={styles.detailText}>
-          trip to {destination}, let's plan it!
-        </Text>
-      )}
       <Calendar
         style={{
           marginTop: 50,
@@ -99,9 +106,12 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   detailText: {
-    fontSize: 16,
+    fontSize: 35,
     marginLeft: 10,
     marginTop: 10,
+    textAlign: "center",
+    fontWeight: "bold",
+    color: "green",
   },
   day: {
     textAlign: "center",
