@@ -2,6 +2,7 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { React } from "react";
 import { Pressable, StyleSheet, Text } from "react-native";
 import { Calendar } from "react-native-calendars";
+import IconBar from "./IconBar";
 
 function CalendarScreen() {
   const navigation = useNavigation();
@@ -64,7 +65,8 @@ function CalendarScreen() {
 
   return (
     <>
-      <Text style={styles.titleText}>This is </Text>
+      <IconBar />
+
       {name && <Text style={styles.detailText}>{name}s</Text>}
       {destination && (
         <Text style={styles.detailText}>
