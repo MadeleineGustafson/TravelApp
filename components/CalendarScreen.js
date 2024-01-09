@@ -23,7 +23,9 @@ function CalendarScreen() {
   const { tripData } = route.params || {}; // Retrieve tripData from route params
 
   // Retrieve departureDate and arrivalDate from tripData
-  const { name, destination, departureDate, arrivalDate } = tripData || {};
+  const { name, destination, startDate, endDate } = tripData || {};
+  console.log("startDate:", startDate);
+  console.log("endDate:", endDate);
 
   // Function to convert date string to 'YYYY-MM-DD' format
   const convertToYYYYMMDD = (dateString) => {
@@ -46,15 +48,18 @@ function CalendarScreen() {
 
   // Mark the period between departureDate and arrivalDate on the Calendar
   const markedDates = {};
-  if (departureDate && arrivalDate) {
-    const start = convertToYYYYMMDD(departureDate);
-    const end = convertToYYYYMMDD(arrivalDate);
+  if (startDate && endDate) {
+    const start = convertToYYYYMMDD(startDate);
+    const end = convertToYYYYMMDD(endDate);
     const dateRange = createDateRange(start, end);
-    dateRange.forEach((date) => {
-      markedDates[date] = { color: "purple", textColor: "white" };
+    dateRange.forEach((date, index) => {
+      markedDates[date] = {
+        color: "grey",
+        textColor: "white",
+        ...(index === 0 && { startingDay: true }),
+        ...(index === dateRange.length - 1 && { endingDay: true }),
+      };
     });
-    markedDates[start].startingDay = true;
-    markedDates[end].endingDay = true;
   }
 
   return (
@@ -70,13 +75,10 @@ function CalendarScreen() {
         style={{
           marginTop: 50,
         }}
-        // Callback that gets called when the user selects a day
         onDayPress={(day) => {
           console.log("selected day", day);
         }}
-        // Custom render function for each day
         renderDay={renderDay}
-        // Other calendar configurations...
         markingType={"period"}
         markedDates={markedDates}
       />
@@ -105,7 +107,6 @@ const styles = StyleSheet.create({
   },
   today: {
     fontWeight: "bold",
-    color: "red", // You can adjust the color for today's date
   },
   mainContainer: {
     flex: 1,
