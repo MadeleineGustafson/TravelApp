@@ -1,3 +1,4 @@
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as React from "react";
@@ -11,14 +12,14 @@ import ToDoList from "./components/ToDoList";
 import TripHomePageScreen from "./components/TripHomePageScreen";
 
 const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
 
 function Main() {
-  return (
-    <NavigationContainer>
+  const HomeStack = () => {
+    return (
       <Stack.Navigator
-        initialRouteName="Start"
         screenOptions={{
-          headerShown: false, // This will hide the header for all screens
+          headerShown: false,
         }}
       >
         <Stack.Screen name="Start" component={StartScreen} />
@@ -30,6 +31,19 @@ function Main() {
         <Stack.Screen name="savedPages" component={SavedPageScreen} />
         <Stack.Screen name="TodoPage" component={ToDoList} />
       </Stack.Navigator>
+    );
+  };
+
+  return (
+    <NavigationContainer>
+      <Tab.Navigator   
+        screenOptions={{
+          headerShown: false,
+        }}>
+        <Tab.Screen name="Home" component={HomeStack} />
+        <Tab.Screen name="Notes" component={NotesScreen} />
+        <Tab.Screen name="Calendar" component={CalendarScreen} />
+      </Tab.Navigator>
     </NavigationContainer>
   );
 }

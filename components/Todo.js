@@ -19,7 +19,6 @@ const Todo = (props) => {
   return (
     <View style={styles.item}>
       <View style={styles.itemLeft}>
-        <View style={styles.square}></View>
         {isEditing ? (
           <TextInput
             style={styles.editInput}
@@ -72,14 +71,7 @@ const styles = StyleSheet.create({
     marginRight: 15,
   },
   itemText: {
-    maxWidth: '80%',
-  },
-  circular: {
-    width: 12,
-    height: 12,
-    borderColor: '#55BCF6',
-    borderWidth: 2,
-    borderRadius: 5,
+    maxWidth: '100%',
   },
   editInput: {
     flex: 1,
