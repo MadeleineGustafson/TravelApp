@@ -1,10 +1,12 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import NotesScreen from "../components/NotesScreen";
 
 function Restaurant() {
   const [restaurantNotes, setRestaurantNotes] = useState([]); // State for restaurant-specific notes
+  const navigation = useNavigation();
 
   // Function to save a restaurant note
   const onSaveRestaurantNote = (selectedNote, title, content) => {
@@ -42,6 +44,14 @@ function Restaurant() {
 
   return (
     <View style={{ flex: 1, alignItems: "center", marginTop: 60 }}>
+      <View style={{ justifyContent: "flex-start", width: "90%" }}>
+        <TouchableOpacity
+          //style={styles.navigationButton}
+          onPress={() => navigation.navigate("calendar")} // Navigate to CalendarScreen
+        >
+          <MaterialCommunityIcons name="close" size={30} color="#163532" />
+        </TouchableOpacity>
+      </View>
       <View style={{ flexDirection: "row" }}>
         <MaterialCommunityIcons name="food" size={50} color="#163532" />
         <Text style={styles.title}>Restaurants</Text>

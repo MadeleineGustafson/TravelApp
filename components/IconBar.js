@@ -21,20 +21,19 @@ function IconBar() {
       }}
     >
       <TouchableOpacity onPress={() => navigateToScreen("restaurants")}>
-        <MaterialCommunityIcons name="food" size={50} color="green" />
+        <MaterialCommunityIcons name="food" size={50} color="#163532" />
       </TouchableOpacity>
-
       <TouchableOpacity onPress={() => navigateToScreen("sights")}>
-        <MaterialCommunityIcons name="ferris-wheel" size={50} color="green" />
+        <MaterialCommunityIcons name="ferris-wheel" size={50} color="#163532" />
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigateToScreen("notes")}>
-        <MaterialIcons name="notes" size={50} color="green" />
+        <MaterialIcons name="notes" size={50} color="#163532" />
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigateToScreen("weather")}>
         <MaterialCommunityIcons
           name="sun-thermometer"
           size={50}
-          color="green"
+          color="#163532"
         />
       </TouchableOpacity>
     </View>

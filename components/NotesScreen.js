@@ -84,7 +84,7 @@ const NotesScreen = ({
           setModalVisible(true);
         }}
       >
-        <Text style={styles.addButtonText}>Add Note</Text>
+        <Text style={styles.addButtonText}>Add</Text>
       </TouchableOpacity>
       <Modal visible={modalVisible} animationType="slide" transparent={false}>
         <View style={styles.modalContainer}>
@@ -150,14 +150,15 @@ const styles = StyleSheet.create({
   },
   addButton: {
     alignItems: "center",
+    padding: 20,
     justifyContent: "center",
-    backgroundColor: "#D1FFA0",
+    backgroundColor: "#163532",
     paddingVertical: 12,
     borderRadius: 20,
     marginTop: 10,
   },
   addButtonText: {
-    color: "#163532",
+    color: "#D1FFA0",
     fontSize: 16,
     fontWeight: "bold",
   },
