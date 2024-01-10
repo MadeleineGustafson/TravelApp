@@ -82,19 +82,19 @@ const styles = StyleSheet.create({
     backgroundColor: '#E8EAED',
   },
   todosWrapper: {
-    paddingTop: 10,
-    paddingHorizontal: 100,
+    paddingTop: 50,
+    paddingHorizontal: 120,
   },
   sectionTitle: {
     fontSize: 24,
     fontWeight: 'bold'
   },
   items: {
-    marginTop: 30,
+    marginTop: 20,
   },
   writeTodoWrapper: {
     position: 'absolute',
-    bottom: 100,
+    bottom: 40,
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-around',

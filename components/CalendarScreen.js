@@ -2,10 +2,13 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { React } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { Calendar } from "react-native-calendars";
+import Countdown from "./countdown";
 import IconBar from "./IconBar";
 
 function CalendarScreen() {
   const navigation = useNavigation();
+  const route = useRoute();
+  const { tripData, startDate, endDate } = route.params || {}; // Retrieve tripData, startDate, and endDate from route params
   const handleAddTodoPress = () => {
     // Navigate to the TodoPage when the "Add Todo" button is pressed
     navigation.navigate("TodoPage");
@@ -20,13 +23,15 @@ function CalendarScreen() {
     return <Text style={[styles.day, isToday && styles.today]}>{day.day}</Text>;
   };
 
-  const route = useRoute();
-  const { tripData } = route.params || {}; // Retrieve tripData from route params
-
   // Retrieve departureDate and arrivalDate from tripData
-  const { name, destination, startDate, endDate } = tripData || {};
-  console.log("startDate:", startDate);
-  console.log("endDate:", endDate);
+  const {
+    name,
+    destination,
+    startDate: tripStartDate,
+    endDate: tripEndDate,
+  } = tripData || {};
+  console.log("startDate:", tripStartDate);
+  console.log("endDate:", tripEndDate);
 
   // Function to convert date string to 'YYYY-MM-DD' format
   const convertToYYYYMMDD = (dateString) => {
@@ -94,6 +99,7 @@ function CalendarScreen() {
       <Pressable onPress={handleAddTodoPress}>
         <Text style={styles.addButton}>Add Todo</Text>
       </Pressable>
+      <Countdown startDate={startDate} endDate={endDate} />
     </>
   );
 }

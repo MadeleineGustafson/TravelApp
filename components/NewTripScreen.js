@@ -78,9 +78,10 @@ function NewTripScreen() {
       startDate: startDate.toISOString(),
       endDate: endDate.toISOString(),
     };
-
-    navigation.navigate("calendar", { tripData: serializedTripData });
+  
+    navigation.navigate("calendar", { tripData: serializedTripData, startDate, endDate });
   };
+  
 
   return (
     <>
