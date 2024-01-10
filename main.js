@@ -10,6 +10,7 @@ import SavedPageScreen from "./components/SavedPageScreen";
 import StartScreen from "./components/StartScreen";
 import ToDoList from "./components/ToDoList";
 import TripHomePageScreen from "./components/TripHomePageScreen";
+import Notes from "./Pages/Notes";
 import Restaurant from "./Pages/Restaurant";
 import Sights from "./Pages/Sights";
 import Weather from "./Pages/Weather";
@@ -32,7 +33,7 @@ function Main() {
         <Stack.Screen name="tripHomePage" component={TripHomePageScreen} />
         <Stack.Screen name="restaurants" component={Restaurant} />
         <Stack.Screen name="sights" component={Sights} />
-        <Stack.Screen name="notes" component={NotesScreen} />
+        <Stack.Screen name="notes" component={Notes} />
         <Stack.Screen name="weather" component={Weather} />
         <Stack.Screen name="savedPages" component={SavedPageScreen} />
         <Stack.Screen name="TodoPage" component={ToDoList} />
@@ -42,10 +43,11 @@ function Main() {
 
   return (
     <NavigationContainer>
-      <Tab.Navigator   
+      <Tab.Navigator
         screenOptions={{
           headerShown: false,
-        }}>
+        }}
+      >
         <Tab.Screen name="Home" component={HomeStack} />
         <Tab.Screen name="Notes" component={NotesScreen} />
         <Tab.Screen name="Calendar" component={CalendarScreen} />
