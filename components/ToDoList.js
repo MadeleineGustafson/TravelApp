@@ -8,9 +8,11 @@ const ToDoList = ({ selectedDate }) => {
 
   const handleAddTodo = () => {
     Keyboard.dismiss();
-    setTodoItems([...todoItems, { text: todo, date: selectedDate }]);
+    const newTodo = { text: todo, date: selectedDate };
+    setTodoItems([...todoItems, newTodo]);
     setTodo("");
   };
+
 
   const filteredTodos = todoItems.filter(item => item.date === selectedDate);
 
