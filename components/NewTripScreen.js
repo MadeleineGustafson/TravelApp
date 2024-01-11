@@ -240,11 +240,14 @@ const styles = StyleSheet.create({
     borderBottomColor: "gray",
   },
   DateTimePicker: {
-    height: 120,
-    marginTop: -10,
+    height: 100,
+    marginTop: -5,
+    backgroundColor: "#d1ffa060",
   },
   smallButton: {
     color: "white",
+    fontSize: 17,
+    marginHorizontal: 10,
   },
 });
 

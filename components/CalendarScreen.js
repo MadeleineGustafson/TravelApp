@@ -1,6 +1,6 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { React } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { Calendar } from "react-native-calendars";
 import Countdown from "./countdown";
 import IconBar from "./IconBar";
@@ -21,6 +21,11 @@ function CalendarScreen() {
     const isToday = day.dateString === dateString;
 
     return <Text style={[styles.day, isToday && styles.today]}>{day.day}</Text>;
+  };
+
+  const handleBackToNewTripPress = () => {
+    // Navigate back to the "newTrip" page
+    navigation.navigate("newTrip");
   };
 
   // Retrieve departureDate and arrivalDate from tripData
@@ -70,36 +75,43 @@ function CalendarScreen() {
 
   return (
     <>
-      <View
-        style={{
-          justifyContent: "center",
-          alignItems: "center",
-          marginTop: 65,
-          padding: 30,
-        }}
-      >
-        {name && destination && (
-          <Text style={styles.detailText}>
-            {name}'s trip to {destination}!
-          </Text>
-        )}
-      </View>
-      <IconBar />
-      <Calendar
-        style={{
-          marginTop: 50,
-        }}
-        onDayPress={(day) => {
-          console.log("selected day", day);
-        }}
-        renderDay={renderDay}
-        markingType={"period"}
-        markedDates={markedDates}
-      />
-      <Pressable onPress={handleAddTodoPress}>
-        <Text style={styles.addButton}>Add Todo</Text>
-      </Pressable>
-      <Countdown startDate={startDate} endDate={endDate} />
+      <ScrollView>
+        <View
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: 65,
+            padding: 30,
+          }}
+        >
+          {name && destination && (
+            <Text style={styles.detailText}>
+              {name}'s trip to {destination}!
+            </Text>
+          )}
+        </View>
+        <IconBar />
+        <Calendar
+          style={{
+            marginTop: 50,
+          }}
+          onDayPress={(day) => {
+            console.log("selected day", day);
+          }}
+          renderDay={renderDay}
+          markingType={"period"}
+          markedDates={markedDates}
+        />
+        <Pressable onPress={handleAddTodoPress}>
+          <Text style={styles.addButton}>Add Todo</Text>
+        </Pressable>
+
+        <Pressable onPress={handleBackToNewTripPress}>
+          <Text style={styles.backButton}>Change dates</Text>
+        </Pressable>
+
+        <Countdown startDate={startDate} endDate={endDate} />
+      </ScrollView>
     </>
   );
 }
@@ -139,8 +151,12 @@ const styles = StyleSheet.create({
   container: {
     alignItems: "center",
   },
-
   addButton: {
+    fontSize: 18,
+    color: "blue",
+    marginTop: 10,
+  },
+  backButton: {
     fontSize: 18,
     color: "blue",
     marginTop: 10,

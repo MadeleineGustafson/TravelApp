@@ -1,8 +1,17 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { StyleSheet, Text, View } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 function Sights() {
+  const navigation = useNavigation();
   return (
     <View style={{ flex: 1, alignItems: "center", marginTop: 60 }}>
+      <View style={{ justifyContent: "flex-start", width: "90%" }}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("calendar")} // Navigate to CalendarScreen
+        >
+          <MaterialCommunityIcons name="close" size={30} color="#163532" />
+        </TouchableOpacity>
+      </View>
       <View style={{ flexDirection: "row" }}>
         <MaterialCommunityIcons name="ferris-wheel" size={50} color="#163532" />
         <Text style={styles.title}>Sights</Text>

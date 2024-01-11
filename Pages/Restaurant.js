@@ -35,18 +35,11 @@ function Restaurant() {
   };
 
   // Function to delete a restaurant note
-  const onDeleteRestaurantNote = (selectedNote) => {
-    const updatedNotes = restaurantNotes.filter(
-      (note) => note.id !== selectedNote.id
-    );
-    setRestaurantNotes(updatedNotes);
-  };
 
   return (
     <View style={{ flex: 1, alignItems: "center", marginTop: 60 }}>
       <View style={{ justifyContent: "flex-start", width: "90%" }}>
         <TouchableOpacity
-          //style={styles.navigationButton}
           onPress={() => navigation.navigate("calendar")} // Navigate to CalendarScreen
         >
           <MaterialCommunityIcons name="close" size={30} color="#163532" />
@@ -66,7 +59,6 @@ function Restaurant() {
         notesData={restaurantNotes}
         onSaveNote={onSaveRestaurantNote}
         onEditNote={onEditRestaurantNote}
-        onDeleteNote={onDeleteRestaurantNote}
       />
     </View>
   );

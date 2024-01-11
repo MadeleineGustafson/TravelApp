@@ -16,7 +16,6 @@ const NotesScreen = ({
   descriptionText,
   onSaveNote,
   onEditNote,
-  onDeleteNote,
 }) => {
   const [notes, setNotes] = useState([]);
   const [selectedNote, setSelectedNote] = useState(null);
@@ -56,13 +55,6 @@ const NotesScreen = ({
   };
 
   // Function to handle deleting a note
-  const handleDeleteNote = (note) => {
-    const updatedNotes = notes.filter((item) => item.id !== note.id);
-    setNotes(updatedNotes);
-    setSelectedNote(null);
-    setModalVisible(false);
-    onDeleteNote();
-  };
 
   return (
     <View style={styles.container}>
@@ -113,13 +105,7 @@ const NotesScreen = ({
               onPress={() => setModalVisible(false)}
               color="#FF3B30"
             />
-            {selectedNote && (
-              <Button
-                title="Delete"
-                onPress={() => handleDeleteNote(selectedNote)}
-                color="#FF9500"
-              />
-            )}
+            {selectedNote && <Button title="Delete" color="#FF9500" />}
           </View>
         </View>
       </Modal>
