@@ -84,102 +84,104 @@ function NewTripScreen() {
   
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.titleText}>Plan new trip</Text>
-      <SafeAreaView style={styles.formContainer}>
-        <Text style={styles.labelText}>What is your name?</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter your Name"
-          value={name}
-          onChangeText={(text) => setName(text)}
-        />
-        <Text style={styles.labelText}>Where are you going?</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter your destination"
-          value={destination}
-          onChangeText={(text) => setDestination(text)}
-        />
-
-        <Text style={styles.labelText}>Enter first day of your trip:</Text>
-
-        {!showPicker && (
-          <Pressable onPress={toggleStartDatePicker}>
-            <TextInput
-              placeholder={chosenStartDate}
-              editable={false}
-              onPressIn={toggleStartDatePicker}
-              style={styles.input}
-              placeholderTextColor="#ffffff"
-            />
-          </Pressable>
-        )}
-
-        {showPicker && (
-          <DateTimePicker
-            mode="date"
-            display="spinner"
-            value={startDate}
-            onChange={onChange}
-            style={styles.DateTimePicker}
+    <>
+      <View style={styles.container}>
+        <Text style={styles.titleText}>Plan new trip</Text>
+        <SafeAreaView style={styles.formContainer}>
+          <Text style={styles.labelText}>What is your name?</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter your Name"
+            value={name}
+            onChangeText={(text) => setName(text)}
           />
-        )}
-        {showPicker && Platform.OS === "ios" && (
-          <View
-            style={{ flexDirection: "row", justifyContent: "space-around" }}
-          >
-            <TouchableOpacity onPress={toggleStartDatePicker}>
-              <Text style={styles.smallButton}> Cancel</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={confirmIOSDate}>
-              <Text style={styles.smallButton}> Confirm</Text>
-            </TouchableOpacity>
-          </View>
-        )}
-
-        <Text style={styles.labelText}>Enter the last day of your trip</Text>
-        {!showEndPicker && (
-          <Pressable onPress={toggleEndDatePicker}>
-            <TextInput
-              placeholder={chosenEndDate}
-              editable={false}
-              onPressIn={toggleEndDatePicker}
-              style={styles.input}
-              placeholderTextColor="#ffffff"
-            />
-          </Pressable>
-        )}
-
-        {showEndPicker && (
-          <DateTimePicker
-            mode="date"
-            display="spinner"
-            value={endDate}
-            onChange={onChangeEndDate}
-            style={styles.DateTimePicker}
+          <Text style={styles.labelText}>Where are you going?</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter your destination"
+            value={destination}
+            onChangeText={(text) => setDestination(text)}
           />
-        )}
-        {showEndPicker && Platform.OS === "ios" && (
-          <View
-            style={{ flexDirection: "row", justifyContent: "space-around" }}
-          >
-            <TouchableOpacity onPress={toggleEndDatePicker}>
-              <Text style={styles.smallButton}> Cancel</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={confirmIOSEndDate}>
-              <Text style={styles.smallButton}> Confirm</Text>
-            </TouchableOpacity>
-          </View>
-        )}
 
-        <TouchableOpacity onPress={navigateToCalendar}>
-          <View style={styles.button}>
-            <Text style={styles.buttonText}>Create New Trip</Text>
-          </View>
-        </TouchableOpacity>
-      </SafeAreaView>
-    </View>
+          <Text style={styles.labelText}>Enter first day of your trip:</Text>
+
+          {!showPicker && (
+            <Pressable onPress={toggleStartDatePicker}>
+              <TextInput
+                placeholder={chosenStartDate}
+                editable={false}
+                onPressIn={toggleStartDatePicker}
+                style={styles.input}
+                placeholderTextColor="#ffffff"
+              />
+            </Pressable>
+          )}
+
+          {showPicker && (
+            <DateTimePicker
+              mode="date"
+              display="spinner"
+              value={startDate}
+              onChange={onChange}
+              style={styles.DateTimePicker}
+            />
+          )}
+          {showPicker && Platform.OS === "ios" && (
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-around" }}
+            >
+              <TouchableOpacity onPress={toggleStartDatePicker}>
+                <Text style={styles.smallButton}> Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={confirmIOSDate}>
+                <Text style={styles.smallButton}> Confirm</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+
+          <Text style={styles.labelText}>Enter the last day of your trip</Text>
+          {!showEndPicker && (
+            <Pressable onPress={toggleEndDatePicker}>
+              <TextInput
+                placeholder={chosenEndDate}
+                editable={false}
+                onPressIn={toggleEndDatePicker}
+                style={styles.input}
+                placeholderTextColor="#ffffff"
+              />
+            </Pressable>
+          )}
+
+          {showEndPicker && (
+            <DateTimePicker
+              mode="date"
+              display="spinner"
+              value={endDate}
+              onChange={onChangeEndDate}
+              style={styles.DateTimePicker}
+            />
+          )}
+          {showEndPicker && Platform.OS === "ios" && (
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-around" }}
+            >
+              <TouchableOpacity onPress={toggleEndDatePicker}>
+                <Text style={styles.smallButton}> Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={confirmIOSEndDate}>
+                <Text style={styles.smallButton}> Confirm</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+
+          <TouchableOpacity onPress={navigateToCalendar}>
+            <View style={styles.button}>
+              <Text style={styles.buttonText}>Create New Trip</Text>
+            </View>
+          </TouchableOpacity>
+        </SafeAreaView>
+      </View>
+    </>
   );
 }
 
