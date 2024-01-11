@@ -19,8 +19,16 @@ function MyTripsPage() {
   };
 
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+    <View
+      style={{
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "#163532",
+      }}
+    >
       <Text> My trips:</Text>
+      <Text> example trip</Text>
 
       <TouchableOpacity onPress={navigateToCalendar}>
         <View style={styles.button}>
