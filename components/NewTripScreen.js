@@ -11,12 +11,17 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { useAsyncStorageState } from "./hooks/useAsyncStorageState";
 
 function NewTripScreen() {
   const navigation = useNavigation();
-  const [name, setName] = useState("");
-  const [destination, setDestination] = useState("");
-
+  // const [name, setName] = useState("");
+  const [name, setName] = useAsyncStorageState('', 'user_name');
+  const [destination, setDestination] = useAsyncStorageState('', 'trip_destination');
+  // const [destination, setDestination] = useState("");
+  console.log("Name:", name);
+  console.log("Trip:", destination);
+  
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [showPicker, setShowPicker] = useState(false);
@@ -123,6 +128,7 @@ function NewTripScreen() {
             value={startDate}
             onChange={onChange}
             style={styles.DateTimePicker}
+            textColor="#FFF"
           />
         )}
         {showPicker && Platform.OS === "ios" && (
@@ -158,6 +164,7 @@ function NewTripScreen() {
             value={endDate}
             onChange={onChangeEndDate}
             style={styles.DateTimePicker}
+            textColor="#FFF"
           />
         )}
         {showEndPicker && Platform.OS === "ios" && (
