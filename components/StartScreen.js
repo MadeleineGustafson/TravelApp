@@ -37,7 +37,7 @@ function StartScreen() {
             color: "#EDF2E1",
           }}
         >
-          En liten slogan
+          Make your travel planning easier
         </Text>
 
         {/* TouchableOpacity for navigation */}
