@@ -1,12 +1,16 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { React } from "react";
+import React, { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { Calendar } from "react-native-calendars";
 import IconBar from "./IconBar";
+import ToDoList from "./ToDoList";
 import Countdown from "./countdown";
+
 
 function CalendarScreen() {
   const navigation = useNavigation();
+  const [showTodoList, setShowTodoList] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(null);
   const route = useRoute();
   const { tripData, startDate, endDate } = route.params || {}; // Retrieve tripData, startDate, and endDate from route params
   const handleAddTodoPress = () => {
@@ -73,6 +77,13 @@ function CalendarScreen() {
     });
   }
 
+  const handleDayPress = (day) => {
+    setSelectedDate(day.dateString);
+    setShowTodoList(true); // Show the TodoList component
+    // Navigate to TodoPage when a date is selected
+    navigation.navigate("TodoPage");
+  };
+
   return (
     <>
       <ScrollView>
@@ -105,12 +116,13 @@ function CalendarScreen() {
           style={{
             marginTop: 50,
           }}
-          onDayPress={(day) => {
-            console.log("selected day", day);
-          }}
+          onDayPress={handleDayPress}
           renderDay={renderDay}
           markingType={"period"}
-          markedDates={markedDates}
+          markedDates={{
+            ...markedDates,
+            [selectedDate]: { selected: true, marked: true, selectedColor: "blue" },
+          }}
         />
         <Pressable onPress={handleAddTodoPress}>
           <Text style={styles.addButton}>Add Todo</Text>
@@ -119,6 +131,8 @@ function CalendarScreen() {
         <Pressable onPress={handleBackToNewTripPress}>
           <Text style={styles.backButton}>Change dates</Text>
         </Pressable>
+
+        {showTodoList && <ToDoList selectedDate={selectedDate} />}
 
       </ScrollView>
     </>
