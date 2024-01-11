@@ -64,7 +64,7 @@ function Restaurant() {
           <View style={{ flexDirection: "column", marginLeft: 10, flex: 1 }}>
             <Text style={styles.title}>Restaurants</Text>
             <Text style={styles.text}>
-              On this page, you can save info about restaurants you want to
+              On this page, you can save links to restaurants you want to
               visit during your travels!
             </Text>
           </View>

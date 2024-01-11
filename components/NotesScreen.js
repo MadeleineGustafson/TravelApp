@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import {
   Button,
+  Linking,
   Modal,
   ScrollView,
   StyleSheet,
@@ -66,6 +67,18 @@ const NotesScreen = ({
     onDeleteNote(note);
   };
 
+  const handleLinkPress = (url) => {
+    // Open the link using Linking API
+    Linking.openURL(url);
+  };
+
+  const isLink = (content) => {
+    // Define a regular expression to check if the content starts with "http://" or "https://"
+    const linkPattern = /^(http:\/\/|https:\/\/)/;
+
+    return linkPattern.test(content);
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{titleText}</Text>
@@ -74,7 +87,9 @@ const NotesScreen = ({
         {notesData.map((note) => (
           <TouchableOpacity key={note.id} onPress={() => handleEditNote(note)}>
             <Text style={styles.noteTitle}>{note.title}</Text>
-            <Text style={styles.noteSmallText}>{note.content}</Text>
+            <Text style={[styles.noteSmallText, isLink(note.content) && styles.linkText]} onPress={() => handleLinkPress(note.content)}>
+              {note.content}
+            </Text>
           </TouchableOpacity>
         ))}
       </ScrollView>
@@ -188,6 +203,9 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
+  },
+  linkText: {
+    textDecorationLine: 'underline',
   },
 });
 

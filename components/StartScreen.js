@@ -18,6 +18,7 @@ function StartScreen() {
       flex: 1,
       alignItems: "center",
       justifyContent: "center",
+      // opacity: 1.6,
       backgroundColor: "#163532",
     }}
   >
