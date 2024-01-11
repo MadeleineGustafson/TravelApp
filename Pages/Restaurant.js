@@ -35,6 +35,10 @@ function Restaurant() {
   };
 
   // Function to delete a restaurant note
+  const handleDeleteRestaurantNote = (note) => {
+    const updatedNotes = restaurantNotes.filter((item) => item.id !== note.id);
+    setRestaurantNotes(updatedNotes);
+  };
 
   return (
     <>
@@ -70,7 +74,9 @@ function Restaurant() {
           notesData={restaurantNotes}
           onSaveNote={onSaveRestaurantNote}
           onEditNote={onEditRestaurantNote}
+          onDeleteNote={(note) => handleDeleteRestaurantNote(note)}
         />
+
       </View>
     </>
   );
