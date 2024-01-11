@@ -249,7 +249,6 @@ const styles = StyleSheet.create({
   DateTimePicker: {
     height: 100,
     marginTop: -5,
-    backgroundColor: "#d1ffa060",
   },
   smallButton: {
     color: "white",
