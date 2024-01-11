@@ -53,7 +53,7 @@ function Sights() {
           <View style={{ flexDirection: "column", marginLeft: 10, flex: 1 }}>
             <Text style={styles.title}>Sights</Text>
             <Text style={styles.text}>
-              On this page, you can save information about sights and attractions for your trip!
+              On this page, you can save information or links to sights and attractions for your trip!
             </Text>
           </View>
         </View>
