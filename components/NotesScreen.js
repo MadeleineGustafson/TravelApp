@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import {
   Button,
+  Linking,
   Modal,
   ScrollView,
   StyleSheet,
@@ -16,6 +17,7 @@ const NotesScreen = ({
   descriptionText,
   onSaveNote,
   onEditNote,
+  onDeleteNote,
 }) => {
   const [notes, setNotes] = useState([]);
   const [selectedNote, setSelectedNote] = useState(null);
@@ -55,6 +57,27 @@ const NotesScreen = ({
   };
 
   // Function to handle deleting a note
+  const handleDeleteNote = (note) => {
+    const updatedNotes = notes.filter((item) => item.id !== note.id);
+    setNotes(updatedNotes);
+    setSelectedNote(null);
+    setModalVisible(false);
+
+    // Use the onDeleteNote prop to update the state in the parent component
+    onDeleteNote(note);
+  };
+
+  const handleLinkPress = (url) => {
+    // Open the link using Linking API
+    Linking.openURL(url);
+  };
+
+  const isLink = (content) => {
+    // Define a regular expression to check if the content starts with "http://" or "https://"
+    const linkPattern = /^(http:\/\/|https:\/\/)/;
+
+    return linkPattern.test(content);
+  };
 
   return (
     <View style={styles.container}>
@@ -64,7 +87,9 @@ const NotesScreen = ({
         {notesData.map((note) => (
           <TouchableOpacity key={note.id} onPress={() => handleEditNote(note)}>
             <Text style={styles.noteTitle}>{note.title}</Text>
-            <Text style={styles.noteSmallText}>{note.content}</Text>
+            <Text style={[styles.noteSmallText, isLink(note.content) && styles.linkText]} onPress={() => handleLinkPress(note.content)}>
+              {note.content}
+            </Text>
           </TouchableOpacity>
         ))}
       </ScrollView>
@@ -105,7 +130,13 @@ const NotesScreen = ({
               onPress={() => setModalVisible(false)}
               color="#FF3B30"
             />
-            {selectedNote && <Button title="Delete" color="#FF9500" />}
+            {selectedNote && (
+              <Button
+                title="Delete"
+                onPress={() => handleDeleteNote(selectedNote)}
+                color="#FF9500"
+              />
+            )}
           </View>
         </View>
       </Modal>
@@ -122,7 +153,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   noteTitle: {
-    fontSize: 15,
+    fontSize: 18,
     marginBottom: 5,
     fontWeight: "bold",
     color: "black",
@@ -131,8 +162,9 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   noteSmallText: {
-    fontSize: 12,
+    fontSize: 15,
     paddingLeft: 10,
+    marginBottom: 20,
   },
   addButton: {
     alignItems: "center",
@@ -172,6 +204,9 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
+  },
+  linkText: {
+    textDecorationLine: 'underline',
   },
 });
 

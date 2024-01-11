@@ -2,8 +2,8 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { React } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { Calendar } from "react-native-calendars";
-import Countdown from "./countdown";
 import IconBar from "./IconBar";
+import Countdown from "./countdown";
 
 function CalendarScreen() {
   const navigation = useNavigation();
@@ -76,6 +76,14 @@ function CalendarScreen() {
   return (
     <>
       <ScrollView>
+        <View >
+          <Countdown
+            startDate={startDate}
+            endDate={endDate}
+            style={styles.countdown} 
+            />
+        </View>
+        
         <View
           style={{
             justifyContent: "center",
@@ -84,6 +92,8 @@ function CalendarScreen() {
             padding: 30,
           }}
         >
+
+
           {name && destination && (
             <Text style={styles.detailText}>
               {name}'s trip to {destination}!
@@ -110,13 +120,17 @@ function CalendarScreen() {
           <Text style={styles.backButton}>Change dates</Text>
         </Pressable>
 
-        <Countdown startDate={startDate} endDate={endDate} />
       </ScrollView>
     </>
   );
 }
 
 const styles = StyleSheet.create({
+  countdown: {
+    position: 'absolute',
+    top: 10,
+    left: 10,
+  },  
   titleText: {
     fontSize: 20,
     fontWeight: "bold",

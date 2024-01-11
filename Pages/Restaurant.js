@@ -35,6 +35,10 @@ function Restaurant() {
   };
 
   // Function to delete a restaurant note
+  const handleDeleteRestaurantNote = (note) => {
+    const updatedNotes = restaurantNotes.filter((item) => item.id !== note.id);
+    setRestaurantNotes(updatedNotes);
+  };
 
   return (
     <>
@@ -60,7 +64,7 @@ function Restaurant() {
           <View style={{ flexDirection: "column", marginLeft: 10, flex: 1 }}>
             <Text style={styles.title}>Restaurants</Text>
             <Text style={styles.text}>
-              On this page, you can save info about restaurants you want to
+              On this page, you can save information or links to restaurants you want to
               visit during your travels!
             </Text>
           </View>
@@ -70,7 +74,9 @@ function Restaurant() {
           notesData={restaurantNotes}
           onSaveNote={onSaveRestaurantNote}
           onEditNote={onEditRestaurantNote}
+          onDeleteNote={(note) => handleDeleteRestaurantNote(note)}
         />
+
       </View>
     </>
   );

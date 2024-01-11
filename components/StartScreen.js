@@ -18,6 +18,7 @@ function StartScreen() {
       flex: 1,
       alignItems: "center",
       justifyContent: "center",
+      // opacity: 1.6,
       backgroundColor: "#163532",
     }}
   >
@@ -37,7 +38,7 @@ function StartScreen() {
             color: "#EDF2E1",
           }}
         >
-          En liten slogan
+          Make your travel planning easier
         </Text>
 
         {/* TouchableOpacity for navigation */}
