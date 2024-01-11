@@ -89,37 +89,38 @@ function NewTripScreen() {
   
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.titleText}>Plan new trip</Text>
-      <SafeAreaView style={styles.formContainer}>
-        <Text style={styles.labelText}>What is your name?</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter your Name"
-          value={name}
-          onChangeText={(text) => setName(text)}
-        />
-        <Text style={styles.labelText}>Where are you going?</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter your destination"
-          value={destination}
-          onChangeText={(text) => setDestination(text)}
-        />
+    <>
+      <View style={styles.container}>
+        <Text style={styles.titleText}>Plan new trip</Text>
+        <SafeAreaView style={styles.formContainer}>
+          <Text style={styles.labelText}>What is your name?</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter your Name"
+            value={name}
+            onChangeText={(text) => setName(text)}
+          />
+          <Text style={styles.labelText}>Where are you going?</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter your destination"
+            value={destination}
+            onChangeText={(text) => setDestination(text)}
+          />
 
-        <Text style={styles.labelText}>Enter first day of your trip:</Text>
+          <Text style={styles.labelText}>Enter first day of your trip:</Text>
 
-        {!showPicker && (
-          <Pressable onPress={toggleStartDatePicker}>
-            <TextInput
-              placeholder={chosenStartDate}
-              editable={false}
-              onPressIn={toggleStartDatePicker}
-              style={styles.input}
-              placeholderTextColor="#ffffff"
-            />
-          </Pressable>
-        )}
+          {!showPicker && (
+            <Pressable onPress={toggleStartDatePicker}>
+              <TextInput
+                placeholder={chosenStartDate}
+                editable={false}
+                onPressIn={toggleStartDatePicker}
+                style={styles.input}
+                placeholderTextColor="#ffffff"
+              />
+            </Pressable>
+          )}
 
         {showPicker && (
           <DateTimePicker
@@ -144,18 +145,18 @@ function NewTripScreen() {
           </View>
         )}
 
-        <Text style={styles.labelText}>Enter the last day of your trip</Text>
-        {!showEndPicker && (
-          <Pressable onPress={toggleEndDatePicker}>
-            <TextInput
-              placeholder={chosenEndDate}
-              editable={false}
-              onPressIn={toggleEndDatePicker}
-              style={styles.input}
-              placeholderTextColor="#ffffff"
-            />
-          </Pressable>
-        )}
+          <Text style={styles.labelText}>Enter the last day of your trip</Text>
+          {!showEndPicker && (
+            <Pressable onPress={toggleEndDatePicker}>
+              <TextInput
+                placeholder={chosenEndDate}
+                editable={false}
+                onPressIn={toggleEndDatePicker}
+                style={styles.input}
+                placeholderTextColor="#ffffff"
+              />
+            </Pressable>
+          )}
 
         {showEndPicker && (
           <DateTimePicker
@@ -180,13 +181,14 @@ function NewTripScreen() {
           </View>
         )}
 
-        <TouchableOpacity onPress={navigateToCalendar}>
-          <View style={styles.button}>
-            <Text style={styles.buttonText}>Create New Trip</Text>
-          </View>
-        </TouchableOpacity>
-      </SafeAreaView>
-    </View>
+          <TouchableOpacity onPress={navigateToCalendar}>
+            <View style={styles.button}>
+              <Text style={styles.buttonText}>Create New Trip</Text>
+            </View>
+          </TouchableOpacity>
+        </SafeAreaView>
+      </View>
+    </>
   );
 }
 
