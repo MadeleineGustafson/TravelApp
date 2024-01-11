@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   noteTitle: {
-    fontSize: 15,
+    fontSize: 18,
     marginBottom: 5,
     fontWeight: "bold",
     color: "black",
@@ -162,8 +162,9 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   noteSmallText: {
-    fontSize: 12,
+    fontSize: 15,
     paddingLeft: 10,
+    marginBottom: 20,
   },
   addButton: {
     alignItems: "center",
