@@ -22,6 +22,11 @@ function CalendarScreen() {
     return <Text style={[styles.day, isToday && styles.today]}>{day.day}</Text>;
   };
 
+  const handleBackToNewTripPress = () => {
+    // Navigate back to the "newTrip" page
+    navigation.navigate("newTrip");
+  };  
+
 
   // Retrieve departureDate and arrivalDate from tripData
   const { name, destination, startDate: tripStartDate, endDate: tripEndDate } = tripData || {};
@@ -87,7 +92,13 @@ function CalendarScreen() {
       <Pressable onPress={handleAddTodoPress}>
         <Text style={styles.addButton}>Add Todo</Text>
       </Pressable>
+
+      <Pressable onPress={handleBackToNewTripPress}>
+        <Text style={styles.backButton}>Change dates</Text>
+      </Pressable>
+
       <Countdown startDate={startDate} endDate={endDate} />
+      
     </>
   );
 }
@@ -124,8 +135,12 @@ const styles = StyleSheet.create({
   container: {
     alignItems: "center",
   },
-
   addButton: {
+    fontSize: 18,
+    color: "blue",
+    marginTop: 10,
+  },
+  backButton: {
     fontSize: 18,
     color: "blue",
     marginTop: 10,
