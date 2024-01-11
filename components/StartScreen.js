@@ -7,20 +7,20 @@ import backgroundImage from "../assets/backgroundTrain.jpg";
 function StartScreen() {
   const navigation = useNavigation();
 
-  const navigateToNewTrip = () => {
-    navigation.navigate("newTrip");
+  const navigateToMyTrips = () => {
+    navigation.navigate("myTrips");
   };
 
   return (
     <ImageBackground
-    source={backgroundImage}
-    style={{
-      flex: 1,
-      alignItems: "center",
-      justifyContent: "center",
-      backgroundColor: "#163532",
-    }}
-  >
+      source={backgroundImage}
+      style={{
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "#163532",
+      }}
+    >
       <View style={{ justifyContent: "flex-start", width: "100%" }}>
         <Text
           style={{
@@ -41,7 +41,7 @@ function StartScreen() {
         </Text>
 
         {/* TouchableOpacity for navigation */}
-        <TouchableOpacity onPress={navigateToNewTrip}>
+        <TouchableOpacity onPress={navigateToMyTrips}>
           <View
             style={{
               backgroundColor: "#D1FFA0",
@@ -52,11 +52,11 @@ function StartScreen() {
               margin: 20,
             }}
           >
-            <Text style={{ color: "#163532" }}>Create New Trip</Text>
+            <Text style={{ color: "#163532" }}>Start planning!</Text>
           </View>
         </TouchableOpacity>
       </View>
-      </ImageBackground>
+    </ImageBackground>
   );
 }
 
