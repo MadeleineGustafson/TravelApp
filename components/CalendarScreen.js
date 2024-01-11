@@ -1,3 +1,4 @@
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { React } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
@@ -91,9 +92,33 @@ function CalendarScreen() {
           )}
         </View>
         <IconBar />
+        <View
+          style={{
+            justifyContent: "flex-end",
+            alignItems: "flex-end",
+            marginRight: 10,
+          }}
+        >
+          <Pressable
+            onPress={handleBackToNewTripPress}
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <MaterialCommunityIcons
+              name="playlist-edit"
+              size={15}
+              color="#163532"
+            />
+            <Text style={styles.backButton}>Change dates</Text>
+          </Pressable>
+        </View>
+
         <Calendar
           style={{
-            marginTop: 50,
+            marginTop: 10,
           }}
           onDayPress={(day) => {
             console.log("selected day", day);
@@ -102,13 +127,30 @@ function CalendarScreen() {
           markingType={"period"}
           markedDates={markedDates}
         />
-        <Pressable onPress={handleAddTodoPress}>
-          <Text style={styles.addButton}>Add Todo</Text>
-        </Pressable>
 
-        <Pressable onPress={handleBackToNewTripPress}>
-          <Text style={styles.backButton}>Change dates</Text>
-        </Pressable>
+        <View
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+            margin: 10,
+          }}
+        >
+          <Pressable
+            onPress={handleAddTodoPress}
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <MaterialCommunityIcons
+              name="plus-circle-outline"
+              size={35}
+              color="#163532"
+            />
+            <Text style={styles.addButton}>Plan your day</Text>
+          </Pressable>
+        </View>
 
         <Countdown startDate={startDate} endDate={endDate} />
       </ScrollView>
@@ -153,12 +195,12 @@ const styles = StyleSheet.create({
   },
   addButton: {
     fontSize: 18,
-    color: "blue",
+    color: "#163532",
     marginTop: 10,
   },
   backButton: {
-    fontSize: 18,
-    color: "blue",
+    fontSize: 13,
+    color: "grey",
     marginTop: 10,
   },
 });
