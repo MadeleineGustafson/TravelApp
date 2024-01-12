@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     marginBottom: 20,
-    width: 350,
+    width: 360,
     
   },
   itemLeft: {
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
   },
   saveText: {
     color: 'green',
-    marginLeft: -80,
+    marginLeft: -40,
   },
   deleteText: {
     color: 'red',
