@@ -108,7 +108,6 @@ function CalendarScreen() {
         textColor: "white",
         ...(index === 0 && { startingDay: true }),
         ...(index === dateRange.length - 1 && { endingDay: true }),
-        ...(todos.some(todo => todo.date === date) && { marked: true, dotColor: "blue" }),
       };
     });
   }
