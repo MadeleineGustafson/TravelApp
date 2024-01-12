@@ -56,26 +56,20 @@ const Todo = (props) => {
 
 const styles = StyleSheet.create({
   item: {
-    backgroundColor: '#FFF',
+    backgroundColor: '#E8EAED',
     padding: 15,
     borderRadius: 15,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     marginBottom: 20,
+    width: 350,
+    
   },
   itemLeft: {
     flexDirection: 'row',
     alignItems: 'center',
     flexWrap: 'wrap'
-  },
-  square: {
-    width: 24,
-    height: 24,
-    backgroundColor: '#55BCF6',
-    opacity: 0.4,
-    borderRadius: 5,
-    marginRight: 15,
   },
   itemText: {
     maxWidth: '100%',
@@ -90,7 +84,7 @@ const styles = StyleSheet.create({
   },
   editText: {
     color: 'blue',
-    marginRight: 52,
+    marginRight: 20,
   },
   saveText: {
     color: 'green',
@@ -98,7 +92,6 @@ const styles = StyleSheet.create({
   },
   deleteText: {
     color: 'red',
-    marginLeft: -40,
   },
 });
 

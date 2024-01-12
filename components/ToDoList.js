@@ -62,7 +62,7 @@ const ToDoList = ({ selectedDate }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#E8EAED',
+    backgroundColor: '#fff',
     paddingTop: 20,
   },
   sectionTitle: {
