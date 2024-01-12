@@ -1,6 +1,6 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
 import React, { useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { FlatList, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { Calendar } from "react-native-calendars";
 import IconBar from "./IconBar";
 import ToDoList from "./ToDoList";
@@ -9,14 +9,11 @@ import Countdown from "./countdown";
 
 function CalendarScreen() {
   const navigation = useNavigation();
+  const [todos, setTodos] = useState([]);
   const [showTodoList, setShowTodoList] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
   const route = useRoute();
   const { tripData, startDate, endDate } = route.params || {}; // Retrieve tripData, startDate, and endDate from route params
-  const handleAddTodoPress = () => {
-    // Navigate to the TodoPage when the "Add Todo" button is pressed
-    navigation.navigate("TodoPage");
-  };
   const today = new Date(); // Get today's date
   const dateString = today.toISOString().split("T")[0]; // Format the date as 'YYYY-MM-DD'
 
@@ -61,6 +58,44 @@ function CalendarScreen() {
     return dateRange;
   };
 
+  const handleAddTodoPress = () => {
+    // Navigate to the TodoPage when the "Add Todo" button is pressed
+    navigation.navigate("TodoPage", {
+      selectedDate,
+      addTodo,
+    });
+  };
+
+  const handleDayPress = (day) => {
+    const selectedDate = day.dateString;
+    setSelectedDate(selectedDate);
+    setShowTodoList(true);
+  };
+
+  const addTodo = (date, todoText) => {
+    const newTodo = { date, text: todoText };
+    setTodos([...todos, newTodo]);
+  };
+
+  const renderTodosForDate = () => {
+    const todosForSelectedDate = todos.filter((todo) => todo.date === selectedDate);
+  
+    if (todosForSelectedDate.length > 0) {
+      return (
+        <View>
+          <Text style={styles.todoHeader}>Todos for {selectedDate}:</Text>
+          <FlatList
+            data={todosForSelectedDate}
+            keyExtractor={(item) => item.text}
+            renderItem={({ item }) => <Text style={styles.todoItem}>{item.text}</Text>}
+          />
+        </View>
+      );
+    }
+  
+    return null;
+  };
+
   // Mark the period between departureDate and arrivalDate on the Calendar
   const markedDates = {};
   if (startDate && endDate) {
@@ -77,12 +112,12 @@ function CalendarScreen() {
     });
   }
 
-  const handleDayPress = (day) => {
-    setSelectedDate(day.dateString);
-    setShowTodoList(true); // Show the TodoList component
-    // Navigate to TodoPage when a date is selected
-    navigation.navigate("TodoPage");
-  };
+  // const handleDayPress = (day) => {
+  //   setSelectedDate(day.dateString);
+  //   setShowTodoList(true); // Show the TodoList component
+  //   // Navigate to TodoPage when a date is selected
+  //   navigation.navigate("TodoPage");
+  // };
 
   return (
     <>
