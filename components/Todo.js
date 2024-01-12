@@ -83,14 +83,15 @@ const styles = StyleSheet.create({
   },
   editText: {
     color: 'blue',
-    marginRight: 10,
+    marginRight: 52,
   },
   saveText: {
     color: 'green',
-    marginRight: 10,
+    marginLeft: -80,
   },
   deleteText: {
     color: 'red',
+    marginLeft: -40,
   },
 });
 

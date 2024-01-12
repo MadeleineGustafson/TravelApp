@@ -108,6 +108,7 @@ function CalendarScreen() {
         textColor: "white",
         ...(index === 0 && { startingDay: true }),
         ...(index === dateRange.length - 1 && { endingDay: true }),
+        ...(todos.some(todo => todo.date === date) && { marked: true, dotColor: "blue" }),
       };
     });
   }
@@ -153,10 +154,10 @@ function CalendarScreen() {
           }}
           onDayPress={handleDayPress}
           renderDay={renderDay}
-          markingType={"period"}
+          markingType={"custom"}
           markedDates={{
             ...markedDates,
-            [selectedDate]: { selected: true, marked: true, selectedColor: "blue" },
+            [selectedDate]: { selected: true, marked: true, selectedColor: "#163532" },
           }}
         />
         <Pressable onPress={handleAddTodoPress}>
