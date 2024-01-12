@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
@@ -71,19 +72,29 @@ function NewTripScreen() {
     toggleEndDatePicker();
   };
 
-  const navigateToCalendar = () => {
-    const serializedTripData = {
-      name: name,
-      destination: destination,
-      startDate: startDate.toISOString(),
-      endDate: endDate.toISOString(),
-    };
+  const navigateToCalendar = async () => {
+    try {
+      const serializedTripData = {
+        name: name,
+        destination: destination,
+        startDate: startDate.toISOString(),
+        endDate: endDate.toISOString(),
+      };
 
-    navigation.navigate("calendar", {
-      tripData: serializedTripData,
-      startDate,
-      endDate,
-    });
+      // Save data to AsyncStorage
+      await AsyncStorage.setItem(
+        "tripData",
+        JSON.stringify(serializedTripData)
+      );
+
+      navigation.navigate("calendar", {
+        tripData: serializedTripData,
+        startDate,
+        endDate,
+      });
+    } catch (error) {
+      console.error("Error saving trip data to AsyncStorage:", error);
+    }
   };
 
   return (

@@ -1,6 +1,7 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { React } from "react";
+import React, { useEffect, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { Calendar } from "react-native-calendars";
 import Countdown from "./countdown";
@@ -9,43 +10,45 @@ import IconBar from "./IconBar";
 function CalendarScreen() {
   const navigation = useNavigation();
   const route = useRoute();
-  const { tripData, startDate, endDate } = route.params || {}; // Retrieve tripData, startDate, and endDate from route params
+  const { tripData: routeTripData, startDate, endDate } = route.params || {};
+  const [tripData, setTripData] = useState(routeTripData || {});
+
+  useEffect(() => {
+    const fetchStoredTripData = async () => {
+      try {
+        const storedTripData = await AsyncStorage.getItem("tripData");
+        if (storedTripData) {
+          setTripData(JSON.parse(storedTripData));
+        }
+      } catch (error) {
+        console.error("Error fetching trip data from AsyncStorage:", error);
+      }
+    };
+
+    fetchStoredTripData();
+  }, []); // Run the effect only once on mount
+
   const handleAddTodoPress = () => {
-    // Navigate to the TodoPage when the "Add Todo" button is pressed
     navigation.navigate("TodoPage");
   };
-  const today = new Date(); // Get today's date
-  const dateString = today.toISOString().split("T")[0]; // Format the date as 'YYYY-MM-DD'
+
+  const today = new Date();
+  const dateString = today.toISOString().split("T")[0];
 
   const renderDay = (day) => {
-    // Check if the day being rendered matches today's date
     const isToday = day.dateString === dateString;
-
     return <Text style={[styles.day, isToday && styles.today]}>{day.day}</Text>;
   };
 
   const handleBackToNewTripPress = () => {
-    // Navigate back to the "newTrip" page
     navigation.navigate("newTrip");
   };
 
-  // Retrieve departureDate and arrivalDate from tripData
-  const {
-    name,
-    destination,
-    startDate: tripStartDate,
-    endDate: tripEndDate,
-  } = tripData || {};
-  console.log("startDate:", tripStartDate);
-  console.log("endDate:", tripEndDate);
-
-  // Function to convert date string to 'YYYY-MM-DD' format
   const convertToYYYYMMDD = (dateString) => {
     const date = new Date(dateString);
     return date.toISOString().split("T")[0];
   };
 
-  // Mark the departureDate and arrivalDate on the Calendar
   const createDateRange = (startDate, endDate) => {
     const dateRange = [];
     let currentDate = new Date(startDate);
@@ -58,11 +61,10 @@ function CalendarScreen() {
     return dateRange;
   };
 
-  // Mark the period between departureDate and arrivalDate on the Calendar
   const markedDates = {};
-  if (startDate && endDate) {
-    const start = convertToYYYYMMDD(startDate);
-    const end = convertToYYYYMMDD(endDate);
+  if (tripData.startDate && tripData.endDate) {
+    const start = convertToYYYYMMDD(tripData.startDate);
+    const end = convertToYYYYMMDD(tripData.endDate);
     const dateRange = createDateRange(start, end);
     dateRange.forEach((date, index) => {
       markedDates[date] = {
@@ -77,35 +79,18 @@ function CalendarScreen() {
   return (
     <>
       <ScrollView>
-        <View
-          style={{
-            justifyContent: "center",
-            alignItems: "center",
-            marginTop: 65,
-            padding: 30,
-          }}
-        >
-          {name && destination && (
+        <View style={styles.container}>
+          {tripData.name && tripData.destination && (
             <Text style={styles.detailText}>
-              {name}'s trip to {destination}!
+              {tripData.name}'s trip to {tripData.destination}!
             </Text>
           )}
         </View>
         <IconBar />
-        <View
-          style={{
-            justifyContent: "flex-end",
-            alignItems: "flex-end",
-            marginRight: 10,
-          }}
-        >
+        <View style={styles.navContainer}>
           <Pressable
             onPress={handleBackToNewTripPress}
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
+            style={styles.backButtonPressable}
           >
             <MaterialCommunityIcons
               name="playlist-edit"
@@ -117,9 +102,7 @@ function CalendarScreen() {
         </View>
 
         <Calendar
-          style={{
-            marginTop: 10,
-          }}
+          style={styles.calendar}
           onDayPress={(day) => {
             console.log("selected day", day);
           }}
@@ -128,20 +111,10 @@ function CalendarScreen() {
           markedDates={markedDates}
         />
 
-        <View
-          style={{
-            justifyContent: "center",
-            alignItems: "center",
-            margin: 10,
-          }}
-        >
+        <View style={styles.addTodoContainer}>
           <Pressable
             onPress={handleAddTodoPress}
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
+            style={styles.addTodoPressable}
           >
             <MaterialCommunityIcons
               name="plus-circle-outline"
@@ -152,12 +125,11 @@ function CalendarScreen() {
           </Pressable>
         </View>
 
-        <Countdown startDate={startDate} endDate={endDate} />
+        <Countdown startDate={tripData.startDate} endDate={tripData.endDate} />
       </ScrollView>
     </>
   );
 }
-
 const styles = StyleSheet.create({
   titleText: {
     fontSize: 20,

@@ -19,7 +19,7 @@ function MyTripsScreen() {
       }}
     >
       <Text> My trips:</Text>
-      <Text> example trip</Text>
+      <Text> All trips goes in a list</Text>
 
       <TouchableOpacity onPress={navigateToNewTrip}>
         <View style={styles.button}>
