@@ -1,3 +1,4 @@
+import { Entypo, Feather, FontAwesome5 } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
@@ -32,15 +33,21 @@ const Todo = (props) => {
       <View style={styles.buttonsContainer}>
         {isEditing ? (
           <TouchableOpacity onPress={handleEditSave}>
-            <Text style={styles.saveText}>Save</Text>
+            <Text style={styles.saveText}>
+            <Entypo name="check" size={20} color="black" />
+            </Text>
           </TouchableOpacity>
         ) : (
           <TouchableOpacity onPress={handleEditToggle}>
-            <Text style={styles.editText}>Edit</Text>
+            <Text style={styles.editText}>
+            <Feather name="edit" size={18} color="black" />
+            </Text>
           </TouchableOpacity>
         )}
         <TouchableOpacity onPress={props.onDelete}>
-          <Text style={styles.deleteText}>Delete</Text>
+          <Text style={styles.deleteText}>
+          <FontAwesome5 name="trash" size={18} color="black" />
+          </Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -51,7 +58,7 @@ const styles = StyleSheet.create({
   item: {
     backgroundColor: '#FFF',
     padding: 15,
-    borderRadius: 10,
+    borderRadius: 15,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
