@@ -27,10 +27,11 @@ const Todo = (props) => {
         ) : (
           <View>
             <Text style={styles.itemText}>{props.text}</Text>
-            <Text style={styles.dateText}>{props.date.toLocaleString()}</Text>
+            {props.time && <Text style={styles.timeText}>{props.time}</Text>}
           </View>
         )}
       </View>
+
       <View style={styles.buttonsContainer}>
         {isEditing ? (
           <TouchableOpacity onPress={handleEditSave}>

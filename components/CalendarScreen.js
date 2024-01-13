@@ -178,7 +178,7 @@ function CalendarScreen() {
           <Text style={styles.backButton}>Change dates</Text>
         </Pressable>
 
-        <Text style={styles.sectionTitle}>Todos for {selectedDate}</Text>
+        {/* <Text style={styles.sectionTitle}>Todos for {selectedDate}</Text> */}
 
         {showTodoList && <ToDoList selectedDate={selectedDate} />}
 

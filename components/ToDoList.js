@@ -43,7 +43,7 @@ const ToDoList = ({ selectedDate }) => {
       const updatedTodos = [...(prevTodos[selectedDate] || [])];
       updatedTodos[index] = { ...updatedTodos[index], text: newText };
       return { ...prevTodos, [selectedDate]: updatedTodos };
-    });
+    }); 
   };
 
   const handleEditSave = (editedText) => {
@@ -75,7 +75,7 @@ const ToDoList = ({ selectedDate }) => {
         renderItem={({ item, index }) => (
           <Todo
             text={item.text}
-            date={item.date}
+            time={item.date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
             onDelete={() => deleteTodo(index)}
             onEdit={(newText) => editTodo(index, newText)}
             onSave={handleEditSave}
