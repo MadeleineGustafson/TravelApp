@@ -10,8 +10,8 @@ const ToDoList = ({ selectedDate }) => {
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [selectedDateTime, setSelectedDateTime] = useState(new Date());
 
+  // Set the default time to the current time when the component initializes
   useEffect(() => {
-    // Set the default time to the current time when the component initializes
     setSelectedDateTime(new Date());
   }, []);
 
@@ -46,6 +46,17 @@ const ToDoList = ({ selectedDate }) => {
     });
   };
 
+  const handleEditSave = (editedText) => {
+    if (editIndex !== null) {
+      setTodoItems(prevTodos => {
+        const updatedTodos = [...(prevTodos[selectedDate] || [])];
+        updatedTodos[editIndex] = {...updatedTodos[editIndex], text: editedText };
+        return {...prevTodos, [selectedDate]: updatedTodos};
+      });
+      setEditIndex(null);
+    }
+  }
+
   const deleteTodo = (index) => {
     setTodoItems(prevTodos => {
       const updatedTodos = [...(prevTodos[selectedDate] || [])];
@@ -58,18 +69,19 @@ const ToDoList = ({ selectedDate }) => {
     <View style={styles.container}>
       <Text style={styles.sectionTitle}>Todos for {selectedDate}</Text>
 
-        <FlatList
-          data={todoItems[selectedDate] || []}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={({ item, index }) => (
-            <Todo
-              text={item.text}
-              date={item.date}
-              onDelete={() => deleteTodo(index)}
-              onEdit={(newText) => editTodo(index, newText)}
-            />
-          )}
-        />
+      <FlatList
+        data={todoItems[selectedDate] || []}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item, index }) => (
+          <Todo
+            text={item.text}
+            date={item.date}
+            onDelete={() => deleteTodo(index)}
+            onEdit={(newText) => editTodo(index, newText)}
+            onSave={handleEditSave}
+          />
+        )}
+      />
         
       <View style={styles.dateTimePickerContainer}>
         <TextInput 
@@ -101,8 +113,6 @@ const ToDoList = ({ selectedDate }) => {
     </View>
   );
 };
-
-
 
 const styles = StyleSheet.create({
   container: {
