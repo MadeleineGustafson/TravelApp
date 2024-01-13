@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 const Todo = (props) => {
-
   const [isEditing, setIsEditing] = useState(false);
   const [editedText, setEditedText] = useState(props.text);
 
@@ -12,7 +11,6 @@ const Todo = (props) => {
   };
 
   const handleEditSave = () => {
-    // Implement the logic to save the edited todo
     props.onEdit(editedText);
     handleEditToggle();
   };
@@ -27,26 +25,29 @@ const Todo = (props) => {
             onChangeText={(text) => setEditedText(text)}
           />
         ) : (
-          <Text style={styles.itemText}>{props.text}</Text>
+          <View>
+            <Text style={styles.itemText}>{props.text}</Text>
+            <Text style={styles.dateText}>{props.date.toLocaleString()}</Text>
+          </View>
         )}
       </View>
       <View style={styles.buttonsContainer}>
         {isEditing ? (
           <TouchableOpacity onPress={handleEditSave}>
             <Text style={styles.saveText}>
-            <Entypo name="check" size={20} color="black" />
+              <Entypo name="check" size={20} color="black" />
             </Text>
           </TouchableOpacity>
         ) : (
           <TouchableOpacity onPress={handleEditToggle}>
             <Text style={styles.editText}>
-            <Feather name="edit" size={18} color="black" />
+              <Feather name="edit" size={18} color="black" />
             </Text>
           </TouchableOpacity>
         )}
         <TouchableOpacity onPress={props.onDelete}>
           <Text style={styles.deleteText}>
-          <FontAwesome5 name="trash" size={18} color="black" />
+            <FontAwesome5 name="trash" size={18} color="black" />
           </Text>
         </TouchableOpacity>
       </View>
@@ -92,6 +93,10 @@ const styles = StyleSheet.create({
   },
   deleteText: {
     color: 'red',
+  },
+  dateText: {
+    color: 'gray',
+    fontSize: 12,
   },
 });
 

@@ -72,26 +72,37 @@ function CalendarScreen() {
     setShowTodoList(true);
   };
 
-  const addTodo = (date, todoText) => {
-    const newTodo = { date, text: todoText };
+  const handleTodoPress = (todo) => {
+    // Handle the press on a todo, if needed
+    console.log(`Todo pressed: ${todo.text}`);
+  };
+
+  const addTodo = (todoText) => {
+    const newTodo = { date: selectedDate, text: todoText };
     setTodos([...todos, newTodo]);
   };
 
-  const renderTodosForDate = () => {
-    const todosForSelectedDate = todos.filter((todo) => todo.date === selectedDate);
+ const renderTodosForDate = () => {
+    if (selectedDate) {
+      const todosForSelectedDate = todos.filter((todo) => todo.date === selectedDate);
   
-    if (todosForSelectedDate.length > 0) {
-      return (
-        <View>
-          <Text style={styles.todoHeader}>Todos for {selectedDate}:</Text>
-          <FlatList
-            data={todosForSelectedDate}
-            keyExtractor={(item) => item.text}
-            renderItem={({ item }) => <Text style={styles.todoItem}>{item.text}</Text>}
-          />
-        </View>
-      );
-    }
+      if (todosForSelectedDate.length > 0) {
+        return (
+          <View>
+            <Text style={styles.todoHeader}>Todos for {selectedDate}:</Text>
+            <FlatList
+              data={todosForSelectedDate}
+              keyExtractor={(item) => item.text}
+              renderItem={({ item }) => (
+                <TouchableOpacity onPress={() => handleTodoPress(item)}>
+                  <Text style={styles.todoItem}>{item.text}</Text>
+                </TouchableOpacity>
+              )}
+            />
+          </View>
+        );
+      }
+    };
   
     return null;
   };
@@ -159,13 +170,15 @@ function CalendarScreen() {
             [selectedDate]: { selected: true, marked: true, selectedColor: "#163532" },
           }}
         />
-        {/* <Pressable onPress={handleAddTodoPress}>
+        <Pressable onPress={handleAddTodoPress}>
           <Text style={styles.addButton}>Add Todo</Text>
-        </Pressable> */}
+        </Pressable>
 
         <Pressable onPress={handleBackToNewTripPress}>
           <Text style={styles.backButton}>Change dates</Text>
         </Pressable>
+
+        <Text style={styles.sectionTitle}>Todos for {selectedDate}</Text>
 
         {showTodoList && <ToDoList selectedDate={selectedDate} />}
 

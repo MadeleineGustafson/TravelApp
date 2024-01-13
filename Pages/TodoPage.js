@@ -1,13 +1,29 @@
+import DateTimePicker from '@react-native-community/datetimepicker';
 import React, { useState } from 'react';
 import { Button, StyleSheet, TextInput, View } from 'react-native';
 
 const TodoPage = ({ navigation, route }) => {
   const { selectedDate, addTodo } = route.params || {};
   const [todoText, setTodoText] = useState('');
+  const [selectedDateTime, setSelectedDateTime] = useState(new Date());
+  const [showDatePicker, setShowDatePicker] = useState(false);
 
   const handleAddTodo = () => {
-    addTodo(selectedDate, todoText);
+    addTodo(selectedDateTime, todoText);
     navigation.goBack(); // Navigate back after adding todo
+  };
+
+  const handleDateChange = (event, date) => {
+    if (Platform.OS === 'android') {
+      setShowDatePicker(false);
+    }
+    if (date) {
+      setSelectedDateTime(date);
+    }
+  };
+
+  const showDatePickerModal = () => {
+    setShowDatePicker(true);
   };
 
   return (
@@ -18,7 +34,19 @@ const TodoPage = ({ navigation, route }) => {
         onChangeText={(text) => setTodoText(text)}
       />
       <Button title="Add Todo" onPress={handleAddTodo} />
-    </View>
+
+       <Button title="Pick Date & Time" onPress={showDatePickerModal} />
+
+      {showDatePicker && (
+        <DateTimePicker
+        value={selectedDateTime}
+        mode="datetime"
+        is24Hour={true}
+        display="default"
+        onChange={handleDateChange}
+        />
+        )}
+        </View>
   );
 };
 
