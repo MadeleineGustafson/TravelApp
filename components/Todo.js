@@ -36,19 +36,19 @@ const Todo = (props) => {
         {isEditing ? (
           <TouchableOpacity onPress={handleEditSave}>
             <Text style={styles.saveText}>
-              <Entypo name="check" size={20} color="black" />
+              <Entypo name="check" size={20} color="#163532" />
             </Text>
           </TouchableOpacity>
         ) : (
           <TouchableOpacity onPress={handleEditToggle}>
             <Text style={styles.editText}>
-              <Feather name="edit" size={18} color="black" />
+              <Feather name="edit" size={18} color="#163532" />
             </Text>
           </TouchableOpacity>
         )}
         <TouchableOpacity onPress={props.onDelete}>
           <Text style={styles.deleteText}>
-            <FontAwesome5 name="trash" size={18} color="black" />
+            <FontAwesome5 name="trash" size={18} color="#163532" />
           </Text>
         </TouchableOpacity>
       </View>
@@ -58,7 +58,7 @@ const Todo = (props) => {
 
 const styles = StyleSheet.create({
   item: {
-    backgroundColor: '#E8EAED',
+    backgroundColor: '#D3DFB7',
     padding: 15,
     borderRadius: 15,
     flexDirection: 'row',
@@ -72,21 +72,26 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     flexWrap: 'wrap'
+
   },
   itemText: {
     maxWidth: '100%',
     fontSize: 20,
     fontWeight: 'bold',
+    color: "#163532",
   },
   timeText: {
     maxWidth: '100%',
     fontSize: 16,
     fontWeight: 'none',
+    color: "#163532",
   },
   editInput: {
     flex: 1,
     padding: 0,
     margin: 0,
+    backgroundColor: '#D3DFB7',
+
   },
   propsTime: {
     fontSize: 28,

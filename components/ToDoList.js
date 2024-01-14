@@ -112,13 +112,14 @@ const ToDoList = ({ selectedDate }) => {
         <TextInput 
           style={styles.input} 
           placeholder={'Add a todo'} 
+          placeholderTextColor={'#163532'}
           value={todo} 
           onChangeText={text => setTodo(text)} 
         />
         <TouchableOpacity onPress={() => setShowDatePicker(true)}>
-          <Text><FontAwesome5 name="clock" size={24} color="black" /></Text>
+          <Text><FontAwesome5 name="clock" size={24} color="#D3DFB7" /></Text>
         </TouchableOpacity>
-        
+
       <TouchableOpacity onPress={() => handleAddTodo()}>
         <View style={styles.addWrapper}>
           <Text style={styles.addText}>+</Text>
@@ -144,24 +145,26 @@ const ToDoList = ({ selectedDate }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#163532',
     paddingTop: 20,
   },
   sectionTitle: {
     fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'start',
+    color: "white"
   },
   sectionTitleNotBold: {
     fontSize: 20,
     fontWeight: 'normal',
     marginBottom: 10,
     textAlign: 'start',
+    color: "white"
   },
   input: {
     paddingVertical: 15,
     paddingHorizontal: 15,
-    backgroundColor: '#FFF',
+    backgroundColor: '#D3DFB7',
     borderRadius: 60,
     borderColor: '#C0C0C0',
     borderWidth: 1,
@@ -170,7 +173,7 @@ const styles = StyleSheet.create({
   addWrapper: {
     width: 50,
     height: 50,
-    backgroundColor: '#FFF',
+    backgroundColor: '#D3DFB7',
     borderRadius: 60,
     justifyContent: 'center',
     alignItems: 'center',
