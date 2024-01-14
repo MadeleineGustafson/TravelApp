@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
   },
   itemText: {
     maxWidth: '100%',
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 'bold',
     color: "#163532",
   },

@@ -149,13 +149,13 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   sectionTitle: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 'bold',
     textAlign: 'start',
     color: "white"
   },
   sectionTitleNotBold: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 'normal',
     marginBottom: 10,
     textAlign: 'start',
@@ -181,16 +181,16 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   todoItem: {
-    flexDirection: 'column', // Change to 'column'
+    flexDirection: 'column', 
     justifyContent: 'space-between',
-    alignItems: 'flex-start', // Align items to the start
+    alignItems: 'flex-start', 
     padding: 10,
     borderBottomWidth: 1,
     borderColor: '#ccc',
   },
   todoText: {
     fontSize: 16,
-    marginBottom: 5, // Add margin bottom for spacing
+    marginBottom: 5, 
   },
   dateText: {
     fontSize: 14,
@@ -202,7 +202,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 20,
   },
-  addText: {},
+  addText: {
+    fontSize: 20,
+  },
 });
 
 export default ToDoList;
