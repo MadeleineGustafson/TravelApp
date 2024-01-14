@@ -118,8 +118,15 @@ const ToDoList = ({ selectedDate }) => {
         <TouchableOpacity onPress={() => setShowDatePicker(true)}>
           <Text><FontAwesome5 name="clock" size={24} color="black" /></Text>
         </TouchableOpacity>
+        
+      <TouchableOpacity onPress={() => handleAddTodo()}>
+        <View style={styles.addWrapper}>
+          <Text style={styles.addText}>+</Text>
+        </View>
+      </TouchableOpacity>
       </View>
       
+
       {showDatePicker && (
         <DateTimePicker
           value={selectedDateTime}
@@ -130,11 +137,6 @@ const ToDoList = ({ selectedDate }) => {
         />
       )}     
       
-      <TouchableOpacity onPress={() => handleAddTodo()}>
-        <View style={styles.addWrapper}>
-          <Text style={styles.addText}>+</Text>
-        </View>
-      </TouchableOpacity>
     </View>
   );
 };
