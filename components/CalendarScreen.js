@@ -170,9 +170,9 @@ function CalendarScreen() {
             [selectedDate]: { selected: true, selectedColor: "#163532" },
           }}
         />
-        <Pressable onPress={handleAddTodoPress}>
+        {/* <Pressable onPress={handleAddTodoPress}>
           <Text style={styles.addButton}>Add Todo</Text>
-        </Pressable>
+        </Pressable> */}
 
         <Pressable onPress={handleBackToNewTripPress}>
           <Text style={styles.backButton}>Change dates</Text>
