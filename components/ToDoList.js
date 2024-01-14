@@ -1,6 +1,6 @@
 import { FontAwesome5 } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { FlatList, Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import Todo from './Todo';
 
@@ -11,9 +11,9 @@ const ToDoList = ({ selectedDate }) => {
   const [selectedDateTime, setSelectedDateTime] = useState(new Date());
 
   // Set the default time to the current time when the component initializes
-  useEffect(() => {
-    setSelectedDateTime(new Date());
-  }, []);
+  // useEffect(() => {
+  //   setSelectedDateTime(new Date());
+  // }, []);
 
   const handleAddTodo = () => {
     Keyboard.dismiss();
@@ -65,9 +65,34 @@ const ToDoList = ({ selectedDate }) => {
     });
   };
 
+  const getDaySuffix = (day) => {
+    if (day >= 11 && day <= 13) {
+      return 'th';
+    }
+  
+    const lastDigit = day % 10;
+    switch (lastDigit) {
+      case 1:
+        return 'st';
+      case 2:
+        return 'nd';
+      case 3:
+        return 'rd';
+      default:
+        return 'th';
+    }
+  };
+
   return (
     <View style={styles.container}>
-      <Text style={styles.sectionTitle}>Todos for {selectedDate}</Text>
+      <Text style={styles.sectionTitle}>Today's plans</Text>
+      <Text style={styles.sectionTitleNotBold}>
+        {new Date(selectedDate).toLocaleDateString('en-US', {
+          month: 'long',
+          day: 'numeric',
+        }) + getDaySuffix(new Date(selectedDate).getDate())}
+      </Text>
+
 
       <FlatList
         data={todoItems[selectedDate] || []}
@@ -121,10 +146,15 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   sectionTitle: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: 'bold',
-    marginBottom: 20,
-    textAlign: 'center',
+    textAlign: 'start',
+  },
+  sectionTitleNotBold: {
+    fontSize: 20,
+    fontWeight: 'normal',
+    marginBottom: 10,
+    textAlign: 'start',
   },
   input: {
     paddingVertical: 15,

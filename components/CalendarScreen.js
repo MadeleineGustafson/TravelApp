@@ -167,7 +167,7 @@ function CalendarScreen() {
           markingType={"custom"}
           markedDates={{
             ...markedDates,
-            [selectedDate]: { selected: true, marked: true, selectedColor: "#163532" },
+            [selectedDate]: { selected: true, selectedColor: "#163532" },
           }}
         />
         <Pressable onPress={handleAddTodoPress}>
