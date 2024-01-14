@@ -75,11 +75,21 @@ const styles = StyleSheet.create({
   },
   itemText: {
     maxWidth: '100%',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  timeText: {
+    maxWidth: '100%',
+    fontSize: 16,
+    fontWeight: 'none',
   },
   editInput: {
     flex: 1,
     padding: 0,
     margin: 0,
+  },
+  propsTime: {
+    fontSize: 28,
   },
   buttonsContainer: {
     flexDirection: 'row',
