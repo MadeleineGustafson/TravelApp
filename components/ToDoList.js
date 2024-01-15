@@ -1,4 +1,3 @@
-import { FontAwesome5 } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import React, { useState } from 'react';
 import { FlatList, Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
@@ -7,34 +6,38 @@ import Todo from './Todo';
 const ToDoList = ({ selectedDate }) => {
   const [todo, setTodo] = useState("");
   const [todoItems, setTodoItems] = useState({});
-  const [showDatePicker, setShowDatePicker] = useState(false);
-  const [selectedDateTime, setSelectedDateTime] = useState(new Date());
-
-  // Set the default time to the current time when the component initializes
-  // useEffect(() => {
-  //   setSelectedDateTime(new Date());
-  // }, []);
+  const [showStartDateTimePicker, setShowStartDateTimePicker] = useState(false);
+  const [showEndDateTimePicker, setShowEndDateTimePicker] = useState(false);
+  const [selectedStartDateTime, setSelectedStartDateTime] = useState(new Date());
+  const [selectedEndDateTime, setSelectedEndDateTime] = useState(new Date());
 
   const handleAddTodo = () => {
     Keyboard.dismiss();
-    const newTodo = { text: todo, date: selectedDateTime };
+    const newTodo = { text: todo, startTime: selectedStartDateTime, endTime: selectedEndDateTime };
 
-    // Use the selectedDate to create or update the todos associated with that date
     setTodoItems(prevTodos => ({
       ...prevTodos,
       [selectedDate]: [...(prevTodos[selectedDate] || []), newTodo],
     }));
 
     setTodo("");
-    setShowDatePicker(false);
-    // Set the selectedDateTime to the current time when adding a new todo
-    setSelectedDateTime(new Date());
+    setShowStartDateTimePicker(false);
+    setShowEndDateTimePicker(false);
+    setSelectedStartDateTime(new Date());
+    setSelectedEndDateTime(new Date());
   };
 
-  const handleDateChange = (event, selectedDate) => {
-    setShowDatePicker(false);
+  const handleStartDateTimeChange = (event, selectedDate) => {
+    setShowStartDateTimePicker(false);
     if (selectedDate) {
-      setSelectedDateTime(selectedDate);
+      setSelectedStartDateTime(selectedDate);
+    }
+  };
+
+  const handleEndDateTimeChange = (event, selectedDate) => {
+    setShowEndDateTimePicker(false);
+    if (selectedDate) {
+      setSelectedEndDateTime(selectedDate);
     }
   };
 
@@ -93,14 +96,14 @@ const ToDoList = ({ selectedDate }) => {
         }) + getDaySuffix(new Date(selectedDate).getDate())}
       </Text>
 
-
       <FlatList
         data={todoItems[selectedDate] || []}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item, index }) => (
           <Todo
             text={item.text}
-            time={item.date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+            startTime={item.startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+            endTime={item.endTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
             onDelete={() => deleteTodo(index)}
             onEdit={(newText) => editTodo(index, newText)}
             onSave={handleEditSave}
@@ -116,29 +119,53 @@ const ToDoList = ({ selectedDate }) => {
           value={todo} 
           onChangeText={text => setTodo(text)} 
         />
-        <TouchableOpacity onPress={() => setShowDatePicker(true)}>
-          <Text><FontAwesome5 name="clock" size={24} color="#D3DFB7" /></Text>
-        </TouchableOpacity>
 
       <TouchableOpacity onPress={() => handleAddTodo()}>
         <View style={styles.addWrapper}>
-          <Text style={styles.addText}>+</Text>
+           <Text style={styles.addText}>+</Text>
         </View>
       </TouchableOpacity>
+        
       </View>
-      
 
-      {showDatePicker && (
-        <DateTimePicker
-          value={selectedDateTime}
-          mode="time"
-          is24Hour={true}
-          display="default"
-          onChange={handleDateChange}
-        />
-      )}     
-      
-    </View>
+      <View style={styles.dateTimePickers}>
+
+        <TouchableOpacity onPress={() => setShowStartDateTimePicker(true)}>
+          <Text style={styles.timeText}>Start: </Text>
+            {/* <FontAwesome5 name="clock" size={24} color="yellow" /> */}
+        </TouchableOpacity>
+
+        {showStartDateTimePicker && (
+          <DateTimePicker
+            value={selectedStartDateTime}
+            mode="time"
+            is24Hour={true}
+            display="default"
+            onChange={handleStartDateTimeChange}
+            textColor="#FFF"
+          />
+        )}
+     
+
+        <TouchableOpacity onPress={() => setShowEndDateTimePicker(true)}>
+          <Text style={styles.timeText}>End: </Text>
+            {/* <FontAwesome5 name="clock" size={24} color="#D3DFB7" /> */}
+        </TouchableOpacity>
+
+        {showEndDateTimePicker && (
+          <DateTimePicker
+            value={selectedEndDateTime}
+            mode="time"
+            is24Hour={true}
+            display="default"
+            onChange={handleEndDateTimeChange}
+            textColor="#FFF"
+            />
+        )}
+
+        </View>
+      </View>
+
   );
 };
 
@@ -202,8 +229,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 20,
   },
+
+  dateTimePickers: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   addText: {
     fontSize: 20,
+  },
+  timeText: {
+    fontSize: 20,
+    color: "#D3DFB7",
   },
 });
 

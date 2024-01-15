@@ -18,7 +18,7 @@ const Todo = (props) => {
   return (
     <View style={styles.item}>
       <View style={styles.itemLeft}>
-        {isEditing ? (
+      {isEditing ? (
           <TextInput
             style={styles.editInput}
             value={editedText}
@@ -27,7 +27,14 @@ const Todo = (props) => {
         ) : (
           <View>
             <Text style={styles.itemText}>{props.text}</Text>
-            {props.time && <Text style={styles.timeText}>{props.time}</Text>}
+              <View style={styles.timeContainer}>
+              {props.startTime && (
+                <Text style={styles.timeText}>{`${props.startTime}`}</Text>
+                )}
+              {props.endTime && (
+                <Text style={styles.timeText}>{`- ${props.endTime}`}</Text>
+                )}
+              </View>
           </View>
         )}
       </View>
@@ -85,6 +92,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'none',
     color: "#163532",
+  },
+  timeContainer: {
+    flexDirection: 'row', 
+    alignItems: 'center'
   },
   editInput: {
     flex: 1,
