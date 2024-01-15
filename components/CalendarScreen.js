@@ -58,15 +58,24 @@ function CalendarScreen() {
     return dateRange;
   };
 
-  const handleAddTodoPress = () => {
-    // Navigate to the TodoPage when the "Add Todo" button is pressed
-    navigation.navigate("TodoPage", {
-      selectedDate,
-      addTodo,
-    });
-  };
+    // Mark the period between departureDate and arrivalDate on the Calendar
+    const markedDates = {};
+    if (startDate && endDate) {
+      const start = convertToYYYYMMDD(startDate);
+      const end = convertToYYYYMMDD(endDate);
+      const dateRange = createDateRange(start, end);
+      dateRange.forEach((date, index) => {
+        markedDates[date] = {
+          color: "grey",
+          textColor: "white",
+          ...(index === 0 && { startingDay: true }),
+          ...(index === dateRange.length - 1 && { endingDay: true }),
+        };
+      });
+    }
 
-  const handleDayPress = (day) => {
+    
+    const handleDayPress = (day) => {
     const selectedDate = day.dateString;
     setSelectedDate(selectedDate);
     setShowTodoList(true);
@@ -98,7 +107,7 @@ function CalendarScreen() {
                   <Text style={styles.todoItem}>{item.text}</Text>
                 </TouchableOpacity>
               )}
-            />
+              />
           </View>
         );
       }
@@ -106,30 +115,15 @@ function CalendarScreen() {
   
     return null;
   };
-
-  // Mark the period between departureDate and arrivalDate on the Calendar
-  const markedDates = {};
-  if (startDate && endDate) {
-    const start = convertToYYYYMMDD(startDate);
-    const end = convertToYYYYMMDD(endDate);
-    const dateRange = createDateRange(start, end);
-    dateRange.forEach((date, index) => {
-      markedDates[date] = {
-        color: "grey",
-        textColor: "white",
-        ...(index === 0 && { startingDay: true }),
-        ...(index === dateRange.length - 1 && { endingDay: true }),
-      };
-    });
-  }
-
-  // const handleDayPress = (day) => {
-  //   setSelectedDate(day.dateString);
-  //   setShowTodoList(true); // Show the TodoList component
-  //   // Navigate to TodoPage when a date is selected
-  //   navigation.navigate("TodoPage");
+  
+  // const handleAddTodoPress = () => {
+  //   // Navigate to the TodoPage when the "Add Todo" button is pressed
+  //   navigation.navigate("TodoPage", {
+  //     selectedDate,
+  //     addTodo,
+  //   });
   // };
-
+  
   return (
     <>
       <ScrollView>
@@ -150,7 +144,6 @@ function CalendarScreen() {
           }}
         >
 
-
           {name && destination && (
             <Text style={styles.detailText}>
               {name}'s trip to {destination}!
@@ -164,21 +157,13 @@ function CalendarScreen() {
           }}
           onDayPress={handleDayPress}
           renderDay={renderDay}
-          markingType={"custom"}
-          markedDates={{
-            ...markedDates,
-            [selectedDate]: { selected: true, selectedColor: "#163532" },
-          }}
+          markingType={"period"}
+          markedDates={markedDates}
         />
-        {/* <Pressable onPress={handleAddTodoPress}>
-          <Text style={styles.addButton}>Add Todo</Text>
-        </Pressable> */}
 
         <Pressable onPress={handleBackToNewTripPress}>
           <Text style={styles.backButton}>Change dates</Text>
         </Pressable>
-
-        {/* <Text style={styles.sectionTitle}>Todos for {selectedDate}</Text> */}
 
         {showTodoList && <ToDoList selectedDate={selectedDate} />}
 
