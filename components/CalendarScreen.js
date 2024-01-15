@@ -16,6 +16,7 @@ function CalendarScreen() {
   const { tripData, startDate, endDate } = route.params || {}; // Retrieve tripData, startDate, and endDate from route params
   const today = new Date(); // Get today's date
   const dateString = today.toISOString().split("T")[0]; // Format the date as 'YYYY-MM-DD'
+  const [selectedDateMarked, setSelectedDateMarked] = useState({});
 
   const renderDay = (day) => {
     // Check if the day being rendered matches today's date
@@ -74,12 +75,17 @@ function CalendarScreen() {
       });
     }
 
-    
     const handleDayPress = (day) => {
-    const selectedDate = day.dateString;
-    setSelectedDate(selectedDate);
-    setShowTodoList(true);
-  };
+      const selectedDate = day.dateString;
+      setSelectedDate(selectedDate);
+    
+      // Mark the selected date with a green circle
+      setSelectedDateMarked({
+        [selectedDate]: { selected: true, textColor: "red" },
+      });
+    
+      setShowTodoList(true);
+    };
 
   const handleTodoPress = (todo) => {
     // Handle the press on a todo, if needed
@@ -155,10 +161,13 @@ function CalendarScreen() {
           style={{
             marginTop: 50,
           }}
-          onDayPress={handleDayPress}
-          renderDay={renderDay}
-          markingType={"period"}
-          markedDates={markedDates}
+            onDayPress={handleDayPress}
+            renderDay={renderDay}
+            markingType={"period"}
+            markedDates={{
+            ...markedDates,
+            ...selectedDateMarked,
+          }}
         />
 
         <Pressable onPress={handleBackToNewTripPress}>
