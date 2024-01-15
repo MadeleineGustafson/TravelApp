@@ -67,8 +67,8 @@ function CalendarScreen() {
       const dateRange = createDateRange(start, end);
       dateRange.forEach((date, index) => {
         markedDates[date] = {
-          color: "grey",
-          textColor: "white",
+          color: "#D1FFA0",
+          textColor: "#163532",
           ...(index === 0 && { startingDay: true }),
           ...(index === dateRange.length - 1 && { endingDay: true }),
         };
@@ -81,7 +81,7 @@ function CalendarScreen() {
     
       // Mark the selected date with a green circle
       setSelectedDateMarked({
-        [selectedDate]: { selected: true, textColor: "red" },
+        [selectedDate]: { selected: true, textColor: "#B726DC" },
       });
     
       setShowTodoList(true);
@@ -157,9 +157,14 @@ function CalendarScreen() {
           )}
         </View>
         <IconBar />
-        <Calendar
-          style={{
-            marginTop: 50,
+        <Calendar style={styles.styleCalendar}
+          theme={{
+            calendarBackground: "#163532",
+            monthTextColor: "white",
+            textMonthFontSize: 22,
+            arrowColor: "white",
+            dayTextColor: "#D1FFA0",
+        
           }}
             onDayPress={handleDayPress}
             renderDay={renderDay}
@@ -201,11 +206,17 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "green",
   },
+  styleCalendar: {
+    marginTop: 50,
+  },
   day: {
     textAlign: "center",
     fontSize: 18,
   },
   today: {
+    fontWeight: "bold",
+  },
+  isToday: {
     fontWeight: "bold",
   },
   mainContainer: {
