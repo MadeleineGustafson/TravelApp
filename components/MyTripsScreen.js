@@ -1,11 +1,13 @@
 import { useNavigation } from "@react-navigation/native";
+import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useTripContext } from "../contexts/TripContext";
 
 function MyTripsScreen() {
   const navigation = useNavigation();
-  const navigateToNewTrip = () => {
-    const serializedTripData = {};
+  const { trips } = useTripContext();
 
+  const navigateToNewTrip = () => {
     navigation.navigate("newTrip", {});
   };
 
@@ -18,8 +20,14 @@ function MyTripsScreen() {
         backgroundColor: "#163532",
       }}
     >
-      <Text> My trips:</Text>
-      <Text> All trips goes in a list</Text>
+      <Text>My trips:</Text>
+      {trips.map((trip) => (
+        <View key={trip.id} style={styles.tripContainer}>
+          <Text style={styles.tripText}>{`Start Date: ${trip.startDate}`}</Text>
+          <Text style={styles.tripText}>{`Location: ${trip.destination}`}</Text>
+        </View>
+      ))}
+      {trips.length === 0 && <Text>No trips available</Text>}
 
       <TouchableOpacity onPress={navigateToNewTrip}>
         <View style={styles.button}>
@@ -31,6 +39,17 @@ function MyTripsScreen() {
 }
 
 const styles = StyleSheet.create({
+  tripContainer: {
+    backgroundColor: "#ffffff",
+    padding: 10,
+    borderRadius: 8,
+    marginVertical: 10,
+    width: 300,
+  },
+  tripText: {
+    fontSize: 16,
+    color: "#163532",
+  },
   button: {
     backgroundColor: "#D1FFA0",
     padding: 10,
