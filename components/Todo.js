@@ -32,7 +32,7 @@ const Todo = (props) => {
                 <Text style={styles.timeText}>{`${props.startTime}`}</Text>
                 )}
               {props.endTime && (
-                <Text style={styles.timeText}>{`- ${props.endTime}`}</Text>
+                <Text style={styles.timeText}>{`-${props.endTime}`}</Text>
                 )}
               </View>
           </View>
