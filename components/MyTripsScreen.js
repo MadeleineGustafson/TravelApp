@@ -1,3 +1,5 @@
+// MyTripsScreen.js
+
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
@@ -5,12 +7,21 @@ import { useTripContext } from "../contexts/TripContext";
 
 function MyTripsScreen() {
   const navigation = useNavigation();
-  const { trips } = useTripContext();
+
+  const { trips, deleteTrip } = useTripContext();
+
+  const navigateToCalendar = (trip) => {
+    navigation.navigate("calendar", { tripData: trip });
+  };
 
   const navigateToNewTrip = () => {
     navigation.navigate("newTrip", {});
   };
 
+  const handleDeleteTrip = (tripId) => {
+    // Call the deleteTrip function from the context
+    deleteTrip(tripId);
+  };
   return (
     <View
       style={{
@@ -22,10 +33,17 @@ function MyTripsScreen() {
     >
       <Text>My trips:</Text>
       {trips.map((trip) => (
-        <View key={trip.id} style={styles.tripContainer}>
+        <TouchableOpacity
+          key={trip.id}
+          onPress={() => navigateToCalendar(trip)}
+          style={styles.tripContainer}
+        >
           <Text style={styles.tripText}>{`Start Date: ${trip.startDate}`}</Text>
           <Text style={styles.tripText}>{`Location: ${trip.destination}`}</Text>
-        </View>
+          <Text key={trip.id} onPress={() => handleDeleteTrip(trip.id)}>
+            Delete trip
+          </Text>
+        </TouchableOpacity>
       ))}
       {trips.length === 0 && <Text>No trips available</Text>}
 
