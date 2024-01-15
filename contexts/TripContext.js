@@ -11,7 +11,9 @@ export const TripProvider = ({ children }) => {
   const [trips, updateTrips] = useAsyncStorageState("trips", []);
 
   const addTrip = (newTrip) => {
-    updateTrips([...trips, newTrip]);
+    // Generate a unique ID using the current timestamp
+    const tripWithId = { id: Date.now().toString(), ...newTrip };
+    updateTrips([...trips, tripWithId]);
   };
 
   const value = {

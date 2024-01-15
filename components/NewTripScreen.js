@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useNavigation } from "@react-navigation/native";
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   Platform,
   Pressable,
@@ -12,23 +12,25 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { useTripContext } from "../contexts/TripContext"; // Update the path
 
 function NewTripScreen() {
   const navigation = useNavigation();
+  const { addTrip } = useTripContext(); // Use the useTripContext hook to access the context
   const [name, setName] = useState("");
   const [destination, setDestination] = useState("");
-
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [showPicker, setShowPicker] = useState(false);
   const [showEndPicker, setShowEndPicker] = useState(false);
 
-  const today = new Date(); // Get today's date
-  const todayString = today.toISOString().split("T")[0]; // Format the date as 'YYYY-MM-DD'
+  const today = new Date();
+  const todayString = today.toISOString().split("T")[0];
 
   const toggleStartDatePicker = () => {
     setShowPicker(!showPicker);
   };
+
   const toggleEndDatePicker = () => {
     setShowEndPicker(!showEndPicker);
   };
@@ -74,26 +76,25 @@ function NewTripScreen() {
 
   const navigateToCalendar = async () => {
     try {
-      const serializedTripData = {
+      const newTrip = {
+        id: Date.now().toString(),
         name: name,
         destination: destination,
         startDate: startDate.toISOString(),
         endDate: endDate.toISOString(),
       };
 
-      // Save data to AsyncStorage
-      await AsyncStorage.setItem(
-        "tripData",
-        JSON.stringify(serializedTripData)
-      );
+      addTrip(newTrip);
+
+      await AsyncStorage.setItem("tripData", JSON.stringify(newTrip));
 
       navigation.navigate("calendar", {
-        tripData: serializedTripData,
+        tripData: newTrip,
         startDate,
         endDate,
       });
     } catch (error) {
-      console.error("Error saving trip data to AsyncStorage:", error);
+      console.error("Error saving trip data:", error);
     }
   };
 
