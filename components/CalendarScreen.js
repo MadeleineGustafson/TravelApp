@@ -16,7 +16,12 @@ function CalendarScreen() {
   useEffect(() => {
     const fetchStoredTripData = async () => {
       try {
-        const storedTripData = await AsyncStorage.getItem("tripData");
+        // Retrieve trip ID from navigation params
+        const { tripId } = route.params || {};
+
+        // Fetch trip data using the trip ID
+        const storedTripData = await AsyncStorage.getItem(`tripData:${tripId}`);
+
         if (storedTripData) {
           setTripData(JSON.parse(storedTripData));
         }
@@ -26,7 +31,7 @@ function CalendarScreen() {
     };
 
     fetchStoredTripData();
-  }, []); // Run the effect only once on mount
+  }, [route.params]); // Run the effect when route params change
 
   const handleAddTodoPress = () => {
     navigation.navigate("TodoPage");

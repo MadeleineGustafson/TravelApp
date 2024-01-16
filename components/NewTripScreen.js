@@ -16,7 +16,7 @@ import { useTripContext } from "../contexts/TripContext"; // Update the path
 
 function NewTripScreen() {
   const navigation = useNavigation();
-  const { addTrip } = useTripContext(); // Use the useTripContext hook to access the context
+  const { addTrip } = useTripContext();
   const [name, setName] = useState("");
   const [destination, setDestination] = useState("");
   const [startDate, setStartDate] = useState(new Date());
@@ -73,7 +73,6 @@ function NewTripScreen() {
     setChosenEndDate(endDate.toISOString().split("T")[0]);
     toggleEndDatePicker();
   };
-
   const navigateToCalendar = async () => {
     try {
       const newTrip = {
@@ -84,15 +83,15 @@ function NewTripScreen() {
         endDate: endDate.toISOString(),
       };
 
+      // Store the new trip data in AsyncStorage with a unique key using trip ID
+      await AsyncStorage.setItem(
+        `tripData:${newTrip.id}`,
+        JSON.stringify(newTrip)
+      );
       addTrip(newTrip);
 
-      await AsyncStorage.setItem("tripData", JSON.stringify(newTrip));
-
-      navigation.navigate("calendar", {
-        tripData: newTrip,
-        startDate,
-        endDate,
-      });
+      // Navigate to the "calendar" screen
+      navigation.navigate("calendar", { tripData: newTrip });
     } catch (error) {
       console.error("Error saving trip data:", error);
     }

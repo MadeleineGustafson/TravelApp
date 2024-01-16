@@ -1,5 +1,3 @@
-// MyTripsScreen.js
-
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
@@ -19,7 +17,6 @@ function MyTripsScreen() {
   };
 
   const handleDeleteTrip = (tripId) => {
-    // Call the deleteTrip function from the context
     deleteTrip(tripId);
   };
   return (
@@ -31,15 +28,19 @@ function MyTripsScreen() {
         backgroundColor: "#163532",
       }}
     >
-      <Text>My trips:</Text>
+      <Text style={styles.pageTitle}>My trips:</Text>
       {trips.map((trip) => (
         <TouchableOpacity
           key={trip.id}
           onPress={() => navigateToCalendar(trip)}
           style={styles.tripContainer}
         >
-          <Text style={styles.tripText}>{`Start Date: ${trip.startDate}`}</Text>
-          <Text style={styles.tripText}>{`Location: ${trip.destination}`}</Text>
+          <Text style={styles.tripText}>{trip.destination}</Text>
+          <Text style={styles.smallTripText}>
+            {new Date(trip.startDate).toLocaleDateString()} -
+            {new Date(trip.endDate).toLocaleDateString()}
+          </Text>
+
           <Text key={trip.id} onPress={() => handleDeleteTrip(trip.id)}>
             Delete trip
           </Text>
@@ -58,15 +59,26 @@ function MyTripsScreen() {
 
 const styles = StyleSheet.create({
   tripContainer: {
-    backgroundColor: "#ffffff",
     padding: 10,
-    borderRadius: 8,
-    marginVertical: 10,
-    width: 300,
+    borderBottomWidth: 1, // Add bottom border
+    borderBottomColor: "#D1FFA0", // Border color
+    // Other styles...
   },
+
+  pageTitle: {
+    fontSize: 26,
+    color: "#D1FFA0",
+    fontWeight: "bold",
+  },
+
   tripText: {
-    fontSize: 16,
-    color: "#163532",
+    fontSize: 23,
+    color: "#D1FFA0",
+  },
+
+  smallTripText: {
+    fontSize: 14,
+    color: "#D1FFA0",
   },
   button: {
     backgroundColor: "#D1FFA0",
