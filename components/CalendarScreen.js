@@ -133,9 +133,8 @@ function CalendarScreen() {
     <>
       <ScrollView style={{backgroundColor: "#163532"}}>
         <View>
-        <Countdown
-            startDate={startDate} 
-            endDate={endDate}
+        <Countdown startDate={new Date(tripData.startDate)} 
+
             style={styles.countdown} 
             />
         </View>

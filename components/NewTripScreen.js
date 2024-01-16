@@ -88,6 +88,8 @@ function NewTripScreen() {
     setChosenEndDate(endDate.toISOString().split("T")[0]);
     toggleEndDatePicker();
   };
+
+
   const navigateToCalendar = async () => {
     if (isFormValid) {
     try {
