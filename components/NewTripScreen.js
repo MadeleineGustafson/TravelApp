@@ -108,6 +108,7 @@ function NewTripScreen() {
             placeholder="Enter your Name"
             value={name}
             onChangeText={(text) => setName(text)}
+            returnKeyType="done"
           />
           <Text style={styles.labelText}>Where are you going?</Text>
           <TextInput
@@ -115,6 +116,7 @@ function NewTripScreen() {
             placeholder="Enter your destination"
             value={destination}
             onChangeText={(text) => setDestination(text)}
+            returnKeyType="done"
           />
 
           <Text style={styles.labelText}>Enter first day of your trip:</Text>
@@ -256,7 +258,6 @@ const styles = StyleSheet.create({
   DateTimePicker: {
     height: 100,
     marginTop: -5,
-    backgroundColor: "#d1ffa060",
   },
   smallButton: {
     color: "white",

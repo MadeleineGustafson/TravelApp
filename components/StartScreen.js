@@ -13,14 +13,15 @@ function StartScreen() {
 
   return (
     <ImageBackground
-      source={backgroundImage}
-      style={{
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: "#163532",
-      }}
-    >
+    source={backgroundImage}
+    style={{
+      flex: 1,
+      alignItems: "center",
+      justifyContent: "center",
+      // opacity: 1.6,
+      backgroundColor: "#163532",
+    }}
+  >
       <View style={{ justifyContent: "flex-start", width: "100%" }}>
         <Text
           style={{
@@ -37,7 +38,7 @@ function StartScreen() {
             color: "#EDF2E1",
           }}
         >
-          En liten slogan
+          Make your travel planning easier
         </Text>
 
         {/* TouchableOpacity for navigation */}

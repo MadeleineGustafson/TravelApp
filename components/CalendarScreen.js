@@ -136,6 +136,11 @@ function CalendarScreen() {
   );
 }
 const styles = StyleSheet.create({
+  countdown: {
+    position: "absolute",
+    top: 10,
+    left: 10,
+  },
   titleText: {
     fontSize: 20,
     fontWeight: "bold",
