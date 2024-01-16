@@ -26,6 +26,8 @@ function NewTripScreen() {
 
   const today = new Date();
   const todayString = today.toISOString().split("T")[0];
+  const [isFormValid, setIsFormValid] = useState(false);
+
 
   const toggleStartDatePicker = () => {
     setShowPicker(!showPicker);
@@ -39,7 +41,7 @@ function NewTripScreen() {
   const [chosenEndDate, setChosenEndDate] = useState(todayString);
 
   const onChange = ({ type }, selectedDate) => {
-    if (type == "set") {
+    if (type === "set") {
       const currentDate = selectedDate;
       setStartDate(currentDate);
       if (Platform.OS === "android") {
@@ -49,10 +51,13 @@ function NewTripScreen() {
     } else {
       toggleStartDatePicker();
     }
+  
+    // Check if all required fields are filled
+    validateForm();
   };
-
+  
   const onChangeEndDate = ({ type }, selectedDate) => {
-    if (type == "set") {
+    if (type === "set") {
       const currentDate = selectedDate;
       setEndDate(currentDate);
       if (Platform.OS === "android") {
@@ -62,7 +67,17 @@ function NewTripScreen() {
     } else {
       toggleEndDatePicker();
     }
+  
+    // Check if all required fields are filled
+    validateForm();
   };
+  
+  const validateForm = () => {
+    // Check if all required fields are filled
+    const isValid = name.trim() !== "" && destination.trim() !== "" && startDate && endDate;
+    setIsFormValid(isValid);
+  };
+  
 
   const confirmIOSDate = () => {
     setChosenStartDate(startDate.toISOString().split("T")[0]);
@@ -74,6 +89,7 @@ function NewTripScreen() {
     toggleEndDatePicker();
   };
   const navigateToCalendar = async () => {
+    if (isFormValid) {
     try {
       const newTrip = {
         id: Date.now().toString(),
@@ -96,6 +112,7 @@ function NewTripScreen() {
       console.error("Error saving trip data:", error);
     }
   };
+}
 
   return (
     <>
@@ -190,11 +207,13 @@ function NewTripScreen() {
             </View>
           )}
 
-          <TouchableOpacity onPress={navigateToCalendar}>
-            <View style={styles.button}>
-              <Text style={styles.buttonText}>Create New Trip</Text>
-            </View>
-          </TouchableOpacity>
+        <TouchableOpacity onPress={navigateToCalendar} disabled={!isFormValid}>
+          <View style={[styles.button, { backgroundColor: isFormValid ? "#D1FFA0" : "gray" }]}>
+            <Text style={styles.buttonText}>Create New Trip</Text>
+          </View>
+        </TouchableOpacity>
+
+
         </SafeAreaView>
       </View>
     </>
