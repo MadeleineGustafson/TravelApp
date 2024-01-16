@@ -2,16 +2,22 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
-import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { FlatList, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Calendar } from "react-native-calendars";
-import Countdown from "./countdown";
 import IconBar from "./IconBar";
+import ToDoList from "./ToDoList";
+import Countdown from "./countdown";
 
 function CalendarScreen() {
   const navigation = useNavigation();
+  const [todos, setTodos] = useState([]);
+  const [showTodoList, setShowTodoList] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(null);
   const route = useRoute();
   const { tripData: routeTripData, startDate, endDate } = route.params || {};
   const [tripData, setTripData] = useState(routeTripData || {});
+  const [selectedDateMarked, setSelectedDateMarked] = useState({});
+
 
   useEffect(() => {
     const fetchStoredTripData = async () => {
@@ -37,6 +43,11 @@ function CalendarScreen() {
     navigation.navigate("TodoPage");
   };
 
+  const handleTodoPress = (todo) => {
+    // Handle the press on a todo, if needed
+    console.log(`Todo pressed: ${todo.text}`);
+  };
+
   const today = new Date();
   const dateString = today.toISOString().split("T")[0];
 
@@ -47,6 +58,18 @@ function CalendarScreen() {
 
   const handleBackToNewTripPress = () => {
     navigation.navigate("newTrip");
+  };
+
+  const handleDayPress = (day) => {
+    const selectedDate = day.dateString;
+    setSelectedDate(selectedDate);
+  
+    // Mark the selected date with a green circle
+    setSelectedDateMarked({
+      [selectedDate]: { selected: true, textColor: "#B726DC" },
+    });
+  
+    setShowTodoList(true);
   };
 
   const convertToYYYYMMDD = (dateString) => {
@@ -81,9 +104,51 @@ function CalendarScreen() {
     });
   }
 
+  const renderTodosForDate = () => {
+    if (selectedDate) {
+      const todosForSelectedDate = todos.filter((todo) => todo.date === selectedDate);
+  
+      if (todosForSelectedDate.length > 0) {
+        return (
+          <View>
+            <Text style={styles.todoHeader}>Todos for {selectedDate}:</Text>
+            <FlatList
+              data={todosForSelectedDate}
+              keyExtractor={(item) => item.text}
+              renderItem={({ item }) => (
+                <TouchableOpacity onPress={() => handleTodoPress(item)}>
+                  <Text style={styles.todoItem}>{item.text}</Text>
+                </TouchableOpacity>
+              )}
+              />
+          </View>
+        );
+      }
+    };
+  
+    return null;
+  };
+
   return (
     <>
       <ScrollView>
+        <View>
+        <Countdown
+            startDate={startDate} 
+            endDate={endDate}
+            style={styles.countdown} 
+            />
+        </View>
+        
+        <View
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: 65,
+            padding: 30,
+          }}
+        >
+          
         <View style={styles.container}>
           {tripData.name && tripData.destination && (
             <Text style={styles.detailText}>
@@ -106,14 +171,22 @@ function CalendarScreen() {
           </Pressable>
         </View>
 
-        <Calendar
-          style={styles.calendar}
-          onDayPress={(day) => {
-            console.log("selected day", day);
+        <Calendar style={styles.styleCalendar}
+          theme={{
+            calendarBackground: "#163532",
+            monthTextColor: "white",
+            textMonthFontSize: 22,
+            arrowColor: "white",
+            dayTextColor: "#D1FFA0",
+        
           }}
-          renderDay={renderDay}
-          markingType={"period"}
-          markedDates={markedDates}
+            onDayPress={handleDayPress}
+            renderDay={renderDay}
+            markingType={"period"}
+            markedDates={{
+            ...markedDates,
+            ...selectedDateMarked,
+          }}
         />
 
         <View style={styles.addTodoContainer}>
@@ -125,12 +198,13 @@ function CalendarScreen() {
               name="plus-circle-outline"
               size={35}
               color="#163532"
-            />
+              />
             <Text style={styles.addButton}>Plan your day</Text>
           </Pressable>
         </View>
 
-        <Countdown startDate={tripData.startDate} endDate={tripData.endDate} />
+        {showTodoList && <ToDoList selectedDate={selectedDate} />}
+      </View>
       </ScrollView>
     </>
   );
@@ -155,11 +229,17 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "green",
   },
+  styleCalendar: {
+    marginTop: 50,
+  },
   day: {
     textAlign: "center",
     fontSize: 18,
   },
   today: {
+    fontWeight: "bold",
+  },
+  isToday: {
     fontWeight: "bold",
   },
   mainContainer: {

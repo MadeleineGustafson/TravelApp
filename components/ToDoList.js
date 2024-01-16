@@ -1,125 +1,246 @@
+import DateTimePicker from '@react-native-community/datetimepicker';
 import React, { useState } from 'react';
-import { Keyboard, KeyboardAvoidingView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { FlatList, Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import Todo from './Todo';
 
-function ToDoList() {
+const ToDoList = ({ selectedDate }) => {
   const [todo, setTodo] = useState("");
-  const [todoItems, setTodoItems] = useState([]);
+  const [todoItems, setTodoItems] = useState({});
+  const [showStartDateTimePicker, setShowStartDateTimePicker] = useState(false);
+  const [showEndDateTimePicker, setShowEndDateTimePicker] = useState(false);
+  const [selectedStartDateTime, setSelectedStartDateTime] = useState(new Date());
+  const [selectedEndDateTime, setSelectedEndDateTime] = useState(new Date());
 
   const handleAddTodo = () => {
     Keyboard.dismiss();
-    setTodoItems([...todoItems, todo])
-    setTodo("");
-  }
+    const newTodo = { text: todo, startTime: selectedStartDateTime, endTime: selectedEndDateTime };
 
-  const editTodo = (index, newText) => {
-    let itemsCopy = [...todoItems];
-    itemsCopy[index] = newText;
-    setTodoItems(itemsCopy);
+    setTodoItems(prevTodos => ({
+      ...prevTodos,
+      [selectedDate]: [...(prevTodos[selectedDate] || []), newTodo],
+    }));
+
+    setTodo("");
+    setShowStartDateTimePicker(false);
+    setShowEndDateTimePicker(false);
+    setSelectedStartDateTime(new Date());
+    setSelectedEndDateTime(new Date());
   };
 
-  const deleteTodo = (index) => {
-    let itemsCopy = [...todoItems];
-    itemsCopy.splice(index, 1);
-    setTodoItems(itemsCopy);
+  const handleStartDateTimeChange = (event, selectedDate) => {
+    setShowStartDateTimePicker(false);
+    if (selectedDate) {
+      setSelectedStartDateTime(selectedDate);
+    }
+  };
+
+  const handleEndDateTimeChange = (event, selectedDate) => {
+    setShowEndDateTimePicker(false);
+    if (selectedDate) {
+      setSelectedEndDateTime(selectedDate);
+    }
+  };
+
+  const editTodo = (index, newText) => {
+    setTodoItems(prevTodos => {
+      const updatedTodos = [...(prevTodos[selectedDate] || [])];
+      updatedTodos[index] = { ...updatedTodos[index], text: newText };
+      return { ...prevTodos, [selectedDate]: updatedTodos };
+    }); 
+  };
+
+  const handleEditSave = (editedText) => {
+    if (editIndex !== null) {
+      setTodoItems(prevTodos => {
+        const updatedTodos = [...(prevTodos[selectedDate] || [])];
+        updatedTodos[editIndex] = {...updatedTodos[editIndex], text: editedText };
+        return {...prevTodos, [selectedDate]: updatedTodos};
+      });
+      setEditIndex(null);
+    }
   }
+
+  const deleteTodo = (index) => {
+    setTodoItems(prevTodos => {
+      const updatedTodos = [...(prevTodos[selectedDate] || [])];
+      updatedTodos.splice(index, 1);
+      return { ...prevTodos, [selectedDate]: updatedTodos };
+    });
+  };
+
+  const getDaySuffix = (day) => {
+    if (day >= 11 && day <= 13) {
+      return 'th';
+    }
+  
+    const lastDigit = day % 10;
+    switch (lastDigit) {
+      case 1:
+        return 'st';
+      case 2:
+        return 'nd';
+      case 3:
+        return 'rd';
+      default:
+        return 'th';
+    }
+  };
 
   return (
     <View style={styles.container}>
-      {/* Added this scroll view to enable scrolling when list gets longer than the page */}
-      <ScrollView
-        contentContainerStyle={{
-          flexGrow: 1
-        }}
-        keyboardShouldPersistTaps='handled'
-      >
+      <Text style={styles.sectionTitle}>Today's plans</Text>
+      <Text style={styles.sectionTitleNotBold}>
+        {new Date(selectedDate).toLocaleDateString('en-US', {
+          month: 'long',
+          day: 'numeric',
+        }) + getDaySuffix(new Date(selectedDate).getDate())}
+      </Text>
 
-      {/* Add todo */}
-      <View style={styles.todosWrapper}>
-        <Text style={styles.sectionTitle}>Add todo</Text>
-        <View style={styles.items}>
-          {/* This is where the todo will go! */}
-          {
-            todoItems.map((item, index) => {
-              return (
-                <TouchableOpacity key={index}  onPress={() => deleteTodo(index)}>
-                  <Todo
-                    text={item}
-                    onDelete={() => deleteTodo(index)}
-                    onEdit={(newText) => editTodo(index, newText)}
-                />
-                </TouchableOpacity>
-              )
-            })
-          }
+      <FlatList
+        data={todoItems[selectedDate] || []}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item, index }) => (
+          <Todo
+            text={item.text}
+            startTime={item.startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+            endTime={item.endTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+            onDelete={() => deleteTodo(index)}
+            onEdit={(newText) => editTodo(index, newText)}
+            onSave={handleEditSave}
+          />
+        )}
+      />
+        
+      <View style={styles.dateTimePickerContainer}>
+        <TextInput 
+          style={styles.input} 
+          placeholder={'Add a todo'} 
+          placeholderTextColor={'#163532'}
+          value={todo} 
+          onChangeText={text => setTodo(text)} 
+        />
+
+      <TouchableOpacity onPress={() => handleAddTodo()}>
+        <View style={styles.addWrapper}>
+           <Text style={styles.addText}>+</Text>
+        </View>
+      </TouchableOpacity>
+        
+      </View>
+
+      <View style={styles.dateTimePickers}>
+
+        <TouchableOpacity onPress={() => setShowStartDateTimePicker(true)}>
+          <Text style={styles.timeText}>Start: </Text>
+            {/* <FontAwesome5 name="clock" size={24} color="yellow" /> */}
+        </TouchableOpacity>
+
+        {showStartDateTimePicker && (
+          <DateTimePicker
+            value={selectedStartDateTime}
+            mode="time"
+            is24Hour={true}
+            display="default"
+            onChange={handleStartDateTimeChange}
+            textColor="#FFF"
+          />
+        )}
+     
+
+        <TouchableOpacity onPress={() => setShowEndDateTimePicker(true)}>
+          <Text style={styles.timeText}>End: </Text>
+            {/* <FontAwesome5 name="clock" size={24} color="#D3DFB7" /> */}
+        </TouchableOpacity>
+
+        {showEndDateTimePicker && (
+          <DateTimePicker
+            value={selectedEndDateTime}
+            mode="time"
+            is24Hour={true}
+            display="default"
+            onChange={handleEndDateTimeChange}
+            textColor="#FFF"
+            />
+        )}
+
         </View>
       </View>
-        
-      </ScrollView>
 
-      {/* Write a todo */}
-      {/* Uses a keyboard avoiding view which ensures the keyboard does not cover the items on screen */}
-      <KeyboardAvoidingView 
-        behavior="padding"
-        style={styles.writeTodoWrapper}
-      >
-
-        <TextInput style={styles.input} placeholder={'Add a todo'} value={todo} onChangeText={text => setTodo(text)} />
-        <TouchableOpacity onPress={() => handleAddTodo()}>
-          <View style={styles.addWrapper}>
-            <Text style={styles.addText}>+</Text>
-          </View>
-        </TouchableOpacity>
-      </KeyboardAvoidingView>
-      
-    </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#E8EAED',
-  },
-  todosWrapper: {
-    paddingTop: 50,
-    paddingHorizontal: 120,
+    backgroundColor: '#163532',
+    paddingTop: 20,
   },
   sectionTitle: {
-    fontSize: 24,
-    fontWeight: 'bold'
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'start',
+    color: "white"
   },
-  items: {
-    marginTop: 20,
-  },
-  writeTodoWrapper: {
-    position: 'absolute',
-    bottom: 40,
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center'
+  sectionTitleNotBold: {
+    fontSize: 18,
+    fontWeight: 'normal',
+    marginBottom: 10,
+    textAlign: 'start',
+    color: "white"
   },
   input: {
     paddingVertical: 15,
     paddingHorizontal: 15,
-    backgroundColor: '#FFF',
+    backgroundColor: '#D3DFB7',
     borderRadius: 60,
     borderColor: '#C0C0C0',
     borderWidth: 1,
     width: 250,
   },
   addWrapper: {
-    width: 60,
-    height: 60,
-    backgroundColor: '#FFF',
+    width: 50,
+    height: 50,
+    backgroundColor: '#D3DFB7',
     borderRadius: 60,
     justifyContent: 'center',
     alignItems: 'center',
     borderColor: '#C0C0C0',
     borderWidth: 1,
   },
-  addText: {},
+  todoItem: {
+    flexDirection: 'column', 
+    justifyContent: 'space-between',
+    alignItems: 'flex-start', 
+    padding: 10,
+    borderBottomWidth: 1,
+    borderColor: '#ccc',
+  },
+  todoText: {
+    fontSize: 16,
+    marginBottom: 5, 
+  },
+  dateText: {
+    fontSize: 14,
+    color: '#888',
+  },
+  dateTimePickerContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+
+  dateTimePickers: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  addText: {
+    fontSize: 20,
+  },
+  timeText: {
+    fontSize: 20,
+    color: "#D3DFB7",
+  },
 });
 
-export default ToDoList
+export default ToDoList;
