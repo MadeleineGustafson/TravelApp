@@ -110,7 +110,7 @@ function CalendarScreen() {
   
       if (todosForSelectedDate.length > 0) {
         return (
-          <View>
+          <View style={{backgroundColor: "#163532"}}>
             <Text style={styles.todoHeader}>Todos for {selectedDate}:</Text>
             <FlatList
               data={todosForSelectedDate}
@@ -131,7 +131,7 @@ function CalendarScreen() {
 
   return (
     <>
-      <ScrollView>
+      <ScrollView style={{backgroundColor: "#163532"}}>
         <View>
         <Countdown
             startDate={startDate} 
@@ -171,23 +171,25 @@ function CalendarScreen() {
           </Pressable>
         </View>
 
-        <Calendar style={styles.styleCalendar}
-          theme={{
-            calendarBackground: "#163532",
-            monthTextColor: "white",
-            textMonthFontSize: 22,
-            arrowColor: "white",
-            dayTextColor: "#D1FFA0",
         
-          }}
-            onDayPress={handleDayPress}
-            renderDay={renderDay}
-            markingType={"period"}
-            markedDates={{
-            ...markedDates,
-            ...selectedDateMarked,
-          }}
-        />
+          <Calendar style={styles.styleCalendar}
+            theme={{
+              calendarBackground: "#163532",
+              monthTextColor: "white",
+              textMonthFontSize: 22,
+              arrowColor: "white",
+              dayTextColor: "#D1FFA0",
+              todayBackgroundColor: "#B726DC"
+          
+            }}
+              onDayPress={handleDayPress}
+              renderDay={renderDay}
+              markingType={"period"}
+              markedDates={{
+              ...markedDates,
+              ...selectedDateMarked,
+            }}
+          />
 
         <View style={styles.addTodoContainer}>
           <Pressable
@@ -227,10 +229,12 @@ const styles = StyleSheet.create({
     marginTop: 10,
     textAlign: "center",
     fontWeight: "bold",
-    color: "green",
+    color: "white",
   },
   styleCalendar: {
     marginTop: 50,
+    width: 300,
+    backgroundColor: "#163532"
   },
   day: {
     textAlign: "center",
