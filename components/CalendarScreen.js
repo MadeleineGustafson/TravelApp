@@ -132,11 +132,8 @@ function CalendarScreen() {
   return (
     <>
       <ScrollView style={{backgroundColor: "#163532"}}>
-        <View>
-        <Countdown startDate={new Date(tripData.startDate)} 
-
-            style={styles.countdown} 
-            />
+        <View style={styles.countdownContainer}>
+          <Countdown startDate={new Date(tripData.startDate)} />
         </View>
         
         <View
@@ -211,10 +208,10 @@ function CalendarScreen() {
   );
 }
 const styles = StyleSheet.create({
-  countdown: {
+  countdownContainer: {
     position: "absolute",
     top: 10,
-    left: 10,
+    right: 10,
   },
   titleText: {
     fontSize: 20,

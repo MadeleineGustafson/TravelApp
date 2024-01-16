@@ -18,7 +18,7 @@ function Countdown({ startDate }) {
     color: '#B726DC',
   };
 
-  const countdownCircleSize = 80;
+  const countdownCircleSize = 70;
 
   return (
     <CountdownCircleTimer
