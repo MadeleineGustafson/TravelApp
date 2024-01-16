@@ -96,8 +96,8 @@ function CalendarScreen() {
     const dateRange = createDateRange(start, end);
     dateRange.forEach((date, index) => {
       markedDates[date] = {
-        color: "grey",
-        textColor: "white",
+        color: "#D1FFA0",
+        textColor: "#163532",
         ...(index === 0 && { startingDay: true }),
         ...(index === dateRange.length - 1 && { endingDay: true }),
       };
