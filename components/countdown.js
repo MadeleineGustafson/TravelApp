@@ -26,7 +26,7 @@ function Countdown({ startDate }) {
       duration={daysRemaining * 24 * 3600} // Convert days to seconds
       colors={['#B726DC', '#F7B801', '#A30000', '#A30000']}
       size={countdownCircleSize}
-      strokeWidth={4}
+      strokeWidth={3}
     >
       {() => (
         <Text style={countdownTextStyle}>
