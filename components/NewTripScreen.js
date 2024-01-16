@@ -1,6 +1,7 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useNavigation } from "@react-navigation/native";
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   Platform,
   Pressable,
@@ -11,28 +12,25 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { useAsyncStorageState } from "./hooks/useAsyncStorageState";
+import { useTripContext } from "../contexts/TripContext"; // Update the path
 
 function NewTripScreen() {
   const navigation = useNavigation();
-  // const [name, setName] = useState("");
-  const [name, setName] = useAsyncStorageState('', 'user_name');
-  const [destination, setDestination] = useAsyncStorageState('', 'trip_destination');
-  // const [destination, setDestination] = useState("");
-  console.log("Name:", name);
-  console.log("Trip:", destination);
-  
+  const { addTrip } = useTripContext();
+  const [name, setName] = useState("");
+  const [destination, setDestination] = useState("");
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [showPicker, setShowPicker] = useState(false);
   const [showEndPicker, setShowEndPicker] = useState(false);
 
-  const today = new Date(); // Get today's date
-  const todayString = today.toISOString().split("T")[0]; // Format the date as 'YYYY-MM-DD'
+  const today = new Date();
+  const todayString = today.toISOString().split("T")[0];
 
   const toggleStartDatePicker = () => {
     setShowPicker(!showPicker);
   };
+
   const toggleEndDatePicker = () => {
     setShowEndPicker(!showEndPicker);
   };
@@ -75,18 +73,29 @@ function NewTripScreen() {
     setChosenEndDate(endDate.toISOString().split("T")[0]);
     toggleEndDatePicker();
   };
+  const navigateToCalendar = async () => {
+    try {
+      const newTrip = {
+        id: Date.now().toString(),
+        name: name,
+        destination: destination,
+        startDate: startDate.toISOString(),
+        endDate: endDate.toISOString(),
+      };
 
-  const navigateToCalendar = () => {
-    const serializedTripData = {
-      name: name,
-      destination: destination,
-      startDate: startDate.toISOString(),
-      endDate: endDate.toISOString(),
-    };
-  
-    navigation.navigate("calendar", { tripData: serializedTripData, startDate, endDate });
+      // Store the new trip data in AsyncStorage with a unique key using trip ID
+      await AsyncStorage.setItem(
+        `tripData:${newTrip.id}`,
+        JSON.stringify(newTrip)
+      );
+      addTrip(newTrip);
+
+      // Navigate to the "calendar" screen
+      navigation.navigate("calendar", { tripData: newTrip });
+    } catch (error) {
+      console.error("Error saving trip data:", error);
+    }
   };
-  
 
   return (
     <>
@@ -124,28 +133,27 @@ function NewTripScreen() {
             </Pressable>
           )}
 
-        {showPicker && (
-          <DateTimePicker
-            mode="date"
-            display="spinner"
-            value={startDate}
-            onChange={onChange}
-            style={styles.DateTimePicker}
-            textColor="#FFF"
-          />
-        )}
-        {showPicker && Platform.OS === "ios" && (
-          <View
-            style={{ flexDirection: "row", justifyContent: "space-around" }}
-          >
-            <TouchableOpacity onPress={toggleStartDatePicker}>
-              <Text style={styles.smallButton}> Cancel</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={confirmIOSDate}>
-              <Text style={styles.smallButton}> Confirm</Text>
-            </TouchableOpacity>
-          </View>
-        )}
+          {showPicker && (
+            <DateTimePicker
+              mode="date"
+              display="spinner"
+              value={startDate}
+              onChange={onChange}
+              style={styles.DateTimePicker}
+            />
+          )}
+          {showPicker && Platform.OS === "ios" && (
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-around" }}
+            >
+              <TouchableOpacity onPress={toggleStartDatePicker}>
+                <Text style={styles.smallButton}> Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={confirmIOSDate}>
+                <Text style={styles.smallButton}> Confirm</Text>
+              </TouchableOpacity>
+            </View>
+          )}
 
           <Text style={styles.labelText}>Enter the last day of your trip</Text>
           {!showEndPicker && (
@@ -160,28 +168,27 @@ function NewTripScreen() {
             </Pressable>
           )}
 
-        {showEndPicker && (
-          <DateTimePicker
-            mode="date"
-            display="spinner"
-            value={endDate}
-            onChange={onChangeEndDate}
-            style={styles.DateTimePicker}
-            textColor="#FFF"
-          />
-        )}
-        {showEndPicker && Platform.OS === "ios" && (
-          <View
-            style={{ flexDirection: "row", justifyContent: "space-around" }}
-          >
-            <TouchableOpacity onPress={toggleEndDatePicker}>
-              <Text style={styles.smallButton}> Cancel</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={confirmIOSEndDate}>
-              <Text style={styles.smallButton}> Confirm</Text>
-            </TouchableOpacity>
-          </View>
-        )}
+          {showEndPicker && (
+            <DateTimePicker
+              mode="date"
+              display="spinner"
+              value={endDate}
+              onChange={onChangeEndDate}
+              style={styles.DateTimePicker}
+            />
+          )}
+          {showEndPicker && Platform.OS === "ios" && (
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-around" }}
+            >
+              <TouchableOpacity onPress={toggleEndDatePicker}>
+                <Text style={styles.smallButton}> Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={confirmIOSEndDate}>
+                <Text style={styles.smallButton}> Confirm</Text>
+              </TouchableOpacity>
+            </View>
+          )}
 
           <TouchableOpacity onPress={navigateToCalendar}>
             <View style={styles.button}>
