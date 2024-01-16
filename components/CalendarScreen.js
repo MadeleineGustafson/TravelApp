@@ -194,12 +194,12 @@ function CalendarScreen() {
             onPress={handleAddTodoPress}
             style={styles.addTodoPressable}
           >
-            <MaterialCommunityIcons
+            {/* <MaterialCommunityIcons
               name="plus-circle-outline"
               size={35}
               color="#163532"
-              />
-            <Text style={styles.addButton}>Plan your day</Text>
+              /> */}
+            <Text style={styles.addButton}>Press a date to add a todo</Text>
           </Pressable>
         </View>
 
