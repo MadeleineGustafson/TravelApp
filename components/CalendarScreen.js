@@ -1,11 +1,12 @@
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import React, { useState } from 'react';
-import { FlatList, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { Calendar } from "react-native-calendars";
-import IconBar from "./IconBar";
-import ToDoList from "./ToDoList";
 import Countdown from "./countdown";
 
+import IconBar from "./IconBar";
 
 function CalendarScreen() {
   const navigation = useNavigation();
@@ -13,40 +14,50 @@ function CalendarScreen() {
   const [showTodoList, setShowTodoList] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
   const route = useRoute();
-  const { tripData, startDate, endDate } = route.params || {}; // Retrieve tripData, startDate, and endDate from route params
-  const today = new Date(); // Get today's date
-  const dateString = today.toISOString().split("T")[0]; // Format the date as 'YYYY-MM-DD'
-  const [selectedDateMarked, setSelectedDateMarked] = useState({});
+  const { tripData: routeTripData, startDate, endDate } = route.params || {};
+  const [tripData, setTripData] = useState(routeTripData || {});
+
+  useEffect(() => {
+    const fetchStoredTripData = async () => {
+      try {
+        // Retrieve trip ID from navigation params
+        const { tripId } = route.params || {};
+
+        // Fetch trip data using the trip ID
+        const storedTripData = await AsyncStorage.getItem(`tripData:${tripId}`);
+
+        if (storedTripData) {
+          setTripData(JSON.parse(storedTripData));
+        }
+      } catch (error) {
+        console.error("Error fetching trip data from AsyncStorage:", error);
+      }
+    };
+
+    fetchStoredTripData();
+  }, [route.params]); // Run the effect when route params change
+
+  const handleAddTodoPress = () => {
+    navigation.navigate("TodoPage");
+  };
+
+  const today = new Date();
+  const dateString = today.toISOString().split("T")[0];
 
   const renderDay = (day) => {
-    // Check if the day being rendered matches today's date
     const isToday = day.dateString === dateString;
-
     return <Text style={[styles.day, isToday && styles.today]}>{day.day}</Text>;
   };
 
   const handleBackToNewTripPress = () => {
-    // Navigate back to the "newTrip" page
     navigation.navigate("newTrip");
   };
 
-  // Retrieve departureDate and arrivalDate from tripData
-  const {
-    name,
-    destination,
-    startDate: tripStartDate,
-    endDate: tripEndDate,
-  } = tripData || {};
-  console.log("startDate:", tripStartDate);
-  console.log("endDate:", tripEndDate);
-
-  // Function to convert date string to 'YYYY-MM-DD' format
   const convertToYYYYMMDD = (dateString) => {
     const date = new Date(dateString);
     return date.toISOString().split("T")[0];
   };
 
-  // Mark the departureDate and arrivalDate on the Calendar
   const createDateRange = (startDate, endDate) => {
     const dateRange = [];
     let currentDate = new Date(startDate);
@@ -59,139 +70,81 @@ function CalendarScreen() {
     return dateRange;
   };
 
-    // Mark the period between departureDate and arrivalDate on the Calendar
-    const markedDates = {};
-    if (startDate && endDate) {
-      const start = convertToYYYYMMDD(startDate);
-      const end = convertToYYYYMMDD(endDate);
-      const dateRange = createDateRange(start, end);
-      dateRange.forEach((date, index) => {
-        markedDates[date] = {
-          color: "#D1FFA0",
-          textColor: "#163532",
-          ...(index === 0 && { startingDay: true }),
-          ...(index === dateRange.length - 1 && { endingDay: true }),
-        };
-      });
-    }
+  const markedDates = {};
+  if (tripData.startDate && tripData.endDate) {
+    const start = convertToYYYYMMDD(tripData.startDate);
+    const end = convertToYYYYMMDD(tripData.endDate);
+    const dateRange = createDateRange(start, end);
+    dateRange.forEach((date, index) => {
+      markedDates[date] = {
+        color: "grey",
+        textColor: "white",
+        ...(index === 0 && { startingDay: true }),
+        ...(index === dateRange.length - 1 && { endingDay: true }),
+      };
+    });
+  }
 
-    const handleDayPress = (day) => {
-      const selectedDate = day.dateString;
-      setSelectedDate(selectedDate);
-    
-      // Mark the selected date with a green circle
-      setSelectedDateMarked({
-        [selectedDate]: { selected: true, textColor: "#B726DC" },
-      });
-    
-      setShowTodoList(true);
-    };
-
-  const handleTodoPress = (todo) => {
-    // Handle the press on a todo, if needed
-    console.log(`Todo pressed: ${todo.text}`);
-  };
-
-  const addTodo = (todoText) => {
-    const newTodo = { date: selectedDate, text: todoText };
-    setTodos([...todos, newTodo]);
-  };
-
- const renderTodosForDate = () => {
-    if (selectedDate) {
-      const todosForSelectedDate = todos.filter((todo) => todo.date === selectedDate);
-  
-      if (todosForSelectedDate.length > 0) {
-        return (
-          <View>
-            <Text style={styles.todoHeader}>Todos for {selectedDate}:</Text>
-            <FlatList
-              data={todosForSelectedDate}
-              keyExtractor={(item) => item.text}
-              renderItem={({ item }) => (
-                <TouchableOpacity onPress={() => handleTodoPress(item)}>
-                  <Text style={styles.todoItem}>{item.text}</Text>
-                </TouchableOpacity>
-              )}
-              />
-          </View>
-        );
-      }
-    };
-  
-    return null;
-  };
-  
-  // const handleAddTodoPress = () => {
-  //   // Navigate to the TodoPage when the "Add Todo" button is pressed
-  //   navigation.navigate("TodoPage", {
-  //     selectedDate,
-  //     addTodo,
-  //   });
-  // };
-  
   return (
     <>
       <ScrollView>
-        <View >
-          <Countdown
-            startDate={startDate}
-            endDate={endDate}
-            style={styles.countdown} 
-            />
-        </View>
-        
-        <View
-          style={{
-            justifyContent: "center",
-            alignItems: "center",
-            marginTop: 65,
-            padding: 30,
-          }}
-        >
-
-          {name && destination && (
+        <View style={styles.container}>
+          {tripData.name && tripData.destination && (
             <Text style={styles.detailText}>
-              {name}'s trip to {destination}!
+              {tripData.name}'s trip to {tripData.destination}!
             </Text>
           )}
         </View>
         <IconBar />
-        <Calendar style={styles.styleCalendar}
-          theme={{
-            calendarBackground: "#163532",
-            monthTextColor: "white",
-            textMonthFontSize: 22,
-            arrowColor: "white",
-            dayTextColor: "#D1FFA0",
-        
+        <View style={styles.navContainer}>
+          <Pressable
+            onPress={handleBackToNewTripPress}
+            style={styles.backButtonPressable}
+          >
+            <MaterialCommunityIcons
+              name="playlist-edit"
+              size={15}
+              color="#163532"
+            />
+            <Text style={styles.backButton}>Change dates</Text>
+          </Pressable>
+        </View>
+
+        <Calendar
+          style={styles.calendar}
+          onDayPress={(day) => {
+            console.log("selected day", day);
           }}
-            onDayPress={handleDayPress}
-            renderDay={renderDay}
-            markingType={"period"}
-            markedDates={{
-            ...markedDates,
-            ...selectedDateMarked,
-          }}
+          renderDay={renderDay}
+          markingType={"period"}
+          markedDates={markedDates}
         />
 
-        <Pressable onPress={handleBackToNewTripPress}>
-          <Text style={styles.backButton}>Change dates</Text>
-        </Pressable>
+        <View style={styles.addTodoContainer}>
+          <Pressable
+            onPress={handleAddTodoPress}
+            style={styles.addTodoPressable}
+          >
+            <MaterialCommunityIcons
+              name="plus-circle-outline"
+              size={35}
+              color="#163532"
+            />
+            <Text style={styles.addButton}>Plan your day</Text>
+          </Pressable>
+        </View>
 
-        {showTodoList && <ToDoList selectedDate={selectedDate} />}
-
+        <Countdown startDate={tripData.startDate} endDate={tripData.endDate} />
       </ScrollView>
     </>
   );
 }
-
 const styles = StyleSheet.create({
   countdown: {
-    position: 'absolute',
+    position: "absolute",
     top: 10,
     left: 10,
-  },  
+  },
   titleText: {
     fontSize: 20,
     fontWeight: "bold",
@@ -234,12 +187,12 @@ const styles = StyleSheet.create({
   },
   addButton: {
     fontSize: 18,
-    color: "blue",
+    color: "#163532",
     marginTop: 10,
   },
   backButton: {
-    fontSize: 18,
-    color: "blue",
+    fontSize: 13,
+    color: "grey",
     marginTop: 10,
   },
 });
