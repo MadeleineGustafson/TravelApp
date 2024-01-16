@@ -157,6 +157,7 @@ function NewTripScreen() {
               value={startDate}
               onChange={onChange}
               style={styles.DateTimePicker}
+              textColor="white"
             />
           )}
           {showPicker && Platform.OS === "ios" && (
