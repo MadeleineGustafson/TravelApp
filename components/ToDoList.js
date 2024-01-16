@@ -129,10 +129,9 @@ const ToDoList = ({ selectedDate }) => {
       </View>
 
       <View style={styles.dateTimePickers}>
-      <TouchableOpacity onPress={() => setShowStartDateTimePicker(true)}>
-      <Text style={styles.timeText}>Start: {selectedStartDateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</Text>
-      {/* <FontAwesome5 name="clock" size={24} color="yellow" /> */}
-    </TouchableOpacity>
+        <TouchableOpacity onPress={() => setShowStartDateTimePicker(true)}>
+          <Text style={styles.timeText}>Start: {selectedStartDateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</Text>
+        </TouchableOpacity>
 
 
         {showStartDateTimePicker && (
@@ -148,10 +147,9 @@ const ToDoList = ({ selectedDate }) => {
         )}
      
 
-     <TouchableOpacity onPress={() => setShowEndDateTimePicker(true)}>
-      <Text style={styles.timeText}>End: {selectedEndDateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</Text>
-      {/* <FontAwesome5 name="clock" size={24} color="#D3DFB7" /> */}
-    </TouchableOpacity>
+        <TouchableOpacity onPress={() => setShowEndDateTimePicker(true)}>
+          <Text style={styles.timeText}>End: {selectedEndDateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</Text>
+        </TouchableOpacity>
 
         {showEndDateTimePicker && (
           <DateTimePicker
