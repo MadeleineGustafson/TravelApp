@@ -17,19 +17,31 @@ function IconBar() {
         justifyContent: "space-between",
         alignItems: "center",
         marginTop: 20,
-        padding: 30,
+        padding: 10,
       }}
     >
-      <TouchableOpacity onPress={() => navigateToScreen("restaurants")}>
+      <TouchableOpacity
+        onPress={() => navigateToScreen("restaurants")}
+        style={styles.iconContainer}
+      >
         <MaterialCommunityIcons name="food" size={50} color="#D1FFA0" />
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigateToScreen("sights")}>
+      <TouchableOpacity
+        onPress={() => navigateToScreen("sights")}
+        style={styles.iconContainer}
+      >
         <MaterialCommunityIcons name="ferris-wheel" size={50} color="#D1FFA0" />
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigateToScreen("notes")}>
+      <TouchableOpacity
+        onPress={() => navigateToScreen("notes")}
+        style={styles.iconContainer}
+      >
         <MaterialIcons name="notes" size={50} color="#D1FFA0" />
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigateToScreen("weather")}>
+      <TouchableOpacity
+        onPress={() => navigateToScreen("weather")}
+        style={styles.iconContainer}
+      >
         <MaterialCommunityIcons
           name="sun-thermometer"
           size={50}
@@ -39,5 +51,11 @@ function IconBar() {
     </View>
   );
 }
+
+const styles = {
+  iconContainer: {
+    marginHorizontal: 10, // Adjust this value to add space between icons
+  },
+};
 
 export default IconBar;
