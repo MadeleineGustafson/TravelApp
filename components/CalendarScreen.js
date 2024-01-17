@@ -96,8 +96,8 @@ function CalendarScreen() {
     const dateRange = createDateRange(start, end);
     dateRange.forEach((date, index) => {
       markedDates[date] = {
-        color: "grey",
-        textColor: "white",
+        color: "#D1FFA0",
+        textColor: "#163532",
         ...(index === 0 && { startingDay: true }),
         ...(index === dateRange.length - 1 && { endingDay: true }),
       };
@@ -110,7 +110,7 @@ function CalendarScreen() {
   
       if (todosForSelectedDate.length > 0) {
         return (
-          <View>
+          <View style={{backgroundColor: "#163532"}}>
             <Text style={styles.todoHeader}>Todos for {selectedDate}:</Text>
             <FlatList
               data={todosForSelectedDate}
@@ -131,13 +131,9 @@ function CalendarScreen() {
 
   return (
     <>
-      <ScrollView>
-        <View>
-        <Countdown
-            startDate={startDate} 
-            endDate={endDate}
-            style={styles.countdown} 
-            />
+      <ScrollView style={{backgroundColor: "#163532"}}>
+        <View style={styles.countdownContainer}>
+          <Countdown startDate={new Date(tripData.startDate)} />
         </View>
         
         <View
@@ -171,35 +167,37 @@ function CalendarScreen() {
           </Pressable>
         </View>
 
-        <Calendar style={styles.styleCalendar}
-          theme={{
-            calendarBackground: "#163532",
-            monthTextColor: "white",
-            textMonthFontSize: 22,
-            arrowColor: "white",
-            dayTextColor: "#D1FFA0",
         
-          }}
-            onDayPress={handleDayPress}
-            renderDay={renderDay}
-            markingType={"period"}
-            markedDates={{
-            ...markedDates,
-            ...selectedDateMarked,
-          }}
-        />
+          <Calendar style={styles.styleCalendar}
+            theme={{
+              calendarBackground: "#163532",
+              monthTextColor: "white",
+              textMonthFontSize: 22,
+              arrowColor: "white",
+              dayTextColor: "#D1FFA0",
+              todayBackgroundColor: "#B726DC"
+          
+            }}
+              onDayPress={handleDayPress}
+              renderDay={renderDay}
+              markingType={"period"}
+              markedDates={{
+              ...markedDates,
+              ...selectedDateMarked,
+            }}
+          />
 
         <View style={styles.addTodoContainer}>
           <Pressable
             onPress={handleAddTodoPress}
             style={styles.addTodoPressable}
           >
-            <MaterialCommunityIcons
+            {/* <MaterialCommunityIcons
               name="plus-circle-outline"
               size={35}
               color="#163532"
-              />
-            <Text style={styles.addButton}>Plan your day</Text>
+              /> */}
+            <Text style={styles.addButton}>Press a date to add a todo</Text>
           </Pressable>
         </View>
 
@@ -210,10 +208,10 @@ function CalendarScreen() {
   );
 }
 const styles = StyleSheet.create({
-  countdown: {
+  countdownContainer: {
     position: "absolute",
     top: 10,
-    left: 10,
+    right: 10,
   },
   titleText: {
     fontSize: 20,
@@ -227,10 +225,12 @@ const styles = StyleSheet.create({
     marginTop: 10,
     textAlign: "center",
     fontWeight: "bold",
-    color: "green",
+    color: "white",
   },
   styleCalendar: {
     marginTop: 50,
+    width: 300,
+    backgroundColor: "#163532"
   },
   day: {
     textAlign: "center",

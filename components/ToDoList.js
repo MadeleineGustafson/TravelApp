@@ -6,6 +6,7 @@ import Todo from './Todo';
 const ToDoList = ({ selectedDate }) => {
   const [todo, setTodo] = useState("");
   const [todoItems, setTodoItems] = useState({});
+  const [editIndex, setEditIndex] = useState(null);
   const [showStartDateTimePicker, setShowStartDateTimePicker] = useState(false);
   const [showEndDateTimePicker, setShowEndDateTimePicker] = useState(false);
   const [selectedStartDateTime, setSelectedStartDateTime] = useState(new Date());
@@ -51,14 +52,14 @@ const ToDoList = ({ selectedDate }) => {
 
   const handleEditSave = (editedText) => {
     if (editIndex !== null) {
-      setTodoItems(prevTodos => {
+      setTodoItems((prevTodos) => {
         const updatedTodos = [...(prevTodos[selectedDate] || [])];
-        updatedTodos[editIndex] = {...updatedTodos[editIndex], text: editedText };
-        return {...prevTodos, [selectedDate]: updatedTodos};
+        updatedTodos[editIndex] = { ...updatedTodos[editIndex], text: editedText };
+        return { ...prevTodos, [selectedDate]: updatedTodos };
       });
       setEditIndex(null);
     }
-  }
+  };
 
   const deleteTodo = (index) => {
     setTodoItems(prevTodos => {
@@ -129,11 +130,10 @@ const ToDoList = ({ selectedDate }) => {
       </View>
 
       <View style={styles.dateTimePickers}>
-
         <TouchableOpacity onPress={() => setShowStartDateTimePicker(true)}>
-          <Text style={styles.timeText}>Start: </Text>
-            {/* <FontAwesome5 name="clock" size={24} color="yellow" /> */}
+          <Text style={styles.timeText}>Start: {selectedStartDateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</Text>
         </TouchableOpacity>
+
 
         {showStartDateTimePicker && (
           <DateTimePicker
@@ -142,14 +142,14 @@ const ToDoList = ({ selectedDate }) => {
             is24Hour={true}
             display="default"
             onChange={handleStartDateTimeChange}
-            textColor="#FFF"
+            textColor="white"
+
           />
         )}
      
 
         <TouchableOpacity onPress={() => setShowEndDateTimePicker(true)}>
-          <Text style={styles.timeText}>End: </Text>
-            {/* <FontAwesome5 name="clock" size={24} color="#D3DFB7" /> */}
+          <Text style={styles.timeText}>End: {selectedEndDateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</Text>
         </TouchableOpacity>
 
         {showEndDateTimePicker && (
@@ -159,7 +159,7 @@ const ToDoList = ({ selectedDate }) => {
             is24Hour={true}
             display="default"
             onChange={handleEndDateTimeChange}
-            textColor="#FFF"
+            textColor="white"
             />
         )}
 

@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     marginBottom: 20,
-    width: 360,
+    width: 300,
     
   },
   itemLeft: {
