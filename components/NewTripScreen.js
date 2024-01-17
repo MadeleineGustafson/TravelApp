@@ -126,6 +126,7 @@ function NewTripScreen() {
             value={name}
             onChangeText={(text) => setName(text)}
             returnKeyType="done"
+            placeholderTextColor="grey"
           />
           <Text style={styles.labelText}>Where are you going?</Text>
           <TextInput
@@ -134,6 +135,7 @@ function NewTripScreen() {
             value={destination}
             onChangeText={(text) => setDestination(text)}
             returnKeyType="done"
+            placeholderTextColor="grey"
           />
 
           <Text style={styles.labelText}>Enter first day of your trip:</Text>
@@ -244,7 +246,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#163532",
   },
   formContainer: {
-    width: "80%",
+    width: "70%",
     alignItems: "center",
   },
   titleText: {
@@ -274,7 +276,7 @@ const styles = StyleSheet.create({
   },
   inputDTP: {
     height: 40,
-    width: 300,
+    width: 260,
     marginVertical: 8,
     borderWidth: 3,
     borderRadius: 15,
