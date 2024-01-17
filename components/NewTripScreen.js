@@ -269,8 +269,8 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderRadius: 15,
     padding: 10,
-    borderColor: "white",
-    backgroundColor: "white",
+    borderColor: "#EDF2E1",
+    backgroundColor: "#EDF2E1",
   },
   inputDTP: {
     height: 40,
@@ -279,8 +279,8 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderRadius: 15,
     padding: 10,
-    borderColor: "white",
-    backgroundColor: "white",
+    borderColor: "#EDF2E1",
+    backgroundColor: "#EDF2E1",
   },
   button: {
     backgroundColor: "#D1FFA0",
