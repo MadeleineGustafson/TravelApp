@@ -52,17 +52,23 @@ function Sights({ route }) {
     }
   };
 
-  // Function to edit a sights note (you can modify this based on your requirements)
-  const onEditSightsNote = () => {
-    // Logic for editing sights notes
-    // For example: handle opening the modal for editing
-    // ...
-  };
+  // Function to delete a restaurant note
+  const handleDeleteSightsNote = async (note) => {
+    try {
+      // Retrieve existing notes for the trip
+      const existingNotes = await getTripNotes(tripId);
 
-  // Function to delete a sights note
-  const handleDeleteSightsNote = (note) => {
-    const updatedNotes = sightsNotes.filter((item) => item.id !== note.id);
-    setSightsNotes(updatedNotes);
+      // Filter out the note to be deleted
+      const updatedNotes = existingNotes.filter((item) => item.id !== note.id);
+
+      // Save the updated notes
+      await saveSightNotes(tripId, updatedNotes);
+
+      // Update the state with the new notes
+      setSightNotes(updatedNotes);
+    } catch (error) {
+      console.error("Error deleting restaurant note:", error);
+    }
   };
 
   return (
@@ -95,7 +101,6 @@ function Sights({ route }) {
         <NotesScreen
           notesData={sightNotes}
           onSaveNote={onSaveSightNote}
-          onEditNote={onEditSightsNote}
           onDeleteNote={(note) => handleDeleteSightsNote(note)}
         />
       </View>

@@ -52,24 +52,17 @@ function Restaurant({ route }) {
     }
   };
 
-  // Function to edit a restaurant note (you can modify this based on your requirements)
-  const onEditRestaurantNote = () => {
-    // Logic for editing restaurant notes
-    // For example: handle opening the modal for editing
-    // ...
-  };
-
   // Function to delete a restaurant note
   const handleDeleteRestaurantNote = async (note) => {
     try {
       // Retrieve existing notes for the trip
-      const existingNotes = await getTripNotes(tripId);
+      const existingNotes = await getRestaurantNotes(tripId);
 
       // Filter out the note to be deleted
       const updatedNotes = existingNotes.filter((item) => item.id !== note.id);
 
       // Save the updated notes
-      await saveTripNotes(tripId, updatedNotes);
+      await saveRestaurantNotes(tripId, updatedNotes);
 
       // Update the state with the new notes
       setRestaurantNotes(updatedNotes);
@@ -110,7 +103,6 @@ function Restaurant({ route }) {
         <NotesScreen
           notesData={restaurantNotes}
           onSaveNote={onSaveRestaurantNote}
-          onEditNote={onEditRestaurantNote}
           onDeleteNote={(note) => handleDeleteRestaurantNote(note)}
         />
       </View>
