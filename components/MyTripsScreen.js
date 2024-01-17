@@ -1,7 +1,13 @@
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { useTripContext } from "../contexts/TripContext";
 
 function MyTripsScreen() {
@@ -32,42 +38,45 @@ function MyTripsScreen() {
       }}
     >
       <Text style={styles.pageTitle}>Your travel plans:</Text>
+      <View style={styles.scrollBox}>
+        <ScrollView>
+          {trips.map((trip) => (
+            <TouchableOpacity
+              key={trip.id}
+              onPress={() => navigateToCalendar(trip)}
+              onLongPress={() => setShowActions(trip.id)}
+              style={styles.tripContainer}
+            >
+              <View style={styles.tripContainerBig}>
+                <View style={styles.tripContainerSmall}>
+                  <Text style={styles.tripText}>{trip.destination}</Text>
+                  <Text style={styles.smallTripText}>
+                    {new Date(trip.startDate).toLocaleDateString()} -
+                    {new Date(trip.endDate).toLocaleDateString()}
+                  </Text>
+                </View>
+                <MaterialIcons
+                  name="arrow-forward-ios"
+                  size={40}
+                  color="#D1FFA0"
+                  style={{ marginLeft: 40 }}
+                />
+              </View>
 
-      {trips.map((trip) => (
-        <TouchableOpacity
-          key={trip.id}
-          onPress={() => navigateToCalendar(trip)}
-          onLongPress={() => setShowActions(trip.id)}
-          style={styles.tripContainer}
-        >
-          <View style={styles.tripContainerBig}>
-            <View style={styles.tripContainerSmall}>
-              <Text style={styles.tripText}>{trip.destination}</Text>
-              <Text style={styles.smallTripText}>
-                {new Date(trip.startDate).toLocaleDateString()} -
-                {new Date(trip.endDate).toLocaleDateString()}
-              </Text>
-            </View>
-            <MaterialIcons
-              name="arrow-forward-ios"
-              size={40}
-              color="#D1FFA0"
-              style={{ marginLeft: 40 }}
-            />
-          </View>
-
-          {showActions === trip.id && (
-            <View style={styles.actionsContainer}>
-              <MaterialCommunityIcons
-                name="trash-can-outline"
-                size={20}
-                color="#D1FFA0"
-                onPress={() => handleDeleteTrip(trip.id)}
-              />
-            </View>
-          )}
-        </TouchableOpacity>
-      ))}
+              {showActions === trip.id && (
+                <View style={styles.actionsContainer}>
+                  <MaterialCommunityIcons
+                    name="trash-can-outline"
+                    size={30}
+                    color="#D1FFA0"
+                    onPress={() => handleDeleteTrip(trip.id)}
+                  />
+                </View>
+              )}
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+      </View>
       {trips.length === 0 && <Text>No trips available</Text>}
 
       <TouchableOpacity onPress={navigateToNewTrip}>
@@ -84,8 +93,12 @@ const styles = StyleSheet.create({
     padding: 10,
     borderBottomWidth: 1, // Add bottom border
     borderBottomColor: "#D1FFA0", // Border color
-
     margin: 10,
+  },
+  scrollBox: {
+    height: 300,
+    width: "70%",
+    marginBottom: 10,
   },
   tripContainerBig: {
     flexDirection: "row",
@@ -114,7 +127,7 @@ const styles = StyleSheet.create({
 
   actionsContainer: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "flex-start",
     marginTop: 5,
   },
 
