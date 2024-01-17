@@ -1,14 +1,23 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
-import { FlatList, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  FlatList,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { Calendar } from "react-native-calendars";
+import { useTripContext } from "../contexts/TripContext";
+import Countdown from "./countdown";
 import IconBar from "./IconBar";
 import ToDoList from "./ToDoList";
-import Countdown from "./countdown";
 
 function CalendarScreen() {
+  const { getTrip } = useTripContext();
   const navigation = useNavigation();
   const [todos, setTodos] = useState([]);
   const [showTodoList, setShowTodoList] = useState(false);
@@ -18,18 +27,14 @@ function CalendarScreen() {
   const [tripData, setTripData] = useState(routeTripData || {});
   const [selectedDateMarked, setSelectedDateMarked] = useState({});
 
-
   useEffect(() => {
     const fetchStoredTripData = async () => {
       try {
-        // Retrieve trip ID from navigation params
         const { tripId } = route.params || {};
-
-        // Fetch trip data using the trip ID
-        const storedTripData = await AsyncStorage.getItem(`tripData:${tripId}`);
+        const storedTripData = await getTrip(tripId);
 
         if (storedTripData) {
-          setTripData(JSON.parse(storedTripData));
+          setTripData(storedTripData);
         }
       } catch (error) {
         console.error("Error fetching trip data from AsyncStorage:", error);
@@ -63,12 +68,12 @@ function CalendarScreen() {
   const handleDayPress = (day) => {
     const selectedDate = day.dateString;
     setSelectedDate(selectedDate);
-  
+
     // Mark the selected date with a green circle
     setSelectedDateMarked({
       [selectedDate]: { selected: true, textColor: "#B726DC" },
     });
-  
+
     setShowTodoList(true);
   };
 
@@ -106,11 +111,13 @@ function CalendarScreen() {
 
   const renderTodosForDate = () => {
     if (selectedDate) {
-      const todosForSelectedDate = todos.filter((todo) => todo.date === selectedDate);
-  
+      const todosForSelectedDate = todos.filter(
+        (todo) => todo.date === selectedDate
+      );
+
       if (todosForSelectedDate.length > 0) {
         return (
-          <View style={{backgroundColor: "#163532"}}>
+          <View style={{ backgroundColor: "#163532" }}>
             <Text style={styles.todoHeader}>Todos for {selectedDate}:</Text>
             <FlatList
               data={todosForSelectedDate}
@@ -120,22 +127,22 @@ function CalendarScreen() {
                   <Text style={styles.todoItem}>{item.text}</Text>
                 </TouchableOpacity>
               )}
-              />
+            />
           </View>
         );
       }
-    };
-  
+    }
+
     return null;
   };
 
   return (
     <>
-      <ScrollView style={{backgroundColor: "#163532"}}>
+      <ScrollView style={{ backgroundColor: "#163532" }}>
         <View style={styles.countdownContainer}>
           <Countdown startDate={new Date(tripData.startDate)} />
         </View>
-        
+
         <View
           style={{
             justifyContent: "center",
@@ -144,65 +151,63 @@ function CalendarScreen() {
             padding: 30,
           }}
         >
-          
-        <View style={styles.container}>
-          {tripData.name && tripData.destination && (
-            <Text style={styles.detailText}>
-              {tripData.name}'s trip to {tripData.destination}!
-            </Text>
-          )}
-        </View>
-        <IconBar />
-        <View style={styles.navContainer}>
-          <Pressable
-            onPress={handleBackToNewTripPress}
-            style={styles.backButtonPressable}
-          >
-            <MaterialCommunityIcons
-              name="playlist-edit"
-              size={15}
-              color="#163532"
-            />
-            <Text style={styles.backButton}>Change dates</Text>
-          </Pressable>
-        </View>
+          <View style={styles.container}>
+            {tripData.name && tripData.destination && (
+              <Text style={styles.detailText}>
+                {tripData.name}'s trip to {tripData.destination}!
+              </Text>
+            )}
+          </View>
+          <IconBar tripId={tripData.id} />
+          <View style={styles.navContainer}>
+            <Pressable
+              onPress={handleBackToNewTripPress}
+              style={styles.backButtonPressable}
+            >
+              <MaterialCommunityIcons
+                name="playlist-edit"
+                size={15}
+                color="#163532"
+              />
+              <Text style={styles.backButton}>Change dates</Text>
+            </Pressable>
+          </View>
 
-        
-          <Calendar style={styles.styleCalendar}
+          <Calendar
+            style={styles.styleCalendar}
             theme={{
               calendarBackground: "#163532",
               monthTextColor: "white",
               textMonthFontSize: 22,
               arrowColor: "white",
               dayTextColor: "#D1FFA0",
-              todayBackgroundColor: "#B726DC"
-          
+              todayBackgroundColor: "#B726DC",
             }}
-              onDayPress={handleDayPress}
-              renderDay={renderDay}
-              markingType={"period"}
-              markedDates={{
+            onDayPress={handleDayPress}
+            renderDay={renderDay}
+            markingType={"period"}
+            markedDates={{
               ...markedDates,
               ...selectedDateMarked,
             }}
           />
 
-        <View style={styles.addTodoContainer}>
-          <Pressable
-            onPress={handleAddTodoPress}
-            style={styles.addTodoPressable}
-          >
-            {/* <MaterialCommunityIcons
+          <View style={styles.addTodoContainer}>
+            <Pressable
+              onPress={handleAddTodoPress}
+              style={styles.addTodoPressable}
+            >
+              {/* <MaterialCommunityIcons
               name="plus-circle-outline"
               size={35}
               color="#163532"
               /> */}
-            <Text style={styles.addButton}>Press a date to add a todo</Text>
-          </Pressable>
-        </View>
+              <Text style={styles.addButton}>Press a date to add a todo</Text>
+            </Pressable>
+          </View>
 
-        {showTodoList && <ToDoList selectedDate={selectedDate} />}
-      </View>
+          {showTodoList && <ToDoList selectedDate={selectedDate} />}
+        </View>
       </ScrollView>
     </>
   );
@@ -230,7 +235,7 @@ const styles = StyleSheet.create({
   styleCalendar: {
     marginTop: 50,
     width: 300,
-    backgroundColor: "#163532"
+    backgroundColor: "#163532",
   },
   day: {
     textAlign: "center",

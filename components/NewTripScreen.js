@@ -12,7 +12,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { useTripContext } from "../contexts/TripContext"; // Update the path
+import { useTripContext } from "../contexts/TripContext";
 
 function NewTripScreen() {
   const navigation = useNavigation();
@@ -27,7 +27,6 @@ function NewTripScreen() {
   const today = new Date();
   const todayString = today.toISOString().split("T")[0];
   const [isFormValid, setIsFormValid] = useState(false);
-
 
   const toggleStartDatePicker = () => {
     setShowPicker(!showPicker);
@@ -51,11 +50,11 @@ function NewTripScreen() {
     } else {
       toggleStartDatePicker();
     }
-  
+
     // Check if all required fields are filled
     validateForm();
   };
-  
+
   const onChangeEndDate = ({ type }, selectedDate) => {
     if (type === "set") {
       const currentDate = selectedDate;
@@ -67,17 +66,17 @@ function NewTripScreen() {
     } else {
       toggleEndDatePicker();
     }
-  
+
     // Check if all required fields are filled
     validateForm();
   };
-  
+
   const validateForm = () => {
     // Check if all required fields are filled
-    const isValid = name.trim() !== "" && destination.trim() !== "" && startDate && endDate;
+    const isValid =
+      name.trim() !== "" && destination.trim() !== "" && startDate && endDate;
     setIsFormValid(isValid);
   };
-  
 
   const confirmIOSDate = () => {
     setChosenStartDate(startDate.toISOString().split("T")[0]);
@@ -89,32 +88,31 @@ function NewTripScreen() {
     toggleEndDatePicker();
   };
 
-
   const navigateToCalendar = async () => {
     if (isFormValid) {
-    try {
-      const newTrip = {
-        id: Date.now().toString(),
-        name: name,
-        destination: destination,
-        startDate: startDate.toISOString(),
-        endDate: endDate.toISOString(),
-      };
+      try {
+        const newTrip = {
+          id: Date.now().toString(),
+          name: name,
+          destination: destination,
+          startDate: startDate.toISOString(),
+          endDate: endDate.toISOString(),
+        };
 
-      // Store the new trip data in AsyncStorage with a unique key using trip ID
-      await AsyncStorage.setItem(
-        `tripData:${newTrip.id}`,
-        JSON.stringify(newTrip)
-      );
-      addTrip(newTrip);
+        // Store the new trip data in AsyncStorage with a unique key using trip ID
+        await AsyncStorage.setItem(
+          `tripData:${newTrip.id}`,
+          JSON.stringify(newTrip)
+        );
+        addTrip(newTrip);
 
-      // Navigate to the "calendar" screen
-      navigation.navigate("calendar", { tripData: newTrip });
-    } catch (error) {
-      console.error("Error saving trip data:", error);
+        // Navigate to the "calendar" screen
+        navigation.navigate("calendar", { tripData: newTrip });
+      } catch (error) {
+        console.error("Error saving trip data:", error);
+      }
     }
   };
-}
 
   return (
     <>
@@ -211,13 +209,19 @@ function NewTripScreen() {
             </View>
           )}
 
-        <TouchableOpacity onPress={navigateToCalendar} disabled={!isFormValid}>
-          <View style={[styles.button, { backgroundColor: isFormValid ? "#D1FFA0" : "gray" }]}>
-            <Text style={styles.buttonText}>Create New Trip</Text>
-          </View>
-        </TouchableOpacity>
-
-
+          <TouchableOpacity
+            onPress={navigateToCalendar}
+            disabled={!isFormValid}
+          >
+            <View
+              style={[
+                styles.button,
+                { backgroundColor: isFormValid ? "#D1FFA0" : "gray" },
+              ]}
+            >
+              <Text style={styles.buttonText}>Create New Trip</Text>
+            </View>
+          </TouchableOpacity>
         </SafeAreaView>
       </View>
     </>

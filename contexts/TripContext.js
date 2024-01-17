@@ -52,11 +52,33 @@ export const TripProvider = ({ children }) => {
     }
   };
 
+  const saveTripNotes = async (tripId, notes) => {
+    try {
+      // Save the notes for the trip in AsyncStorage
+      await AsyncStorage.setItem(`tripNotes:${tripId}`, JSON.stringify(notes));
+    } catch (error) {
+      console.error("Error saving trip notes:", error);
+    }
+  };
+
+  const getTripNotes = async (tripId) => {
+    try {
+      // Retrieve trip notes from AsyncStorage based on the provided tripId
+      const tripNotes = await AsyncStorage.getItem(`tripNotes:${tripId}`);
+      return tripNotes ? JSON.parse(tripNotes) : [];
+    } catch (error) {
+      console.error("Error fetching trip notes:", error);
+      return [];
+    }
+  };
+
   const value = {
     trips,
     addTrip,
     deleteTrip,
     getTrip,
+    saveTripNotes,
+    getTripNotes,
   };
 
   return <TripContext.Provider value={value}>{children}</TripContext.Provider>;
