@@ -90,7 +90,6 @@ const styles = StyleSheet.create({
   timeText: {
     maxWidth: '100%',
     fontSize: 16,
-    fontWeight: 'none',
     color: "#163532",
   },
   timeContainer: {
