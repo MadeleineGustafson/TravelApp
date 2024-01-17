@@ -1,29 +1,54 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import NotesScreen from "../components/NotesScreen";
+import { useTripContext } from "../contexts/TripContext";
 
-function Sights() {
-  const [sightsNotes, setSightsNotes] = useState([]); // State for sights-specific notes
+function Sights({ route }) {
   const navigation = useNavigation();
+  const { tripId } = route.params;
+  const { saveSightNotes, getSightNotes } = useTripContext();
+  const [sightNotes, setSightNotes] = useState([]);
 
-  // Function to save a sights note
-  const onSaveSightsNote = (selectedNote, title, content) => {
-    if (selectedNote) {
-      // Update existing note logic
-      const updatedNotes = sightsNotes.map((note) =>
-        note.id === selectedNote.id ? { ...note, title, content } : note
-      );
-      setSightsNotes(updatedNotes);
-    } else {
-      // Add new note logic
+  useEffect(() => {
+    const fetchNotes = async () => {
+      try {
+        const notes = await getSightNotes(tripId);
+        setSightNotes(notes);
+      } catch (error) {
+        console.error("Error fetching restaurant notes:", error);
+      }
+    };
+
+    fetchNotes();
+  }, [tripId]);
+
+  const onSaveSightNote = async (selectedNote, title, content) => {
+    try {
       const newNote = {
-        id: Date.now(),
+        id: selectedNote ? selectedNote.id : Date.now(),
         title,
         content,
       };
-      setSightsNotes([...sightsNotes, newNote]);
+
+      // Retrieve existing notes for the trip
+      const existingNotes = await getSightNotes(tripId);
+
+      // Update or add the new note
+      const updatedNotes = selectedNote
+        ? existingNotes.map((note) =>
+            note.id === selectedNote.id ? { ...note, ...newNote } : note
+          )
+        : [...existingNotes, { ...newNote }];
+
+      // Save the updated notes
+      await saveSightNotes(tripId, updatedNotes);
+
+      // Update the state with the new notes
+      setSightNotes(updatedNotes);
+    } catch (error) {
+      console.error("Error saving restaurant notes:", error);
     }
   };
 
@@ -47,20 +72,29 @@ function Sights() {
           <MaterialCommunityIcons name="close" size={30} color="#163532" />
         </TouchableOpacity>
       </View>
-      <View style={{ flex: 1, alignItems: "center", marginTop: 10, margin: 20 }}>
-        <View style={{ flexDirection: "row", alignItems: "center", margin: 10 }}>
-          <MaterialCommunityIcons name="ferris-wheel" size={70} color="#163532" />
+      <View
+        style={{ flex: 1, alignItems: "center", marginTop: 10, margin: 20 }}
+      >
+        <View
+          style={{ flexDirection: "row", alignItems: "center", margin: 10 }}
+        >
+          <MaterialCommunityIcons
+            name="ferris-wheel"
+            size={70}
+            color="#163532"
+          />
           <View style={{ flexDirection: "column", marginLeft: 10, flex: 1 }}>
             <Text style={styles.title}>Sights</Text>
             <Text style={styles.text}>
-              On this page, you can save information or links to sights and attractions for your trip!
+              On this page, you can save information or links to sights and
+              attractions for your trip!
             </Text>
           </View>
         </View>
 
         <NotesScreen
-          notesData={sightsNotes}
-          onSaveNote={onSaveSightsNote}
+          notesData={sightNotes}
+          onSaveNote={onSaveSightNote}
           onEditNote={onEditSightsNote}
           onDeleteNote={(note) => handleDeleteSightsNote(note)}
         />

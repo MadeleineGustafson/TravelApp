@@ -7,7 +7,6 @@ function IconBar({ tripId }) {
   const navigation = useNavigation();
 
   const navigateToScreen = (screenName) => {
-    // Pass tripId to the next screen
     navigation.navigate(screenName, { tripId });
   };
 
@@ -28,13 +27,13 @@ function IconBar({ tripId }) {
         <MaterialCommunityIcons name="food" size={50} color="#D1FFA0" />
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={() => navigateToScreen("sights")}
+        onPress={() => navigateToScreen("sights", { tripId })}
         style={styles.iconContainer}
       >
         <MaterialCommunityIcons name="ferris-wheel" size={50} color="#D1FFA0" />
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={() => navigateToScreen("notes")}
+        onPress={() => navigateToScreen("notes", { tripId })}
         style={styles.iconContainer}
       >
         <MaterialIcons name="notes" size={50} color="#D1FFA0" />

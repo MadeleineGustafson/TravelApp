@@ -8,13 +8,13 @@ import { useTripContext } from "../contexts/TripContext";
 function Restaurant({ route }) {
   const navigation = useNavigation();
   const { tripId } = route.params;
-  const { saveTripNotes, getTripNotes } = useTripContext();
+  const { saveRestaurantNotes, getRestaurantNotes } = useTripContext();
   const [restaurantNotes, setRestaurantNotes] = useState([]);
 
   useEffect(() => {
     const fetchNotes = async () => {
       try {
-        const notes = await getTripNotes(tripId);
+        const notes = await getRestaurantNotes(tripId);
         setRestaurantNotes(notes);
       } catch (error) {
         console.error("Error fetching restaurant notes:", error);
@@ -33,7 +33,7 @@ function Restaurant({ route }) {
       };
 
       // Retrieve existing notes for the trip
-      const existingNotes = await getTripNotes(tripId);
+      const existingNotes = await getRestaurantNotes(tripId);
 
       // Update or add the new note
       const updatedNotes = selectedNote
@@ -43,7 +43,7 @@ function Restaurant({ route }) {
         : [...existingNotes, { ...newNote }];
 
       // Save the updated notes
-      await saveTripNotes(tripId, updatedNotes);
+      await saveRestaurantNotes(tripId, updatedNotes);
 
       // Update the state with the new notes
       setRestaurantNotes(updatedNotes);
