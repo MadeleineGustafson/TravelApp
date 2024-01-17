@@ -1,45 +1,75 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import NotesScreen from "../components/NotesScreen";
+import { useTripContext } from "../contexts/TripContext";
 
-function Restaurant() {
-  const [restaurantNotes, setRestaurantNotes] = useState([]); // State for restaurant-specific notes
+function Restaurant({ route }) {
   const navigation = useNavigation();
+  const { tripId } = route.params;
+  const { saveRestaurantNotes, getRestaurantNotes } = useTripContext();
+  const [restaurantNotes, setRestaurantNotes] = useState([]);
 
-  // Function to save a restaurant note
-  const onSaveRestaurantNote = (selectedNote, title, content) => {
-    if (selectedNote) {
-      // Update existing note logic
-      const updatedNotes = restaurantNotes.map((note) =>
-        note.id === selectedNote.id ? { ...note, title, content } : note
-      );
-      setRestaurantNotes(updatedNotes);
-    } else {
-      // Add new note logic
+  useEffect(() => {
+    const fetchNotes = async () => {
+      try {
+        const notes = await getRestaurantNotes(tripId);
+        setRestaurantNotes(notes);
+      } catch (error) {
+        console.error("Error fetching restaurant notes:", error);
+      }
+    };
+
+    fetchNotes();
+  }, [tripId]);
+
+  const onSaveRestaurantNote = async (selectedNote, title, content) => {
+    try {
       const newNote = {
-        id: Date.now(),
+        id: selectedNote ? selectedNote.id : Date.now(),
         title,
         content,
       };
-      setRestaurantNotes([...restaurantNotes, newNote]);
+
+      // Retrieve existing notes for the trip
+      const existingNotes = await getRestaurantNotes(tripId);
+
+      // Update or add the new note
+      const updatedNotes = selectedNote
+        ? existingNotes.map((note) =>
+            note.id === selectedNote.id ? { ...note, ...newNote } : note
+          )
+        : [...existingNotes, { ...newNote }];
+
+      // Save the updated notes
+      await saveRestaurantNotes(tripId, updatedNotes);
+
+      // Update the state with the new notes
+      setRestaurantNotes(updatedNotes);
+    } catch (error) {
+      console.error("Error saving restaurant notes:", error);
     }
   };
 
-  // Function to edit a restaurant note (you can modify this based on your requirements)
-  const onEditRestaurantNote = () => {
-    // Logic for editing restaurant notes
-    // For example: handle opening the modal for editing
-    // ...
-  };
-
   // Function to delete a restaurant note
-  const handleDeleteRestaurantNote = (note) => {
-    const updatedNotes = restaurantNotes.filter((item) => item.id !== note.id);
-    setRestaurantNotes(updatedNotes);
-  };
+  const handleDeleteRestaurantNote = async (note) => {
+    try {
+      // Retrieve existing notes for the trip
+      const existingNotes = await getRestaurantNotes(tripId);
 
+      // Filter out the note to be deleted
+      const updatedNotes = existingNotes.filter((item) => item.id !== note.id);
+
+      // Save the updated notes
+      await saveRestaurantNotes(tripId, updatedNotes);
+
+      // Update the state with the new notes
+      setRestaurantNotes(updatedNotes);
+    } catch (error) {
+      console.error("Error deleting restaurant note:", error);
+    }
+  };
   return (
     <>
       <View style={{ justifyContent: "flex-start", margin: 20, marginTop: 40 }}>
@@ -64,8 +94,8 @@ function Restaurant() {
           <View style={{ flexDirection: "column", marginLeft: 10, flex: 1 }}>
             <Text style={styles.title}>Restaurants</Text>
             <Text style={styles.text}>
-              On this page, you can save information or links to restaurants you want to
-              visit during your travels!
+              On this page, you can save information or links to restaurants you
+              want to visit during your travels!
             </Text>
           </View>
         </View>
@@ -73,10 +103,8 @@ function Restaurant() {
         <NotesScreen
           notesData={restaurantNotes}
           onSaveNote={onSaveRestaurantNote}
-          onEditNote={onEditRestaurantNote}
           onDeleteNote={(note) => handleDeleteRestaurantNote(note)}
         />
-
       </View>
     </>
   );
