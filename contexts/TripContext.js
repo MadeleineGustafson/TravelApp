@@ -52,11 +52,79 @@ export const TripProvider = ({ children }) => {
     }
   };
 
+  const saveTripNotes = async (tripId, notes) => {
+    try {
+      // Save the notes for the trip in AsyncStorage
+      await AsyncStorage.setItem(`tripNotes:${tripId}`, JSON.stringify(notes));
+    } catch (error) {
+      console.error("Error saving trip notes:", error);
+    }
+  };
+
+  const getTripNotes = async (tripId) => {
+    try {
+      // Retrieve trip notes from AsyncStorage based on the provided tripId
+      const tripNotes = await AsyncStorage.getItem(`tripNotes:${tripId}`);
+      return tripNotes ? JSON.parse(tripNotes) : [];
+    } catch (error) {
+      console.error("Error fetching trip notes:", error);
+      return [];
+    }
+  };
+
+  const saveRestaurantNotes = async (tripId, notes) => {
+    try {
+      await AsyncStorage.setItem(
+        `restaurantNotes:${tripId}`,
+        JSON.stringify(notes)
+      );
+    } catch (error) {
+      console.error("Error saving restaurant notes:", error);
+    }
+  };
+
+  const getRestaurantNotes = async (tripId) => {
+    try {
+      const restaurantNotes = await AsyncStorage.getItem(
+        `restaurantNotes:${tripId}`
+      );
+      return restaurantNotes ? JSON.parse(restaurantNotes) : [];
+    } catch (error) {
+      console.error("Error fetching restaurant notes:", error);
+      return [];
+    }
+  };
+
+  // Save and retrieve sight notes
+  const saveSightNotes = async (tripId, notes) => {
+    try {
+      await AsyncStorage.setItem(`sightNotes:${tripId}`, JSON.stringify(notes));
+    } catch (error) {
+      console.error("Error saving sight notes:", error);
+    }
+  };
+
+  const getSightNotes = async (tripId) => {
+    try {
+      const sightNotes = await AsyncStorage.getItem(`sightNotes:${tripId}`);
+      return sightNotes ? JSON.parse(sightNotes) : [];
+    } catch (error) {
+      console.error("Error fetching sight notes:", error);
+      return [];
+    }
+  };
+
   const value = {
     trips,
     addTrip,
     deleteTrip,
     getTrip,
+    saveTripNotes,
+    getTripNotes,
+    getRestaurantNotes,
+    saveRestaurantNotes,
+    getSightNotes,
+    saveSightNotes,
   };
 
   return <TripContext.Provider value={value}>{children}</TripContext.Provider>;

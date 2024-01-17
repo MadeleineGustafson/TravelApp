@@ -3,11 +3,11 @@ import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { TouchableOpacity, View } from "react-native";
 
-function IconBar() {
+function IconBar({ tripId }) {
   const navigation = useNavigation();
 
   const navigateToScreen = (screenName) => {
-    navigation.navigate(screenName);
+    navigation.navigate(screenName, { tripId });
   };
 
   return (
@@ -21,19 +21,19 @@ function IconBar() {
       }}
     >
       <TouchableOpacity
-        onPress={() => navigateToScreen("restaurants")}
+        onPress={() => navigateToScreen("restaurants", { tripId })}
         style={styles.iconContainer}
       >
         <MaterialCommunityIcons name="food" size={50} color="#D1FFA0" />
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={() => navigateToScreen("sights")}
+        onPress={() => navigateToScreen("sights", { tripId })}
         style={styles.iconContainer}
       >
         <MaterialCommunityIcons name="ferris-wheel" size={50} color="#D1FFA0" />
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={() => navigateToScreen("notes")}
+        onPress={() => navigateToScreen("notes", { tripId })}
         style={styles.iconContainer}
       >
         <MaterialIcons name="notes" size={50} color="#D1FFA0" />
