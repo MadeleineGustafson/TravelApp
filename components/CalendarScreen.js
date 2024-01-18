@@ -26,6 +26,7 @@ function CalendarScreen() {
   const { tripData: routeTripData, startDate, endDate } = route.params || {};
   const [tripData, setTripData] = useState(routeTripData || {});
   const [selectedDateMarked, setSelectedDateMarked] = useState({});
+  const [todosDates, setTodosDates] = useState([]);
 
   useEffect(() => {
     const fetchStoredTripData = async () => {
@@ -65,17 +66,20 @@ function CalendarScreen() {
     navigation.navigate("newTrip");
   };
 
-  const handleDayPress = (day) => {
-    const selectedDate = day.dateString;
-    setSelectedDate(selectedDate);
+  // const handleDayPress = (day) => {
+  //   const selectedDate = day.dateString;
+  //   setSelectedDate(selectedDate);
 
-    // Mark the selected date with a green circle
-    setSelectedDateMarked({
-      [selectedDate]: { selected: true, textColor: "#B726DC" },
-    });
+  //   // Mark the selected date with a green circle
+  //   setSelectedDateMarked({
+  //     [selectedDate]: { selected: true, textColor: "#000" },
+  //   });
 
-    setShowTodoList(true);
-  };
+  //   // Add the selected date to the list of dates with todos
+  //   setTodosDates((prevDates) => [...prevDates, selectedDate]);
+
+  //   setShowTodoList(true);
+  // };
 
   const convertToYYYYMMDD = (dateString) => {
     const date = new Date(dateString);
@@ -108,6 +112,32 @@ function CalendarScreen() {
       };
     });
   }
+
+  const handleDayPress = (day) => {
+    const selectedDate = day.dateString;
+    setSelectedDate(selectedDate);
+
+    // Mark the selected date with a green circle
+    setSelectedDateMarked({
+      [selectedDate]: { selected: true, textColor: "#000" },
+    });
+
+    // Only add the selected date to todosDates when saving a todo
+    setShowTodoList(true);
+  };
+
+  // ...
+
+  const updateMarkedDates = (date) => {
+    // Update marked dates when a todo is added
+    setSelectedDateMarked((prevMarkedDates) => ({
+      ...prevMarkedDates,
+      [date]: { selected: true, textColor: "#B726DC" },
+    }));
+
+    // Add the selected date to the list of dates with todos
+    setTodosDates((prevDates) => [...prevDates, date]);
+  };
 
   const renderTodosForDate = () => {
     if (selectedDate) {
@@ -188,7 +218,15 @@ function CalendarScreen() {
             markingType={"period"}
             markedDates={{
               ...markedDates,
-              ...selectedDateMarked,
+              ...todosDates.reduce((acc, date) => {
+                acc[date] = {
+                  marked: true,
+                  dotColor: "#B726DC",
+                  color: "transparant",
+                  textColor: "#B726DC",
+                };
+                return acc;
+              }, {}),
             }}
           />
 
@@ -197,16 +235,16 @@ function CalendarScreen() {
               onPress={handleAddTodoPress}
               style={styles.addTodoPressable}
             >
-              {/* <MaterialCommunityIcons
-              name="plus-circle-outline"
-              size={35}
-              color="#163532"
-              /> */}
               <Text style={styles.addButton}>Press a date to add a todo</Text>
             </Pressable>
           </View>
 
-          {showTodoList && <ToDoList selectedDate={selectedDate} />}
+          {showTodoList && (
+            <ToDoList
+              selectedDate={selectedDate}
+              updateMarkedDates={updateMarkedDates}
+            />
+          )}
         </View>
       </ScrollView>
     </>
