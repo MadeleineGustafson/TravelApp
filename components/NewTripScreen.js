@@ -117,7 +117,7 @@ function NewTripScreen() {
   return (
     <>
       <View style={styles.container}>
-        <Text style={styles.titleText}>Plan new trip</Text>
+        <Text style={styles.titleText}>Let's create a new travel plan!</Text>
         <SafeAreaView style={styles.formContainer}>
           <Text style={styles.labelText}>What is your name?</Text>
           <TextInput
@@ -126,6 +126,7 @@ function NewTripScreen() {
             value={name}
             onChangeText={(text) => setName(text)}
             returnKeyType="done"
+            placeholderTextColor="grey"
           />
           <Text style={styles.labelText}>Where are you going?</Text>
           <TextInput
@@ -134,6 +135,7 @@ function NewTripScreen() {
             value={destination}
             onChangeText={(text) => setDestination(text)}
             returnKeyType="done"
+            placeholderTextColor="grey"
           />
 
           <Text style={styles.labelText}>Enter first day of your trip:</Text>
@@ -144,8 +146,8 @@ function NewTripScreen() {
                 placeholder={chosenStartDate}
                 editable={false}
                 onPressIn={toggleStartDatePicker}
-                style={styles.input}
-                placeholderTextColor="#ffffff"
+                style={styles.inputDTP}
+                placeholderTextColor="grey"
               />
             </Pressable>
           )}
@@ -165,10 +167,14 @@ function NewTripScreen() {
               style={{ flexDirection: "row", justifyContent: "space-around" }}
             >
               <TouchableOpacity onPress={toggleStartDatePicker}>
-                <Text style={styles.smallButton}> Cancel</Text>
+                <View style={styles.smallButtonBckgr}>
+                  <Text style={styles.smallButton}> Cancel</Text>
+                </View>
               </TouchableOpacity>
               <TouchableOpacity onPress={confirmIOSDate}>
-                <Text style={styles.smallButton}> Confirm</Text>
+                <View style={styles.smallButtonBckgrconf}>
+                  <Text style={styles.smallButtonconf}> Confirm</Text>
+                </View>
               </TouchableOpacity>
             </View>
           )}
@@ -180,8 +186,8 @@ function NewTripScreen() {
                 placeholder={chosenEndDate}
                 editable={false}
                 onPressIn={toggleEndDatePicker}
-                style={styles.input}
-                placeholderTextColor="#ffffff"
+                style={styles.inputDTP}
+                placeholderTextColor="grey"
               />
             </Pressable>
           )}
@@ -201,10 +207,14 @@ function NewTripScreen() {
               style={{ flexDirection: "row", justifyContent: "space-around" }}
             >
               <TouchableOpacity onPress={toggleEndDatePicker}>
-                <Text style={styles.smallButton}> Cancel</Text>
+                <View style={styles.smallButtonBckgr}>
+                  <Text style={styles.smallButton}> Cancel</Text>
+                </View>
               </TouchableOpacity>
               <TouchableOpacity onPress={confirmIOSEndDate}>
-                <Text style={styles.smallButton}> Confirm</Text>
+                <View style={styles.smallButtonBckgrconf}>
+                  <Text style={styles.smallButtonconf}> Confirm</Text>
+                </View>
               </TouchableOpacity>
             </View>
           )}
@@ -236,18 +246,20 @@ const styles = StyleSheet.create({
     backgroundColor: "#163532",
   },
   formContainer: {
-    width: "80%",
+    width: "70%",
     alignItems: "center",
   },
   titleText: {
-    fontSize: 40,
+    fontSize: 30,
     fontWeight: "bold",
-    color: "white",
+    color: "#D1FFA0",
     marginBottom: 20,
+    margin: 30,
+    textAlign: "center",
   },
   labelText: {
     fontSize: 18,
-    color: "white",
+    color: "#D1FFA0",
     alignSelf: "flex-start",
     marginBottom: 5,
     marginTop: 10,
@@ -256,16 +268,26 @@ const styles = StyleSheet.create({
     height: 40,
     width: "100%",
     marginVertical: 8,
-    borderWidth: 1,
+    borderWidth: 3,
     borderRadius: 15,
     padding: 10,
-    borderColor: "white",
-    color: "white",
+    borderColor: "#EDF2E1",
+    backgroundColor: "#EDF2E1",
+  },
+  inputDTP: {
+    height: 40,
+    width: 260,
+    marginVertical: 8,
+    borderWidth: 3,
+    borderRadius: 15,
+    padding: 10,
+    borderColor: "#EDF2E1",
+    backgroundColor: "#EDF2E1",
   },
   button: {
     backgroundColor: "#D1FFA0",
     padding: 10,
-    borderRadius: 14,
+    borderRadius: 20,
     justifyContent: "flex-start",
     width: 200,
     marginVertical: 20,
@@ -284,12 +306,33 @@ const styles = StyleSheet.create({
   },
   DateTimePicker: {
     height: 100,
-    marginTop: -5,
+    margin: 10,
+    width: "90%",
   },
   smallButton: {
-    color: "white",
+    color: "#D1FFA0",
     fontSize: 17,
     marginHorizontal: 10,
+    margin: 5,
+  },
+  smallButtonBckgr: {
+    borderRadius: 20,
+    borderColor: "#D1FFA0",
+    borderWidth: 1,
+    margin: 10,
+  },
+  smallButtonconf: {
+    color: "#163532",
+    fontSize: 17,
+    marginHorizontal: 10,
+    margin: 5,
+  },
+  smallButtonBckgrconf: {
+    borderRadius: 20,
+    backgroundColor: "#D1FFA0",
+    margin: 10,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 
