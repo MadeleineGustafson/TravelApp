@@ -1,6 +1,7 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { Text, TouchableOpacity, View } from "react-native";
+import WeatherScreen from "../components/WeatherScreen";
 
 function Weather() {
   const navigation = useNavigation();
@@ -14,6 +15,7 @@ function Weather() {
         </TouchableOpacity>
       </View>
       <Text>Weather</Text>
+      <WeatherScreen />
     </View>
   );
 }
