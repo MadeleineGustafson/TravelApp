@@ -178,14 +178,14 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    textAlign: 'start',
+    textAlign: 'left',
     color: "white"
   },
   sectionTitleNotBold: {
     fontSize: 18,
     fontWeight: 'normal',
     marginBottom: 10,
-    textAlign: 'start',
+    textAlign: 'left',
     color: "white"
   },
   input: {
