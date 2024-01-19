@@ -46,13 +46,13 @@ function WeatherScreen() {
 
     // Define a mapping of weather descriptions to icons
     const iconMapping = {
-      "clear sky": <MaterialIcons name="wb-sunny" size={30} color="yellow" />,
-      "few clouds": <MaterialIcons name="wb-cloudy" size={30} color="white" />,
+      "clear sky": <MaterialIcons name="wb-sunny" size={60} color="yellow" />,
+      "few clouds": <MaterialIcons name="wb-cloudy" size={60} color="white" />,
       "scattered clouds": (
-        <Ionicons name="partly-sunny" size={30} color="white" />
+        <Ionicons name="partly-sunny" size={60} color="white" />
       ),
-      "broken clouds": <Ionicons name="partly-sunny" size={30} color="white" />,
-      "shower rain": <Ionicons name="rainy" size={30} color="#74aae8" />,
+      "broken clouds": <Ionicons name="partly-sunny" size={60} color="white" />,
+      "shower rain": <Ionicons name="rainy" size={60} color="#74aae8" />,
     };
 
     // Return the corresponding icon based on the description
@@ -64,13 +64,13 @@ function WeatherScreen() {
       <View style={{ flexDirection: "row" }}>
         <TextInput
           style={styles.inputfield}
-          placeholder="Type something..."
+          placeholder="Write your location"
           value={city}
           onChangeText={(text) => setCity(text)}
         />
         <TouchableOpacity style={styles.submitButton}>
           <Text style={styles.submitButtonText} onPress={handleSearch}>
-            Submit
+            <MaterialIcons name="search" size={20} color="#163532" />
           </Text>
         </TouchableOpacity>
       </View>
@@ -79,11 +79,12 @@ function WeatherScreen() {
       {weatherData && (
         <View style={styles.weatherDataContainer}>
           <Text style={styles.location}>{weatherData.name}</Text>
+
+          <View style={styles.iconContainer}>{renderWeatherIcon()}</View>
           <Text style={styles.weather}>
             {weatherData.weather[0].description}
           </Text>
-          <View style={styles.iconContainer}>{renderWeatherIcon()}</View>
-          <Text style={styles.temp}>{weatherData.main.temp}C°</Text>
+          <Text style={styles.temp}>{weatherData.main.temp} c°</Text>
           <View
             style={{
               flexDirection: "row",
@@ -92,10 +93,10 @@ function WeatherScreen() {
             }}
           >
             <Text style={styles.infotext}>
-              Feels like: {weatherData.main.feels_like} C°
+              Feels like: {weatherData.main.feels_like}c°
             </Text>
 
-            <Text style={styles.infotext}>
+            <Text style={styles.infotextwind}>
               Wind: {weatherData.wind.speed} km/h
             </Text>
           </View>
@@ -123,13 +124,11 @@ const styles = StyleSheet.create({
   submitButton: {
     backgroundColor: "#D1FFA0",
     borderRadius: 20,
-    width: 90,
-
+    width: 40,
     marginBottom: 10,
     padding: 10,
   },
   submitButtonText: {
-    color: "#163532",
     textAlign: "center",
   },
   weatherDataContainer: {
@@ -145,11 +144,19 @@ const styles = StyleSheet.create({
     fontSize: 50,
     color: "#D1FFA0",
     textAlign: "center",
+    margin: 20,
   },
   infotext: {
     fontSize: 13,
     color: "#EDF2E1",
     textAlign: "center",
+    paddingRight: 10,
+  },
+  infotextwind: {
+    fontSize: 13,
+    color: "#EDF2E1",
+    textAlign: "center",
+    paddingLeft: 10,
   },
   weather: {
     fontSize: 20,
