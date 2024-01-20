@@ -33,7 +33,7 @@ function IconBar({ tripId }) {
         <MaterialCommunityIcons name="ferris-wheel" size={50} color="#D1FFA0" />
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={() => navigateToScreen("notes", { tripId })}
+        onPress={() => navigateToScreen("packlist", { tripId })}
         style={styles.iconContainer}
       >
         <MaterialIcons name="notes" size={50} color="#D1FFA0" />
