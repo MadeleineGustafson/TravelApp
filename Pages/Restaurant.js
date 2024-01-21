@@ -71,31 +71,45 @@ function Restaurant({ route }) {
     }
   };
   return (
-    <>
-      <View style={{ justifyContent: "flex-start", margin: 20, marginTop: 40 }}>
+    <View style={{ flex: 1, backgroundColor: "#163532" }}>
+      <View
+        style={{
+          justifyContent: "flex-start",
+          margin: 20,
+          marginTop: 40,
+          backgroundColor: "#163532",
+        }}
+      >
         <TouchableOpacity
           onPress={() => navigation.navigate("calendar")} // Navigate to CalendarScreen
         >
-          <MaterialCommunityIcons name="close" size={30} color="#163532" />
+          <MaterialCommunityIcons name="close" size={30} color="#EDF2E1" />
         </TouchableOpacity>
       </View>
       <View
-        style={{ flex: 1, alignItems: "center", marginTop: 10, margin: 20 }}
+        style={{
+          flex: 1,
+          alignItems: "center",
+          marginTop: 0,
+          margin: 20,
+          backgroundColor: "#163532",
+        }}
       >
         <View
           style={{
             flexDirection: "row",
-            alignItems: "center",
+            alignItems: "flex-end",
             justifyContent: "center",
             margin: 10,
+            marginLeft: 21,
           }}
         >
-          <MaterialCommunityIcons name="food" size={70} color="#163532" />
+          <MaterialCommunityIcons name="food" size={75} color="#D1FFA0" />
           <View style={{ flexDirection: "column", marginLeft: 10, flex: 1 }}>
             <Text style={styles.title}>Restaurants</Text>
             <Text style={styles.text}>
-              On this page, you can save information or links to restaurants you
-              want to visit during your travels!
+              Save information or links to restaurants you want to visit during
+              your travels!
             </Text>
           </View>
         </View>
@@ -106,22 +120,19 @@ function Restaurant({ route }) {
           onDeleteNote={(note) => handleDeleteRestaurantNote(note)}
         />
       </View>
-    </>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   title: {
-    fontSize: 40,
+    fontSize: 35,
     fontWeight: "bold",
-    //marginBottom: 10,
-    color: "#163532",
+    color: "#D1FFA0",
   },
   text: {
     fontSize: 16,
-    //padding: 10,
-    //marginBottom: 10,
-    color: "#333",
+    color: "#EDF2E1",
   },
 });
 

@@ -81,28 +81,41 @@ const NotesScreen = ({
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{titleText}</Text>
-      <Text style={styles.title}>{descriptionText}</Text>
-      <ScrollView style={styles.noteList}>
-        {notesData.map((note) => (
-          <TouchableOpacity key={note.id} onPress={() => handleEditNote(note)}>
-            <Text style={styles.noteTitle}>{note.title}</Text>
-            <Text style={[styles.noteSmallText, isLink(note.content) && styles.linkText]} onPress={() => handleLinkPress(note.content)}>
-              {note.content}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
-      <TouchableOpacity
-        style={styles.addButton}
-        onPress={() => {
-          setTitle("");
-          setContent("");
-          setModalVisible(true);
-        }}
-      >
-        <Text style={styles.addButtonText}>Add</Text>
-      </TouchableOpacity>
+      <View style={styles.littlecontainer}>
+        <Text style={styles.title}>{titleText}</Text>
+        <Text style={styles.title}>{descriptionText}</Text>
+        <ScrollView style={styles.noteList}>
+          {notesData.map((note) => (
+            <TouchableOpacity
+              key={note.id}
+              onPress={() => handleEditNote(note)}
+            >
+              <Text style={styles.noteTitle}>{note.title}</Text>
+              <Text
+                style={[
+                  styles.noteSmallText,
+                  isLink(note.content) && styles.linkText,
+                ]}
+                onPress={() => handleLinkPress(note.content)}
+              >
+                {note.content}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+      </View>
+      <View style={{ justifyContent: "center", alignItems: "center" }}>
+        <TouchableOpacity
+          style={styles.addButton}
+          onPress={() => {
+            setTitle("");
+            setContent("");
+            setModalVisible(true);
+          }}
+        >
+          <Text style={styles.addButtonText}>Add</Text>
+        </TouchableOpacity>
+      </View>
       <Modal visible={modalVisible} animationType="slide" transparent={false}>
         <View style={styles.modalContainer}>
           {/* Note title input */}
@@ -124,19 +137,19 @@ const NotesScreen = ({
 
           {/* Buttons for saving, canceling, and deleting */}
           <View style={styles.buttonContainer}>
-            <Button title="Save" onPress={handleSaveNote} color="#007BFF" />
+            {selectedNote && (
+              <Button
+                title="Delete"
+                onPress={() => handleDeleteNote(selectedNote)}
+                style={styles.delete}
+              />
+            )}
+            <Button title="Save" onPress={handleSaveNote} style={styles.save} />
             <Button
               title="Cancel"
               onPress={() => setModalVisible(false)}
               color="#FF3B30"
             />
-            {selectedNote && (
-              <Button
-                title="Delete"
-                onPress={() => handleDeleteNote(selectedNote)}
-                color="#FF9500"
-              />
-            )}
           </View>
         </View>
       </Modal>
@@ -149,14 +162,18 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10,
   },
+  littlecontainer: {
+    height: 300,
+  },
   noteList: {
     flex: 1,
+    width: 300,
   },
   noteTitle: {
     fontSize: 18,
     marginBottom: 5,
+    color: "#EDF2E1",
     fontWeight: "bold",
-    color: "black",
     width: "100%",
     paddingLeft: 10,
     borderRadius: 8,
@@ -165,15 +182,18 @@ const styles = StyleSheet.create({
     fontSize: 15,
     paddingLeft: 10,
     marginBottom: 20,
+    color: "#EDF2E1",
   },
   addButton: {
     alignItems: "center",
-    padding: 20,
+    padding: 5,
     justifyContent: "center",
-    backgroundColor: "#163532",
+    borderColor: "#D1FFA0",
+    borderWidth: 2,
     paddingVertical: 12,
     borderRadius: 20,
     marginTop: 10,
+    width: 100,
   },
   addButtonText: {
     color: "#D1FFA0",
@@ -183,21 +203,19 @@ const styles = StyleSheet.create({
   modalContainer: {
     flex: 1,
     padding: 50,
-    backgroundColor: "white",
+    backgroundColor: "#163532",
   },
   input: {
-    borderWidth: 1,
-    borderColor: "#E0E0E0",
     padding: 10,
     marginBottom: 10,
-    borderRadius: 5,
+    borderRadius: 20,
+    backgroundColor: "#EDF2E1",
   },
   contentInput: {
-    borderWidth: 1,
-    borderColor: "#E0E0E0",
+    borderRadius: 20,
+    backgroundColor: "#EDF2E1",
     padding: 10,
     marginBottom: 20,
-    borderRadius: 5,
     height: 150,
     textAlignVertical: "top",
   },
@@ -206,7 +224,14 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   linkText: {
-    textDecorationLine: 'underline',
+    textDecorationLine: "underline",
+  },
+  delete: {
+    backgroundColor: "#D1FFA0",
+  },
+  save: {
+    backgroundColor: "#D1FFA0",
+    textColor: "#D1FFA0",
   },
 });
 
