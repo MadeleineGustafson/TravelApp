@@ -132,7 +132,7 @@ const PackListScreen = ({ route, onSaveItem }) => {
           setModalVisible(true);
         }}
       >
-        <Text style={styles.addButtonText}>Add Pack Item</Text>
+        <Text style={styles.addButtonText}>Add Item</Text>
       </TouchableOpacity>
 
       <Modal
