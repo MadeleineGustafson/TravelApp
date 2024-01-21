@@ -37,7 +37,7 @@ const PackListScreen = ({ route, onSaveItem }) => {
   
     if (selectedPackItem) {
       const updatedPackItems = packItems.map((item) =>
-        item.id === selectedPackItem.id ? { ...item, title } : item
+        item.id === selectedPackItem.id ? { ...item, title, checked: selectedPackItem.checked } : item
       );
       setPackItems((prevPackItems) => {
         // Use the state updater function to ensure the correct state
@@ -70,7 +70,12 @@ const PackListScreen = ({ route, onSaveItem }) => {
     const updatedPackItems = packItems.map((packItem) =>
       packItem.id === item.id ? { ...packItem, checked: !packItem.checked } : packItem
     );
-    setPackItems(updatedPackItems);
+    setPackItems((prevPackItems) => {
+      // Use the state updater function to ensure the correct state
+      const newState = updatedPackItems;
+      savePackingList(tripId, newState);
+      return newState;
+    });
   };
 
   const handleEditPackItem = (item) => {
