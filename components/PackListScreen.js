@@ -1,60 +1,66 @@
-import React, { useState } from "react";
-import {
-  Button,
-  Modal,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import React, { useEffect, useState } from "react";
+import { Button, Modal, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import CheckBox from 'react-native-check-box';
+import { useTripContext } from "../contexts/TripContext";
 
-const PackListScreen = () => {
-  // State variables
-  // Array to store pack items
+const PackListScreen = ({ route, onSaveItem }) => {
+  const { savePackingList, getPackingList } = useTripContext();
   const [packItems, setPackItems] = useState([]);
-
-  // Selected pack item for editing
   const [selectedPackItem, setSelectedPackItem] = useState(null);
-
-  // Pack item title
   const [title, setTitle] = useState("");
-
-  // Modal visibility state
+  const [content, setContent] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
+  const { tripId } = route.params;
 
-  // Function to handle saving a pack item
+  useEffect(() => {
+    const fetchItems = async () => {
+      try {
+        console.log("Fetching trip items for tripId:", tripId);
+        const items = await getPackingList(tripId);
+        console.log("Fetched trip items:", items);
+        setPackItems(items || []); // Ensure items is not undefined
+      } catch (error) {
+        console.error("Error fetching trip items:", error);
+      }
+    };
+
+    fetchItems();
+  }, [tripId, getPackingList]);
+
   const handleSavePackItem = () => {
+    console.log("Saving pack item...");
+
+    // If onSaveItem is a function, call it with the necessary data
+    if (typeof onSaveItem === 'function') {
+      onSaveItem(selectedPackItem, title, content);
+    }
+
     if (selectedPackItem) {
-      // If a pack item is selected, update it
       const updatedPackItems = packItems.map((item) =>
         item.id === selectedPackItem.id ? { ...item, title } : item
       );
       setPackItems(updatedPackItems);
       setSelectedPackItem(null);
     } else {
-      // If no pack item is selected, add a new pack item
       const newPackItem = {
         id: Date.now(),
         title,
-        checked: false, // Initialize the checked state to false
+        checked: false,
       };
       setPackItems([...packItems, newPackItem]);
     }
+
+    // Save the updated packing list
+    savePackingList(tripId, packItems); // Assuming `tripId` is the relevant identifier
+
     setTitle("");
     setModalVisible(false);
-  };
 
-  // Function to handle editing a pack item
-  const handleEditPackItem = (item) => {
-    setSelectedPackItem(item);
-    setTitle(item.title);
-    setModalVisible(true);
+    console.log("Pack item saved successfully!");
   };
+  
+  
 
-  // Function to handle checking/unchecking a pack item
   const handleToggleCheckbox = (item) => {
     const updatedPackItems = packItems.map((packItem) =>
       packItem.id === item.id ? { ...packItem, checked: !packItem.checked } : packItem
@@ -62,7 +68,13 @@ const PackListScreen = () => {
     setPackItems(updatedPackItems);
   };
 
-  // Function to handle deleting a pack item
+  const handleEditPackItem = (item) => {
+    setSelectedPackItem(item);
+    setTitle(item.title);
+    setContent(item.content);
+    setModalVisible(true);
+  };
+
   const handleDeletePackItem = (item) => {
     const updatedPackItems = packItems.filter(
       (packItem) => packItem.id !== item.id
@@ -70,14 +82,18 @@ const PackListScreen = () => {
     setPackItems(updatedPackItems);
     setSelectedPackItem(null);
     setModalVisible(false);
+  
+    // Corrected line, replace onDeleteItem with onSaveItem
+    onSaveItem(selectedPackItem, title, content);
+  
+    console.log("Pack item deleted successfully!");
   };
+  
 
   return (
     <View style={styles.container}>
-      {/* Title */}
       <Text style={styles.title}>My Packing List</Text>
 
-      {/* List of pack items */}
       <ScrollView style={styles.packItemList}>
         {packItems.map((packItem) => (
           <TouchableOpacity
@@ -85,18 +101,18 @@ const PackListScreen = () => {
             onPress={() => handleEditPackItem(packItem)}
           >
             <View style={styles.packItemContainer}>
-              <CheckBox style={styles.checkBox}
+              <CheckBox
+                style={styles.checkBox}
                 onClick={() => handleToggleCheckbox(packItem)}
                 isChecked={packItem.checked}
                 leftText={"CheckBox"}
-            />
+              />
               <Text style={styles.packItemTitle}>{packItem.title}</Text>
             </View>
           </TouchableOpacity>
         ))}
       </ScrollView>
 
-      {/* Add Pack Item button */}
       <TouchableOpacity
         style={styles.addButton}
         onPress={() => {
@@ -107,22 +123,18 @@ const PackListScreen = () => {
         <Text style={styles.addButtonText}>Add Pack Item</Text>
       </TouchableOpacity>
 
-      {/* Modal for creating/editing pack items */}
       <Modal
         visible={modalVisible}
         animationType="slide"
         transparent={false}
       >
         <View style={styles.modalContainer}>
-          {/* Pack item title input */}
           <TextInput
             style={styles.input}
             placeholder="Enter pack item title"
             value={title}
             onChangeText={setTitle}
           />
-
-          {/* Buttons for saving, canceling, and deleting */}
           <View style={styles.buttonContainer}>
             <Button
               title="Save"

@@ -33,11 +33,15 @@ function IconBar({ tripId }) {
         <MaterialCommunityIcons name="ferris-wheel" size={50} color="#D1FFA0" />
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={() => navigateToScreen("packlist", { tripId })}
+        onPress={() => {
+          console.log("Navigating to packlist with tripId:", tripId);
+          navigateToScreen("packlist", { tripId });
+        }}
         style={styles.iconContainer}
       >
         <MaterialIcons name="notes" size={50} color="#D1FFA0" />
       </TouchableOpacity>
+
       <TouchableOpacity
         onPress={() => navigateToScreen("weather")}
         style={styles.iconContainer}

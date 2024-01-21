@@ -114,6 +114,31 @@ export const TripProvider = ({ children }) => {
     }
   };
 
+  // Save and retrieve packing list items
+const getPackingList = async (tripId) => {
+  try {
+    const packingList = await AsyncStorage.getItem(`packingList:${tripId}`);
+    console.log("Fetched packing list for tripId:", tripId, "Data:", packingList);
+    return packingList ? JSON.parse(packingList) : [];
+  } catch (error) {
+    console.error("Error fetching packing list:", error);
+    return [];
+  }
+};
+
+// Inside savePackingList
+const savePackingList = async (tripId, packingList) => {
+  try {
+    await AsyncStorage.setItem(`packingList:${tripId}`, JSON.stringify(packingList));
+    console.log("Saved packing list for tripId:", tripId, "Data:", packingList);
+  } catch (error) {
+    console.error("Error saving packing list:", error);
+  }
+};
+
+  
+  
+
   const value = {
     trips,
     addTrip,
@@ -125,6 +150,8 @@ export const TripProvider = ({ children }) => {
     saveRestaurantNotes,
     getSightNotes,
     saveSightNotes,
+    getPackingList,
+    savePackingList,
   };
 
   return <TripContext.Provider value={value}>{children}</TripContext.Provider>;
