@@ -10,7 +10,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View,
+  View
 } from "react-native";
 import { useTripContext } from "../contexts/TripContext";
 
@@ -43,14 +43,14 @@ function NewTripScreen() {
     if (type === "set") {
       const currentDate = selectedDate;
       setStartDate(currentDate);
+      setChosenStartDate(currentDate.toISOString().split("T")[0]); // Update chosen date
       if (Platform.OS === "android") {
-        setStartDate(currentDate);
         toggleStartDatePicker();
       }
     } else {
       toggleStartDatePicker();
     }
-
+  
     // Check if all required fields are filled
     validateForm();
   };
@@ -59,14 +59,14 @@ function NewTripScreen() {
     if (type === "set") {
       const currentDate = selectedDate;
       setEndDate(currentDate);
+      setChosenEndDate(currentDate.toISOString().split("T")[0]); // Update chosen date
       if (Platform.OS === "android") {
-        setEndDate(currentDate);
         toggleEndDatePicker();
       }
     } else {
       toggleEndDatePicker();
     }
-
+  
     // Check if all required fields are filled
     validateForm();
   };
@@ -176,7 +176,7 @@ function NewTripScreen() {
                   <Text style={styles.smallButtonconf}> Confirm</Text>
                 </View>
               </TouchableOpacity>
-            </View>
+              </View>
           )}
 
           <Text style={styles.labelText}>Enter the last day of your trip</Text>
