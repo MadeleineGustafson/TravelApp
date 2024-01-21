@@ -28,8 +28,6 @@ const PackListScreen = ({ route, onSaveItem }) => {
   }, [tripId, getPackingList]);
 
   const handleSavePackItem = () => {
-    console.log("Saving pack item...");
-
     // If onSaveItem is a function, call it with the necessary data
     if (typeof onSaveItem === 'function') {
       onSaveItem(selectedPackItem, title, content);
@@ -84,7 +82,9 @@ const PackListScreen = ({ route, onSaveItem }) => {
     setModalVisible(false);
   
     // Corrected line, replace onDeleteItem with onSaveItem
-    onSaveItem(selectedPackItem, title, content);
+    if (typeof onSaveItem === 'function') {
+      onSaveItem(selectedPackItem, title, content);
+    }
   
     console.log("Pack item deleted successfully!");
   };
