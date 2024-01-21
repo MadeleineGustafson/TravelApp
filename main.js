@@ -48,6 +48,11 @@ function Main() {
       <Tab.Navigator
         screenOptions={{
           headerShown: false,
+          tabBarStyle: {
+            backgroundColor: "#163532", // Set the background color of the tab bar
+          },
+          tabBarActiveTintColor: "#D3DFB7",
+          tabBarInactiveTintColor: "#707070",
         }}
       >
         <Tab.Screen name="Home" component={HomeStack} />
