@@ -15,22 +15,28 @@ function Countdown({ startDate }) {
 
   const countdownTextStyle = {
     fontSize: 18,
-    color: '#B726DC',
+    color: '#D1FFA0',
   };
 
   const countdownCircleSize = 70;
 
+  const calculatePercentage = () => {
+    return (daysRemaining / (daysRemaining + 1)) * 100; // +1 to avoid division by zero
+  };
+
   return (
     <CountdownCircleTimer
       isPlaying
-      duration={daysRemaining * 24 * 3600} // Convert days to seconds
-      colors={['#B726DC', '#F7B801', '#A30000', '#A30000']}
+      duration={daysRemaining * 24 * 3600}
+      colors={['#D1FFA0', '#B726DC']}
       size={countdownCircleSize}
       strokeWidth={3}
+      rotation='clockwise'
+      trailColor='#D1FFA0'
     >
-      {() => (
+      {({ remainingTime }) => (
         <Text style={countdownTextStyle}>
-          {daysRemaining} days
+          {Math.ceil(remainingTime / 86400)} days
         </Text>
       )}
     </CountdownCircleTimer>

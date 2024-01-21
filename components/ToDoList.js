@@ -1,7 +1,8 @@
 import DateTimePicker from '@react-native-community/datetimepicker';
 import React, { useState } from 'react';
-import { FlatList, Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { FlatList, Keyboard, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import Todo from './Todo';
+
 
 const ToDoList = ({ selectedDate }) => {
   const [todo, setTodo] = useState("");
@@ -88,6 +89,11 @@ const ToDoList = ({ selectedDate }) => {
   };
 
   return (
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={{ flex: 1 }}
+    >
+
     <View style={styles.container}>
       <Text style={styles.sectionTitle}>Today's plans</Text>
       <Text style={styles.sectionTitleNotBold}>
@@ -137,10 +143,10 @@ const ToDoList = ({ selectedDate }) => {
 
         {showStartDateTimePicker && (
           <DateTimePicker
-            value={selectedStartDateTime}
-            mode="time"
-            is24Hour={true}
-            display="default"
+          value={selectedStartDateTime}
+          mode="time"
+          is24Hour={true}
+          display="default"
             onChange={handleStartDateTimeChange}
             textColor="white"
 
@@ -161,10 +167,11 @@ const ToDoList = ({ selectedDate }) => {
             onChange={handleEndDateTimeChange}
             textColor="white"
             />
-        )}
+            )}
 
         </View>
       </View>
+  </KeyboardAvoidingView>
 
   );
 };
@@ -178,14 +185,14 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    textAlign: 'start',
+    textAlign: 'left',
     color: "white"
   },
   sectionTitleNotBold: {
     fontSize: 18,
     fontWeight: 'normal',
     marginBottom: 10,
-    textAlign: 'start',
+    textAlign: 'left',
     color: "white"
   },
   input: {
@@ -233,6 +240,7 @@ const styles = StyleSheet.create({
   dateTimePickers: {
     flexDirection: 'row',
     alignItems: 'center',
+    color: "#fff"
   },
   addText: {
     fontSize: 20,

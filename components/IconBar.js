@@ -1,4 +1,4 @@
-import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
+import { Entypo, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { TouchableOpacity, View } from "react-native";
@@ -33,11 +33,16 @@ function IconBar({ tripId }) {
         <MaterialCommunityIcons name="ferris-wheel" size={50} color="#D1FFA0" />
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={() => navigateToScreen("notes", { tripId })}
+        onPress={() => {
+          console.log("Navigating to packlist with tripId:", tripId);
+          navigateToScreen("packlist", { tripId });
+        }}
         style={styles.iconContainer}
       >
-        <MaterialIcons name="notes" size={50} color="#D1FFA0" />
+        <Entypo name="list" size={58} color="#D1FFA0" />
+        {/* <MaterialIcons name="notes" size={50} color="#D1FFA0" /> */}
       </TouchableOpacity>
+
       <TouchableOpacity
         onPress={() => navigateToScreen("weather")}
         style={styles.iconContainer}
