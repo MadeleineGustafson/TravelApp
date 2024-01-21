@@ -28,16 +28,23 @@ const PackListScreen = ({ route, onSaveItem }) => {
   }, [tripId, getPackingList]);
 
   const handleSavePackItem = () => {
+    console.log("Saving pack item...");
+  
     // If onSaveItem is a function, call it with the necessary data
     if (typeof onSaveItem === 'function') {
       onSaveItem(selectedPackItem, title, content);
     }
-
+  
     if (selectedPackItem) {
       const updatedPackItems = packItems.map((item) =>
         item.id === selectedPackItem.id ? { ...item, title } : item
       );
-      setPackItems(updatedPackItems);
+      setPackItems((prevPackItems) => {
+        // Use the state updater function to ensure the correct state
+        const newState = updatedPackItems;
+        savePackingList(tripId, newState);
+        return newState;
+      });
       setSelectedPackItem(null);
     } else {
       const newPackItem = {
@@ -45,19 +52,19 @@ const PackListScreen = ({ route, onSaveItem }) => {
         title,
         checked: false,
       };
-      setPackItems([...packItems, newPackItem]);
+      setPackItems((prevPackItems) => {
+        // Use the state updater function to ensure the correct state
+        const newState = [...prevPackItems, newPackItem];
+        savePackingList(tripId, newState);
+        return newState;
+      });
     }
-
-    // Save the updated packing list
-    savePackingList(tripId, packItems); // Assuming `tripId` is the relevant identifier
-
+  
     setTitle("");
     setModalVisible(false);
-
+  
     console.log("Pack item saved successfully!");
   };
-  
-  
 
   const handleToggleCheckbox = (item) => {
     const updatedPackItems = packItems.map((packItem) =>
