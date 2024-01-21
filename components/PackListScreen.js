@@ -117,7 +117,8 @@ const PackListScreen = ({ route, onSaveItem }) => {
                 style={styles.checkBox}
                 onClick={() => handleToggleCheckbox(packItem)}
                 isChecked={packItem.checked}
-                leftText={"CheckBox"}
+                tintColor={{true: "white", false: "yellow"}}
+                tintColors={{true: "white", false: "yellow"}}
               />
               <Text style={styles.packItemTitle}>{packItem.title}</Text>
             </View>
@@ -194,17 +195,14 @@ const styles = StyleSheet.create({
   },
   packItemTitle: {
     fontSize: 15,
-    marginBottom: 10,
     fontWeight: "bold",
     color: "#D3DFB7",
-    height: 40,
     width: "100%",
-    padding: 15,
-    marginLeft: 5,
+    marginLeft: 30,
   },
   checkBox: {
     flex: 1, 
-    padding: 20, 
+    padding: 10, 
   },
   addButton: {
     alignItems: "center",
