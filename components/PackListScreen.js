@@ -117,8 +117,7 @@ const PackListScreen = ({ route, onSaveItem }) => {
                 style={styles.checkBox}
                 onClick={() => handleToggleCheckbox(packItem)}
                 isChecked={packItem.checked}
-                tintColor={{true: "white", false: "yellow"}}
-                tintColors={{true: "white", false: "yellow"}}
+                checkBoxColor="#D3DFB7"
               />
               <Text style={styles.packItemTitle}>{packItem.title}</Text>
             </View>
