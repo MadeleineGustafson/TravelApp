@@ -114,7 +114,8 @@ export const TripProvider = ({ children }) => {
     }
   };
 
-  const saveCalendarTodos = async (tripId, date, todos) => {
+  //save todo items
+  const saveTodoList = async (tripId, date, todos) => {
     try {
       const existingTodos = (await getCalendarTodos(tripId, date)) || {};
 
@@ -133,7 +134,7 @@ export const TripProvider = ({ children }) => {
     }
   };
 
-  const getCalendarTodos = async (tripId, date) => {
+  const getTodoList = async (tripId, date) => {
     try {
       const calendarTodos = await AsyncStorage.getItem(
         `calendarTodos:${tripId}`
@@ -183,8 +184,8 @@ export const TripProvider = ({ children }) => {
     saveRestaurantNotes,
     getSightNotes,
     saveSightNotes,
-    getCalendarTodos,
-    saveCalendarTodos,
+    getTodoList,
+    saveTodoList,
     getPackingList,
     savePackingList,
   };
