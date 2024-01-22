@@ -1,8 +1,16 @@
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { useFonts } from "expo-font";
-import React from "react";
-import { Image, ImageBackground, Text, TouchableOpacity, View } from "react-native";
+import React, { useEffect, useRef } from "react";
+import {
+  Animated,
+  Easing,
+  Image,
+  ImageBackground,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import backgroundImage from "../assets/Train_Darker.png";
 import bigLine from "../assets/bigLine.png";
 
@@ -19,9 +27,36 @@ function StartScreen() {
     'Poppins-Regular': require("../assets/fonts/Poppins-Regular.ttf")
   });
 
+  const animatedValue = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    const moveTrain = () => {
+      Animated.timing(animatedValue, {
+        toValue: 1,
+        duration: 1000,
+        easing: Easing.linear,
+        useNativeDriver: false,
+      }).start(() => {
+        Animated.timing(animatedValue, {
+          toValue: 0,
+          duration: 1000,
+          easing: Easing.linear,
+          useNativeDriver: false,
+        }).start(() => moveTrain());
+      });
+    };
+
+    moveTrain();
+  }, [animatedValue]);
+
   if (!fontsLoaded) {
     return undefined;
   }
+
+  const translateX = animatedValue.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0, -10], // Adjust the value for the desired horizontal distance
+  });
 
   return (
     <ImageBackground
@@ -33,31 +68,50 @@ function StartScreen() {
         backgroundColor: "#163532",
       }}
     >
-      <View style={{ position: 'relative', justifyContent: "flex-start", width: "100%" }}>
+      <View
+        style={{
+          position: "relative",
+          justifyContent: "flex-start",
+          width: "100%",
+        }}
+      >
         <Image
           source={bigLine}
           style={{
-            zIndex: 1,  // Set a higher zIndex for bigLine
-            position: 'absolute',  // Position it absolutely within the parent
+            zIndex: 1,
+            position: "absolute",
             top: 230,
             left: 0,
             right: 50,
             bottom: 0,
           }}
         />
-        <View style={{ flexDirection: "row", alignItems: "center", zIndex: 2 }}>
-        <Text
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            zIndex: 2,
+          }}
+        >
+          <Text
             style={{
               fontSize: 55,
               fontFamily: "Kalnia-Bold",
               color: "#D1FFA0",
-              margin: 20,  
+              margin: 20,
               top: -70,
             }}
           >
             Travel Planner
           </Text>
-          <MaterialIcons name="train" size={55} color="#D1FFA0" style={{top: -32}} />
+          <Animated.View style={{ transform: [{ translateX }] }}>
+            <MaterialIcons
+              name="train"
+              size={55}
+              color="white"
+              style={{ top: -32 }}
+            />
+          </Animated.View>
         </View>
 
         <Text
@@ -72,8 +126,10 @@ function StartScreen() {
           Make your travel planning easier
         </Text>
 
-        {/* TouchableOpacity for navigation */}
-        <TouchableOpacity onPress={navigateToMyTrips} style={{ zIndex: 2 }}>
+        <TouchableOpacity
+          onPress={navigateToMyTrips}
+          style={{ zIndex: 2, top: -60 }}
+        >
           <View
             style={{
               backgroundColor: "#D1FFA0",
@@ -82,10 +138,11 @@ function StartScreen() {
               justifyContent: "flex-start",
               width: 140,
               margin: 20,
-              top: -60,
             }}
           >
-            <Text style={{ color: "#163532", fontSize: 15, fontFamily: "Poppins-Bold" }}>
+            <Text
+              style={{ color: "#163532", fontSize: 15, fontFamily: "Poppins-Bold" }}
+            >
               Start planning!
             </Text>
           </View>
