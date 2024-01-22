@@ -184,13 +184,14 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontFamily:"Poppins-Bold",
     textAlign: 'left',
     color: "white"
   },
   sectionTitleNotBold: {
-    fontSize: 18,
+    fontSize: 17,
     fontWeight: 'normal',
+    fontFamily:"Poppins-Regular",
     marginBottom: 10,
     textAlign: 'left',
     color: "white"
@@ -203,6 +204,7 @@ const styles = StyleSheet.create({
     borderColor: '#C0C0C0',
     borderWidth: 1,
     width: 250,
+    fontFamily:"Poppins-Regular",
   },
   addWrapper: {
     width: 50,
@@ -247,6 +249,7 @@ const styles = StyleSheet.create({
   },
   timeText: {
     fontSize: 20,
+    fontFamily:"Poppins-Regular",
     color: "#D3DFB7",
   },
 });

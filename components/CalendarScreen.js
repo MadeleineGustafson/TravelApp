@@ -12,9 +12,9 @@ import {
 } from "react-native";
 import { Calendar } from "react-native-calendars";
 import { useTripContext } from "../contexts/TripContext";
-import Countdown from "./countdown";
 import IconBar from "./IconBar";
 import ToDoList from "./ToDoList";
+import Countdown from "./countdown";
 
 function CalendarScreen() {
   const { getTrip } = useTripContext();
@@ -178,7 +178,9 @@ function CalendarScreen() {
             theme={{
               calendarBackground: "#163532",
               monthTextColor: "white",
+              fontFamily: "Poppins-Regular",
               textMonthFontSize: 22,
+              textMonthFontFamily: "Poppins-Bold",
               arrowColor: "white",
               dayTextColor: "#D1FFA0",
               todayBackgroundColor: "#B726DC",
@@ -229,13 +231,14 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginTop: 10,
     textAlign: "center",
-    fontWeight: "bold",
+    fontFamily: "Poppins-Bold",
     color: "white",
   },
   styleCalendar: {
     marginTop: 50,
     width: 300,
     backgroundColor: "#163532",
+    fontFamily: "Poppins-Bold",
   },
   day: {
     textAlign: "center",
