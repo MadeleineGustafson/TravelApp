@@ -70,7 +70,7 @@ function WeatherScreen() {
         />
         <TouchableOpacity style={styles.submitButton}>
           <Text style={styles.submitButtonText} onPress={handleSearch}>
-            <MaterialIcons name="search" size={20} color="#163532" />
+            <MaterialIcons name="search" size={25} color="#163532" />
           </Text>
         </TouchableOpacity>
       </View>
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
   submitButton: {
     backgroundColor: "#D1FFA0",
     borderRadius: 20,
-    width: 40,
+    width: 60,
     marginBottom: 10,
     padding: 10,
   },
