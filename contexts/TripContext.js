@@ -114,6 +114,64 @@ export const TripProvider = ({ children }) => {
     }
   };
 
+  const saveCalendarTodos = async (tripId, date, todos) => {
+    try {
+      const existingTodos = (await getCalendarTodos(tripId, date)) || {};
+
+      // Update todos for the specific date
+      existingTodos[date] = todos;
+
+      // Save the updated todos to AsyncStorage
+      await AsyncStorage.setItem(
+        `calendarTodos:${tripId}`,
+        JSON.stringify(existingTodos)
+      );
+
+      console.log("Todos saved successfully:", existingTodos);
+    } catch (error) {
+      console.error("Error saving calendarTodos:", error);
+    }
+  };
+
+  const getCalendarTodos = async (tripId, date) => {
+    try {
+      const calendarTodos = await AsyncStorage.getItem(
+        `calendarTodos:${tripId}`
+      );
+
+      console.log("Fetched todos from AsyncStorage:", calendarTodos);
+
+      return calendarTodos ? JSON.parse(calendarTodos)[date] || [] : [];
+    } catch (error) {
+      console.error("Error fetching calendarTodos:", error);
+      return [];
+    }
+  };
+
+  // Save and retrieve packing list items
+   const getPackingList = async (tripId) => {
+    try {
+      const packingList = await AsyncStorage.getItem(`packingList:${tripId}`);
+      console.log("Fetched packing list for tripId:", tripId, "Data:", packingList);
+      return packingList ? JSON.parse(packingList) : [];
+    } catch (error) {
+      console.error("Error fetching packing list:", error);
+      return [];
+    }
+  };
+  
+
+  // Inside savePackingList
+  const savePackingList = async (tripId, packingList) => {
+    try {
+      await AsyncStorage.setItem(`packingList:${tripId}`, JSON.stringify(packingList));
+      console.log("Saved packing list for tripId:", tripId, "Data:", packingList);
+    } catch (error) {
+      console.error("Error saving packing list:", error);
+    }
+  };
+
+
   const value = {
     trips,
     addTrip,
