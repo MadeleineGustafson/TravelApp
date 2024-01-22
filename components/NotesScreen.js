@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
   addButtonText: {
     color: "#D1FFA0",
     fontSize: 16,
-    fontWeight: "bold",
+    fontFamily:"Poppins-Bold",
   },
   modalContainer: {
     flex: 1,

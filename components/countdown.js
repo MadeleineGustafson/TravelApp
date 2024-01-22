@@ -14,11 +14,12 @@ function Countdown({ startDate }) {
   }, [startDate]);
 
   const countdownTextStyle = {
-    fontSize: 18,
+    fontSize: 14,
+    fontFamily:"Poppins-Regular",
     color: '#D1FFA0',
   };
 
-  const countdownCircleSize = 70;
+  const countdownCircleSize = 65;
 
   const calculatePercentage = () => {
     return (daysRemaining / (daysRemaining + 1)) * 100; // +1 to avoid division by zero
@@ -28,11 +29,11 @@ function Countdown({ startDate }) {
     <CountdownCircleTimer
       isPlaying
       duration={daysRemaining * 24 * 3600}
-      colors={['#D1FFA0', '#B726DC']}
+      colors={['#B726DC', '#B726DC']}
       size={countdownCircleSize}
       strokeWidth={3}
       rotation='clockwise'
-      trailColor='#D1FFA0'
+      trailColor='#B726DC'
     >
       {({ remainingTime }) => (
         <Text style={countdownTextStyle}>

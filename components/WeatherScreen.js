@@ -70,7 +70,7 @@ function WeatherScreen() {
         />
         <TouchableOpacity style={styles.submitButton}>
           <Text style={styles.submitButtonText} onPress={handleSearch}>
-            <MaterialIcons name="search" size={20} color="#163532" />
+            <MaterialIcons name="search" size={25} color="#163532" />
           </Text>
         </TouchableOpacity>
       </View>
@@ -115,8 +115,9 @@ const styles = StyleSheet.create({
   },
   inputfield: {
     padding: 10,
-    width: 150,
+    width: 200,
     borderRadius: 20,
+    fontFamily:"Poppins-Regular",
     backgroundColor: "#EDF2E1",
     marginBottom: 10,
     marginRight: 10,
@@ -124,7 +125,7 @@ const styles = StyleSheet.create({
   submitButton: {
     backgroundColor: "#D1FFA0",
     borderRadius: 20,
-    width: 40,
+    width: 60,
     marginBottom: 10,
     padding: 10,
   },
@@ -136,30 +137,35 @@ const styles = StyleSheet.create({
   },
   location: {
     fontSize: 30,
+    fontFamily:"Poppins-Regular",
     color: "#EDF2E1",
     margin: 10,
     textAlign: "center",
   },
   temp: {
-    fontSize: 50,
+    fontSize: 45,
     color: "#D1FFA0",
     textAlign: "center",
+    fontFamily:"Poppins-Bold",
     margin: 20,
   },
   infotext: {
     fontSize: 13,
+    fontFamily:"Poppins-Regular",
     color: "#EDF2E1",
     textAlign: "center",
     paddingRight: 10,
   },
   infotextwind: {
     fontSize: 13,
+    fontFamily:"Poppins-Regular",
     color: "#EDF2E1",
     textAlign: "center",
     paddingLeft: 10,
   },
   weather: {
     fontSize: 20,
+    fontFamily:"Poppins-Regular",
     color: "#EDF2E1",
     textAlign: "center",
   },

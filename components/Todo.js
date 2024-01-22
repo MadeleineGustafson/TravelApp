@@ -84,12 +84,14 @@ const styles = StyleSheet.create({
   itemText: {
     maxWidth: '100%',
     fontSize: 18,
+    fontFamily:"Poppins-Bold",
     fontWeight: 'bold',
     color: "#163532",
   },
   timeText: {
     maxWidth: '100%',
     fontSize: 16,
+    fontFamily:"Poppins-Regular",
     color: "#163532",
   },
   timeContainer: {

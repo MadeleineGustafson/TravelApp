@@ -122,7 +122,7 @@ function NewTripScreen() {
           <Text style={styles.labelText}>What is your name?</Text>
           <TextInput
             style={styles.input}
-            placeholder="Enter your Name"
+            placeholder="Enter your name"
             value={name}
             onChangeText={(text) => setName(text)}
             returnKeyType="done"
@@ -251,14 +251,15 @@ const styles = StyleSheet.create({
   },
   titleText: {
     fontSize: 30,
-    fontWeight: "bold",
+    fontFamily:"Kalnia-Bold",
     color: "#D1FFA0",
     marginBottom: 20,
     margin: 30,
     textAlign: "center",
   },
   labelText: {
-    fontSize: 18,
+    fontSize: 17,
+    fontFamily:"Poppins-Bold",
     color: "#D1FFA0",
     alignSelf: "flex-start",
     marginBottom: 5,
@@ -268,6 +269,7 @@ const styles = StyleSheet.create({
     height: 40,
     width: "100%",
     marginVertical: 8,
+    fontFamily:"Poppins-Regular",
     borderWidth: 3,
     borderRadius: 15,
     padding: 10,
@@ -297,6 +299,7 @@ const styles = StyleSheet.create({
     color: "#163532",
     fontSize: 18,
     fontWeight: "bold",
+    fontFamily:"Poppins-Bold",
   },
   datePicker: {
     width: "100%",
