@@ -112,13 +112,14 @@ function Restaurant({ route }) {
 
 const styles = StyleSheet.create({
   title: {
-    fontSize: 40,
-    fontWeight: "bold",
+    fontSize: 36,
+    fontFamily: "Poppins-Bold",
     //marginBottom: 10,
     color: "#163532",
   },
   text: {
     fontSize: 16,
+    fontFamily:"Poppins-Regular",
     //padding: 10,
     //marginBottom: 10,
     color: "#333",

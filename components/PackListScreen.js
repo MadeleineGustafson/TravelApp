@@ -179,8 +179,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#163532",
   },
   title: {
-    fontSize: 24,
-    fontWeight: "bold",
+    fontSize: 28,
+    fontFamily:"Poppins-Bold",
     marginBottom: 10,
     color: "#D3DFB7",
   },
@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
   },
   packItemTitle: {
     fontSize: 15,
-    fontWeight: "bold",
+    fontFamily:"Poppins-Regular",
     color: "#D3DFB7",
     width: "100%",
     marginLeft: 30,
@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
   addButtonText: {
     color: "#163532",
     fontSize: 16,
-    fontWeight: "bold",
+    fontFamily:"Poppins-Bold",
   },
   modalContainer: {
     flex: 1,

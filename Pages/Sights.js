@@ -111,11 +111,12 @@ function Sights({ route }) {
 const styles = StyleSheet.create({
   title: {
     fontSize: 40,
-    fontWeight: "bold",
+    fontFamily:"Poppins-Bold",
     color: "#163532",
   },
   text: {
     fontSize: 16,
+    fontFamily:"Poppins-Regular",
     color: "#333",
   },
 });

@@ -265,6 +265,7 @@ const styles = StyleSheet.create({
   },
   addButton: {
     fontSize: 18,
+    fontFamily:"Poppins-Regular",
     color: "#163532",
     marginTop: 10,
   },

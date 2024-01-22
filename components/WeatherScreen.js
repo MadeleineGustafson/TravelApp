@@ -115,8 +115,9 @@ const styles = StyleSheet.create({
   },
   inputfield: {
     padding: 10,
-    width: 150,
+    width: 200,
     borderRadius: 20,
+    fontFamily:"Poppins-Regular",
     backgroundColor: "#EDF2E1",
     marginBottom: 10,
     marginRight: 10,

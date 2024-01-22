@@ -183,7 +183,7 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   sectionTitle: {
-    fontSize: 18,
+    fontSize: 20,
     fontFamily:"Poppins-Bold",
     textAlign: 'left',
     color: "white"

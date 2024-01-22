@@ -29,7 +29,7 @@ function Weather() {
         </TouchableOpacity>
       </View>
       <Text
-        style={{ fontSize: 30, margin: 20, color: "white", fontWeight: "bold" }}
+        style={{ fontSize: 30, margin: 20, color: "white", fontFamily:"Poppins-Bold", }}
       >
         Check the weather!
       </Text>
