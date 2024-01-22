@@ -6,6 +6,12 @@ import { ImageBackground, Text, TouchableOpacity, View } from "react-native";
 import backgroundImage from "../assets/Train_Darker.png";
 
 function StartScreen() {
+  const navigation = useNavigation();
+  
+  const navigateToMyTrips = () => {
+    navigation.navigate("myTrips");
+  };
+  
   const [fontsLoaded] = useFonts({
     'Kalnia-Bold': require("../assets/fonts/Kalnia-Bold.ttf"),
     'Poppins-Bold': require("../assets/fonts/Poppins-Bold.ttf"),
@@ -15,12 +21,6 @@ function StartScreen() {
   if(!fontsLoaded){
     return undefined;
   }
-
-  const navigation = useNavigation();
-
-  const navigateToMyTrips = () => {
-    navigation.navigate("myTrips");
-  };
 
   return (
     <ImageBackground
