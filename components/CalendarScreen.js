@@ -124,7 +124,7 @@ function CalendarScreen() {
     // Update marked dates when a todo is added
     setSelectedDateMarked((prevMarkedDates) => ({
       ...prevMarkedDates,
-      [date]: { selected: true, textColor: "#B726DC" },
+      [date]: { selected: true, marked: true, textColor: "#B726DC" },
     }));
 
     // Add the selected date to the list of dates with todos

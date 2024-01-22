@@ -4,7 +4,7 @@ import { FlatList, Keyboard, KeyboardAvoidingView, StyleSheet, Text, TextInput, 
 import Todo from './Todo';
 
 
-const ToDoList = ({ selectedDate }) => {
+const ToDoList = ({ selectedDate, updateMarkedDates }) => {
   const [todo, setTodo] = useState("");
   const [todoItems, setTodoItems] = useState({});
   const [editIndex, setEditIndex] = useState(null);
