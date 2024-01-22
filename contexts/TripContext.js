@@ -113,23 +113,35 @@ export const TripProvider = ({ children }) => {
       return [];
     }
   };
-  const saveCalendarTodos = async (tripId, notes) => {
+
+  const saveCalendarTodos = async (tripId, date, todos) => {
     try {
+      const existingTodos = (await getCalendarTodos(tripId, date)) || {};
+
+      // Update todos for the specific date
+      existingTodos[date] = todos;
+
+      // Save the updated todos to AsyncStorage
       await AsyncStorage.setItem(
         `calendarTodos:${tripId}`,
-        JSON.stringify(notes)
+        JSON.stringify(existingTodos)
       );
+
+      console.log("Todos saved successfully:", existingTodos);
     } catch (error) {
       console.error("Error saving calendarTodos:", error);
     }
   };
 
-  const getCalendarTodos = async (tripId) => {
+  const getCalendarTodos = async (tripId, date) => {
     try {
       const calendarTodos = await AsyncStorage.getItem(
         `calendarTodos:${tripId}`
       );
-      return calendarTodos ? JSON.parse(calendarTodos) : [];
+
+      console.log("Fetched todos from AsyncStorage:", calendarTodos);
+
+      return calendarTodos ? JSON.parse(calendarTodos)[date] || [] : [];
     } catch (error) {
       console.error("Error fetching calendarTodos:", error);
       return [];
