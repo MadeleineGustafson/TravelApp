@@ -103,6 +103,7 @@ function Notes({ route }) {
         <NotesScreen
           notesData={tripNotes}
           onSaveNote={onSaveTripNote}
+          onEditNote={handleEditTripNote} 
           onDeleteNote={(note) => handleDeleteTripNote(note)}
         />
       </View>

@@ -48,12 +48,13 @@ const NotesScreen = ({
     setModalVisible(false);
   };
 
-  const handleEditNote = (note) => {
+   const handleEditNote = (note) => {
     setSelectedNote(note);
     setTitle(note.title);
     setContent(note.content);
     setModalVisible(true);
-    onEditNote();
+    // Call the onEditNote prop if it exists
+    onEditNote && onEditNote(note);
   };
 
   // Function to handle deleting a note
@@ -178,7 +179,7 @@ const styles = StyleSheet.create({
   addButtonText: {
     color: "#D1FFA0",
     fontSize: 16,
-    fontWeight: "bold",
+    fontFamily:"Poppins-Bold",
   },
   modalContainer: {
     flex: 1,

@@ -109,20 +109,22 @@ const styles = StyleSheet.create({
   },
 
   pageTitle: {
-    fontSize: 26,
+    fontSize: 30,
     color: "#D1FFA0",
     fontWeight: "bold",
+    fontFamily:"Kalnia-Bold"
   },
 
   tripText: {
     fontSize: 23,
     color: "#EDF2E1",
-    fontWeight: "bold",
+    fontFamily:"Poppins-Bold"
   },
 
   smallTripText: {
     fontSize: 14,
     color: "#EDF2E1",
+    fontFamily:"Poppins-Regular"
   },
 
   actionsContainer: {
@@ -143,7 +145,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "#163532",
     fontSize: 18,
-    fontWeight: "bold",
+    fontFamily:"Poppins-Bold"
   },
 });
 

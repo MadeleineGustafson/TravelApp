@@ -1,17 +1,10 @@
-import DateTimePicker from "@react-native-community/datetimepicker";
-import React, { useState } from "react";
-import {
-  FlatList,
-  Keyboard,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import Todo from "./Todo";
+import DateTimePicker from '@react-native-community/datetimepicker';
+import React, { useState } from 'react';
+import { FlatList, Keyboard, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import Todo from './Todo';
 
-const ToDoList = ({ selectedDate, updateMarkedDates }) => {
+
+const ToDoList = ({ selectedDate }) => {
   const [todo, setTodo] = useState("");
   const [todoItems, setTodoItems] = useState({});
   const [editIndex, setEditIndex] = useState(null);
@@ -108,6 +101,11 @@ const ToDoList = ({ selectedDate, updateMarkedDates }) => {
   };
 
   return (
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={{ flex: 1 }}
+    >
+
     <View style={styles.container}>
       <Text style={styles.sectionTitle}>Today's plans</Text>
       <Text style={styles.sectionTitleNotBold}>
@@ -167,10 +165,10 @@ const ToDoList = ({ selectedDate, updateMarkedDates }) => {
 
         {showStartDateTimePicker && (
           <DateTimePicker
-            value={selectedStartDateTime}
-            mode="time"
-            is24Hour={true}
-            display="default"
+          value={selectedStartDateTime}
+          mode="time"
+          is24Hour={true}
+          display="default"
             onChange={handleStartDateTimeChange}
             textColor="white"
           />
@@ -194,10 +192,13 @@ const ToDoList = ({ selectedDate, updateMarkedDates }) => {
             display="default"
             onChange={handleEndDateTimeChange}
             textColor="white"
-          />
-        )}
+            />
+            )}
+
+        </View>
       </View>
-    </View>
+  </KeyboardAvoidingView>
+
   );
 };
 
@@ -208,17 +209,18 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   sectionTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    textAlign: "start",
-    color: "white",
+    fontSize: 20,
+    fontFamily:"Poppins-Bold",
+    textAlign: 'left',
+    color: "white"
   },
   sectionTitleNotBold: {
-    fontSize: 18,
-    fontWeight: "normal",
+    fontSize: 17,
+    fontWeight: 'normal',
+    fontFamily:"Poppins-Regular",
     marginBottom: 10,
-    textAlign: "start",
-    color: "white",
+    textAlign: 'left',
+    color: "white"
   },
   input: {
     paddingVertical: 15,
@@ -228,6 +230,7 @@ const styles = StyleSheet.create({
     borderColor: "#C0C0C0",
     borderWidth: 1,
     width: 250,
+    fontFamily:"Poppins-Regular",
   },
   addWrapper: {
     width: 50,
@@ -263,14 +266,16 @@ const styles = StyleSheet.create({
   },
 
   dateTimePickers: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
+    color: "#fff"
   },
   addText: {
     fontSize: 20,
   },
   timeText: {
     fontSize: 20,
+    fontFamily:"Poppins-Regular",
     color: "#D3DFB7",
   },
 });

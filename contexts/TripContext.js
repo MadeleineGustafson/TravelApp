@@ -114,40 +114,6 @@ export const TripProvider = ({ children }) => {
     }
   };
 
-  const saveCalendarTodos = async (tripId, date, todos) => {
-    try {
-      const existingTodos = (await getCalendarTodos(tripId, date)) || {};
-
-      // Update todos for the specific date
-      existingTodos[date] = todos;
-
-      // Save the updated todos to AsyncStorage
-      await AsyncStorage.setItem(
-        `calendarTodos:${tripId}`,
-        JSON.stringify(existingTodos)
-      );
-
-      console.log("Todos saved successfully:", existingTodos);
-    } catch (error) {
-      console.error("Error saving calendarTodos:", error);
-    }
-  };
-
-  const getCalendarTodos = async (tripId, date) => {
-    try {
-      const calendarTodos = await AsyncStorage.getItem(
-        `calendarTodos:${tripId}`
-      );
-
-      console.log("Fetched todos from AsyncStorage:", calendarTodos);
-
-      return calendarTodos ? JSON.parse(calendarTodos)[date] || [] : [];
-    } catch (error) {
-      console.error("Error fetching calendarTodos:", error);
-      return [];
-    }
-  };
-
   const value = {
     trips,
     addTrip,
@@ -161,6 +127,8 @@ export const TripProvider = ({ children }) => {
     saveSightNotes,
     getCalendarTodos,
     saveCalendarTodos,
+    getPackingList,
+    savePackingList,
   };
 
   return <TripContext.Provider value={value}>{children}</TripContext.Provider>;
