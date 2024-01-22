@@ -1,10 +1,21 @@
 import { useNavigation } from "@react-navigation/native";
+import { useFonts } from "expo-font";
 import React from "react";
 import { ImageBackground, Text, TouchableOpacity, View } from "react-native";
 
 import backgroundImage from "../assets/Train_Darker.png";
 
 function StartScreen() {
+  const [fontsLoaded] = useFonts({
+    'Kalnia-Bold': require("../assets/fonts/Kalnia-Bold.ttf"),
+    'Poppins-Bold': require("../assets/fonts/Poppins-Bold.ttf"),
+    'Poppins-Regular': require("../assets/fonts/Poppins-Regular.ttf")
+  })
+
+  if(!fontsLoaded){
+    return undefined;
+  }
+
   const navigation = useNavigation();
 
   const navigateToMyTrips = () => {
@@ -25,7 +36,8 @@ function StartScreen() {
       <View style={{ justifyContent: "flex-start", width: "100%" }}>
         <Text
           style={{
-            fontSize: 40,
+            fontSize: 55,
+            fontFamily:"Kalnia-Bold",
             color: "#D1FFA0",
             margin: 20,
           }}
@@ -35,6 +47,8 @@ function StartScreen() {
         <Text
           style={{
             margin: 20,
+            fontFamily:"Poppins-Regular",
+            fontSize: 18,
             color: "#EDF2E1",
           }}
         >
@@ -49,11 +63,12 @@ function StartScreen() {
               padding: 10,
               borderRadius: 14,
               justifyContent: "flex-start",
-              width: 130,
+              width: 140,
               margin: 20,
             }}
           >
-            <Text style={{ color: "#163532" }}>Start planning!</Text>
+            <Text style={{ color: "#163532", fontSize: 15, fontFamily:"Poppins-Bold",}}>
+              Start planning!</Text>
           </View>
         </TouchableOpacity>
       </View>

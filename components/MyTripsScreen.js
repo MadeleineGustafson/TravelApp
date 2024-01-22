@@ -109,9 +109,10 @@ const styles = StyleSheet.create({
   },
 
   pageTitle: {
-    fontSize: 26,
+    fontSize: 28,
     color: "#D1FFA0",
     fontWeight: "bold",
+    fontFamily:"Kalnia-Bold"
   },
 
   tripText: {

@@ -251,7 +251,7 @@ const styles = StyleSheet.create({
   },
   titleText: {
     fontSize: 30,
-    fontWeight: "bold",
+    fontFamily:"Kalnia-Bold",
     color: "#D1FFA0",
     marginBottom: 20,
     margin: 30,
@@ -259,6 +259,7 @@ const styles = StyleSheet.create({
   },
   labelText: {
     fontSize: 18,
+    fontFamily:"Poppins-Bold",
     color: "#D1FFA0",
     alignSelf: "flex-start",
     marginBottom: 5,
