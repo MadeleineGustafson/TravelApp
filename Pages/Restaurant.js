@@ -71,19 +71,18 @@ function Restaurant({ route }) {
     }
   };
   return (
-    <View style={{ flex: 1, backgroundColor: "#163532" }}>
+    <View style={{ flex: 1, backgroundColor: "#EDF2E1" }}>
       <View
         style={{
           justifyContent: "flex-start",
           margin: 20,
           marginTop: 40,
-          backgroundColor: "#163532",
         }}
       >
         <TouchableOpacity
           onPress={() => navigation.navigate("calendar")} // Navigate to CalendarScreen
         >
-          <MaterialCommunityIcons name="close" size={30} color="#EDF2E1" />
+          <MaterialCommunityIcons name="close" size={30} color="#163532" />
         </TouchableOpacity>
       </View>
       <View
@@ -92,7 +91,6 @@ function Restaurant({ route }) {
           alignItems: "center",
           marginTop: 0,
           margin: 20,
-          backgroundColor: "#163532",
         }}
       >
         <View
@@ -104,9 +102,9 @@ function Restaurant({ route }) {
             marginLeft: 21,
           }}
         >
-          <MaterialCommunityIcons name="food" size={75} color="#D1FFA0" />
+          <MaterialCommunityIcons name="food" size={75} color="#163532" />
           <View style={{ flexDirection: "column", marginLeft: 10, flex: 1 }}>
-            <Text style={styles.title}>Restaurants</Text>
+            <Text style={styles.title}>RESTAURANTS</Text>
             <Text style={styles.text}>
               Save information or links to restaurants you want to visit during
               your travels!
@@ -126,13 +124,15 @@ function Restaurant({ route }) {
 
 const styles = StyleSheet.create({
   title: {
-    fontSize: 35,
+    fontSize: 30,
     fontWeight: "bold",
-    color: "#D1FFA0",
+    color: "#163532",
+    fontFamily: "Poppins-Bold",
   },
   text: {
     fontSize: 16,
-    color: "#EDF2E1",
+    color: "#163532",
+    fontFamily: "Poppins-Regular",
   },
 });
 

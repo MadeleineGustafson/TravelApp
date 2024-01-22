@@ -48,7 +48,7 @@ const NotesScreen = ({
     setModalVisible(false);
   };
 
-   const handleEditNote = (note) => {
+  const handleEditNote = (note) => {
     setSelectedNote(note);
     setTitle(note.title);
     setContent(note.content);
@@ -90,6 +90,7 @@ const NotesScreen = ({
             <TouchableOpacity
               key={note.id}
               onPress={() => handleEditNote(note)}
+              style={styles.bubble}
             >
               <Text style={styles.noteTitle}>{note.title}</Text>
               <Text
@@ -114,7 +115,7 @@ const NotesScreen = ({
             setModalVisible(true);
           }}
         >
-          <Text style={styles.addButtonText}>Add</Text>
+          <Text style={styles.addButtonText}>+</Text>
         </TouchableOpacity>
       </View>
       <Modal visible={modalVisible} animationType="slide" transparent={false}>
@@ -166,14 +167,16 @@ const styles = StyleSheet.create({
   littlecontainer: {
     height: 300,
   },
+
   noteList: {
     flex: 1,
     width: 300,
   },
   noteTitle: {
     fontSize: 18,
+    fontFamily: "Poppins-Bold",
     marginBottom: 5,
-    color: "#EDF2E1",
+    color: "#163532",
     fontWeight: "bold",
     width: "100%",
     paddingLeft: 10,
@@ -182,24 +185,24 @@ const styles = StyleSheet.create({
   noteSmallText: {
     fontSize: 15,
     paddingLeft: 10,
-    marginBottom: 20,
-    color: "#EDF2E1",
+    marginBottom: 10,
+    color: "#163532",
+    fontFamily: "Poppins-Regular",
   },
   addButton: {
     alignItems: "center",
     padding: 5,
     justifyContent: "center",
-    borderColor: "#D1FFA0",
-    borderWidth: 2,
+    backgroundColor: "#163532",
     paddingVertical: 12,
-    borderRadius: 20,
-    marginTop: 10,
-    width: 100,
+    borderRadius: 100,
+    //marginTop: 10,
+    width: 70,
   },
   addButtonText: {
     color: "#D1FFA0",
-    fontSize: 16,
-    fontFamily:"Poppins-Bold",
+    fontSize: 30,
+    fontFamily: "Poppins-Regular",
   },
   modalContainer: {
     flex: 1,

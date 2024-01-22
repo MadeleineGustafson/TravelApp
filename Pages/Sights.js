@@ -72,7 +72,7 @@ function Sights({ route }) {
   };
 
   return (
-    <>
+    <View style={{ flex: 1, backgroundColor: "#EDF2E1" }}>
       <View style={{ justifyContent: "flex-start", margin: 20, marginTop: 40 }}>
         <TouchableOpacity onPress={() => navigation.navigate("calendar")}>
           <MaterialCommunityIcons name="close" size={30} color="#163532" />
@@ -90,10 +90,10 @@ function Sights({ route }) {
             color="#163532"
           />
           <View style={{ flexDirection: "column", marginLeft: 10, flex: 1 }}>
-            <Text style={styles.title}>Sights</Text>
+            <Text style={styles.title}>SIGHTS</Text>
             <Text style={styles.text}>
-              On this page, you can save information or links to sights and
-              attractions for your trip!
+              Here you can save information about sights and attractions you
+              want to visit during your trip!
             </Text>
           </View>
         </View>
@@ -104,20 +104,21 @@ function Sights({ route }) {
           onDeleteNote={(note) => handleDeleteSightsNote(note)}
         />
       </View>
-    </>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   title: {
     fontSize: 40,
-    fontFamily:"Poppins-Bold",
+    fontWeight: "bold",
     color: "#163532",
+    fontFamily: "Poppins-Bold",
   },
   text: {
-    fontSize: 16,
-    fontFamily:"Poppins-Regular",
-    color: "#333",
+    fontSize: 14,
+    color: "#163532",
+    fontFamily: "Poppins-Regular",
   },
 });
 
