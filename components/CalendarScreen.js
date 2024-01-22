@@ -1,15 +1,7 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
-import {
-  FlatList,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { Calendar } from "react-native-calendars";
 import { useTripContext } from "../contexts/TripContext";
 import Countdown from "./countdown";
@@ -45,14 +37,14 @@ function CalendarScreen() {
     fetchStoredTripData();
   }, [route.params]); // Run the effect when route params change
 
-  const handleAddTodoPress = () => {
-    navigation.navigate("TodoPage");
-  };
+  // const handleAddTodoPress = () => {
+  //   navigation.navigate("TodoPage");
+  // };
 
-  const handleTodoPress = (todo) => {
-    // Handle the press on a todo, if needed
-    console.log(`Todo pressed: ${todo.text}`);
-  };
+  // const handleTodoPress = (todo) => {
+  //   // Handle the press on a todo, if needed
+  //   console.log(`Todo pressed: ${todo.text}`);
+  // };
 
   const today = new Date();
   const dateString = today.toISOString().split("T")[0];
@@ -139,32 +131,32 @@ function CalendarScreen() {
     setTodosDates((prevDates) => [...prevDates, date]);
   };
 
-  const renderTodosForDate = () => {
-    if (selectedDate) {
-      const todosForSelectedDate = todos.filter(
-        (todo) => todo.date === selectedDate
-      );
+  // const renderTodosForDate = () => {
+  //   if (selectedDate) {
+  //     const todosForSelectedDate = todos.filter(
+  //       (todo) => todo.date === selectedDate
+  //     );
 
-      if (todosForSelectedDate.length > 0) {
-        return (
-          <View style={{ backgroundColor: "#163532" }}>
-            <Text style={styles.todoHeader}>Todos for {selectedDate}:</Text>
-            <FlatList
-              data={todosForSelectedDate}
-              keyExtractor={(item) => item.text}
-              renderItem={({ item }) => (
-                <TouchableOpacity onPress={() => handleTodoPress(item)}>
-                  <Text style={styles.todoItem}>{item.text}</Text>
-                </TouchableOpacity>
-              )}
-            />
-          </View>
-        );
-      }
-    }
+  //     if (todosForSelectedDate.length > 0) {
+  //       return (
+  //         <View style={{ backgroundColor: "#163532" }}>
+  //           <Text style={styles.todoHeader}>Todos for {selectedDate}:</Text>
+  //           <FlatList
+  //             data={todosForSelectedDate}
+  //             keyExtractor={(item) => item.text}
+  //             renderItem={({ item }) => (
+  //               <TouchableOpacity onPress={() => handleTodoPress(item)}>
+  //                 <Text style={styles.todoItem}>{item.text}</Text>
+  //               </TouchableOpacity>
+  //             )}
+  //           />
+  //         </View>
+  //       );
+  //     }
+  //   }
 
-    return null;
-  };
+  //   return null;
+  // };
 
   return (
     <>
@@ -231,12 +223,7 @@ function CalendarScreen() {
           />
 
           <View style={styles.addTodoContainer}>
-            <Pressable
-              onPress={handleAddTodoPress}
-              style={styles.addTodoPressable}
-            >
-              <Text style={styles.addButton}>Press a date to add a todo</Text>
-            </Pressable>
+            <Text style={styles.addButton}>Press a date to add a todo</Text>
           </View>
 
           {showTodoList && (
@@ -300,7 +287,7 @@ const styles = StyleSheet.create({
   },
   addButton: {
     fontSize: 18,
-    color: "#163532",
+    color: "tomato",
     marginTop: 10,
   },
   backButton: {
