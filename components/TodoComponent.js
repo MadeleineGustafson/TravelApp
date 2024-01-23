@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Button, FlatList, Text, TextInput, View } from "react-native";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { useTripContext } from "../contexts/TripContext";
 
 const TodoComponent = ({ tripId, selectedDate }) => {
   const { getTodoData, saveTodoData } = useTripContext();
   const [todo, setTodo] = useState("");
   const [todos, setTodos] = useState([]);
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [selectedTime, setSelectedTime] = useState(null);
 
   const loadTodos = async () => {
     try {
@@ -28,11 +31,31 @@ const TodoComponent = ({ tripId, selectedDate }) => {
     loadTodos();
   }, [tripId, selectedDate]);
 
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
+  const handleConfirm = (date) => {
+    // Format the selected time as needed
+    const formattedTime = date.toLocaleTimeString("sv-SE", {
+      hour: "numeric",
+      minute: "numeric",
+      hour24: true,
+    });
+
+    setSelectedTime(formattedTime);
+    hideDatePicker();
+  };
+
   const addTodo = async () => {
-    if (todo.trim() !== "") {
+    if (todo.trim() !== "" && selectedTime) {
       const newTodo = {
         id: Date.now().toString(),
-        text: todo,
+        text: `${todo} - ${selectedTime}`,
         date: selectedDate,
       };
 
@@ -47,6 +70,7 @@ const TodoComponent = ({ tripId, selectedDate }) => {
       await saveTodoData(tripId, updatedTodos);
 
       setTodo("");
+      setSelectedTime(null);
     }
   };
 
@@ -62,6 +86,13 @@ const TodoComponent = ({ tripId, selectedDate }) => {
         placeholder="Enter your todo"
         value={todo}
         onChangeText={(text) => setTodo(text)}
+      />
+      <Button title="Show Time Picker" onPress={showDatePicker} />
+      <DateTimePickerModal
+        isVisible={isDatePickerVisible}
+        mode="time"
+        onConfirm={handleConfirm}
+        onCancel={hideDatePicker}
       />
       <Button title="Add Todo" onPress={addTodo} />
       <FlatList

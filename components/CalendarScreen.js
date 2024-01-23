@@ -92,6 +92,38 @@ function CalendarScreen() {
     }));
   };
 
+  const convertToYYYYMMDD = (dateString) => {
+    const date = new Date(dateString);
+    return date.toISOString().split("T")[0];
+  };
+
+  const createDateRange = (startDate, endDate) => {
+    const dateRange = [];
+    let currentDate = new Date(startDate);
+    const end = new Date(endDate);
+
+    while (currentDate <= end) {
+      dateRange.push(convertToYYYYMMDD(currentDate));
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+    return dateRange;
+  };
+
+  const markedDates = {};
+  if (tripData.startDate && tripData.endDate) {
+    const start = convertToYYYYMMDD(tripData.startDate);
+    const end = convertToYYYYMMDD(tripData.endDate);
+    const dateRange = createDateRange(start, end);
+    dateRange.forEach((date, index) => {
+      markedDates[date] = {
+        color: "#D1FFA0",
+        textColor: "#163532",
+        ...(index === 0 && { startingDay: true }),
+        ...(index === dateRange.length - 1 && { endingDay: true }),
+      };
+    });
+  }
+
   return (
     <>
       <ScrollView style={{ backgroundColor: "#163532" }}>
@@ -145,13 +177,11 @@ function CalendarScreen() {
             renderDay={renderDay}
             markingType={"period"}
             markedDates={{
-              ...selectedDateMarked,
+              ...markedDates,
             }}
           />
 
-          {showTodoList && (
-            <TodoComponent tripId={tripData.id} selectedDate={selectedDate} />
-          )}
+          <TodoComponent tripId={tripData.id} selectedDate={selectedDate} />
 
           <View style={styles.addTodoContainer}>
             <Text style={styles.addButton}>Press a date to add a todo</Text>
