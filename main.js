@@ -1,4 +1,3 @@
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as React from "react";
@@ -14,11 +13,10 @@ import StartScreen from "./components/StartScreen";
 import ToDoList from "./components/ToDoList";
 
 const Stack = createNativeStackNavigator();
-const Tab = createBottomTabNavigator();
 
 function Main() {
-  const HomeStack = () => {
-    return (
+  return (
+    <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
           headerShown: false,
@@ -35,29 +33,6 @@ function Main() {
         <Stack.Screen name="weather" component={Weather} />
         <Stack.Screen name="TodoPage" component={ToDoList} />
       </Stack.Navigator>
-    );
-  };
-
-  return (
-    <NavigationContainer>
-      <Tab.Navigator
-        screenOptions={{
-          headerShown: false,
-          tabBarStyle: {
-            backgroundColor: "#163532", 
-          },
-          tabBarActiveTintColor: "#D3DFB7",
-          tabBarInactiveTintColor: "#707070",
-          tabBarLabelStyle: {
-            fontFamily: "Poppins-Regular", 
-            fontSize: 14,
-          },
-        }}
-      >
-        <Tab.Screen name="Home" component={HomeStack}/>
-        <Tab.Screen name="My Trips" component={MyTripsScreen} />
-        <Tab.Screen name="Calendar" component={CalendarScreen} />
-      </Tab.Navigator>
     </NavigationContainer>
   );
 }
