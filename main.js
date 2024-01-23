@@ -9,7 +9,6 @@ import Weather from "./Pages/Weather";
 import CalendarScreen from "./components/CalendarScreen";
 import MyTripsScreen from "./components/MyTripsScreen";
 import NewTripScreen from "./components/NewTripScreen";
-import NotesScreen from "./components/NotesScreen";
 import PackListScreen from "./components/PackListScreen";
 import StartScreen from "./components/StartScreen";
 import ToDoList from "./components/ToDoList";
@@ -49,10 +48,14 @@ function Main() {
           },
           tabBarActiveTintColor: "#D3DFB7",
           tabBarInactiveTintColor: "#707070",
+          tabBarLabelStyle: {
+            fontFamily: "Poppins-Regular", 
+            fontSize: 14,
+          },
         }}
       >
-        <Tab.Screen name="Home" component={HomeStack} />
-        <Tab.Screen name="Notes" component={NotesScreen} />
+        <Tab.Screen name="Home" component={HomeStack}/>
+        <Tab.Screen name="My Trips" component={MyTripsScreen} />
         <Tab.Screen name="Calendar" component={CalendarScreen} />
       </Tab.Navigator>
     </NavigationContainer>
