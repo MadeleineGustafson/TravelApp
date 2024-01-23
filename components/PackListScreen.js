@@ -1,6 +1,17 @@
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
-import { Button, Modal, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import CheckBox from 'react-native-check-box';
+import {
+  Button,
+  Modal,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import CheckBox from "react-native-check-box";
 import { useTripContext } from "../contexts/TripContext";
 
 const PackListScreen = ({ route, onSaveItem }) => {
@@ -11,6 +22,7 @@ const PackListScreen = ({ route, onSaveItem }) => {
   const [content, setContent] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const { tripId } = route.params;
+  const navigation = useNavigation();
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -29,15 +41,17 @@ const PackListScreen = ({ route, onSaveItem }) => {
 
   const handleSavePackItem = () => {
     console.log("Saving pack item...");
-  
+
     // If onSaveItem is a function, call it with the necessary data
-    if (typeof onSaveItem === 'function') {
+    if (typeof onSaveItem === "function") {
       onSaveItem(selectedPackItem, title, content);
     }
-  
+
     if (selectedPackItem) {
       const updatedPackItems = packItems.map((item) =>
-        item.id === selectedPackItem.id ? { ...item, title, checked: selectedPackItem.checked } : item
+        item.id === selectedPackItem.id
+          ? { ...item, title, checked: selectedPackItem.checked }
+          : item
       );
       setPackItems((prevPackItems) => {
         // Use the state updater function to ensure the correct state
@@ -59,16 +73,18 @@ const PackListScreen = ({ route, onSaveItem }) => {
         return newState;
       });
     }
-  
+
     setTitle("");
     setModalVisible(false);
-  
+
     console.log("Pack item saved successfully!");
   };
 
   const handleToggleCheckbox = (item) => {
     const updatedPackItems = packItems.map((packItem) =>
-      packItem.id === item.id ? { ...packItem, checked: !packItem.checked } : packItem
+      packItem.id === item.id
+        ? { ...packItem, checked: !packItem.checked }
+        : packItem
     );
     setPackItems((prevPackItems) => {
       // Use the state updater function to ensure the correct state
@@ -92,19 +108,32 @@ const PackListScreen = ({ route, onSaveItem }) => {
     setPackItems(updatedPackItems);
     setSelectedPackItem(null);
     setModalVisible(false);
-  
+
     // Corrected line, replace onDeleteItem with onSaveItem
-    if (typeof onSaveItem === 'function') {
+    if (typeof onSaveItem === "function") {
       onSaveItem(selectedPackItem, title, content);
     }
-  
+
     console.log("Pack item deleted successfully!");
   };
-  
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>My Packing List</Text>
+      <View
+        style={{
+          justifyContent: "flex-start",
+          margin: 10,
+          marginTop: 40,
+        }}
+      >
+        <TouchableOpacity
+          onPress={() => navigation.navigate("calendar")} // Navigate to CalendarScreen
+        >
+          <MaterialCommunityIcons name="close" size={30} color="#EDF2E1" />
+        </TouchableOpacity>
+      </View>
+
+      <Text style={styles.title}>My packing list:</Text>
 
       <ScrollView style={styles.packItemList}>
         {packItems.map((packItem) => (
@@ -132,14 +161,10 @@ const PackListScreen = ({ route, onSaveItem }) => {
           setModalVisible(true);
         }}
       >
-        <Text style={styles.addButtonText}>Add Item</Text>
+        <Text style={styles.addButtonText}>+</Text>
       </TouchableOpacity>
 
-      <Modal
-        visible={modalVisible}
-        animationType="slide"
-        transparent={false}
-      >
+      <Modal visible={modalVisible} animationType="slide" transparent={false}>
         <View style={styles.modalContainer}>
           <TextInput
             style={styles.input}
@@ -148,11 +173,7 @@ const PackListScreen = ({ route, onSaveItem }) => {
             onChangeText={setTitle}
           />
           <View style={styles.buttonContainer}>
-            <Button
-              title="Save"
-              onPress={handleSavePackItem}
-              color="#007BFF"
-            />
+            <Button title="Save" onPress={handleSavePackItem} color="#007BFF" />
             <Button
               title="Cancel"
               onPress={() => setModalVisible(false)}
@@ -180,7 +201,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 28,
-    fontFamily:"Poppins-Bold",
+    fontFamily: "Poppins-Bold",
     marginBottom: 10,
     color: "#D3DFB7",
   },
@@ -190,31 +211,33 @@ const styles = StyleSheet.create({
   packItemContainer: {
     flexDirection: "row",
     alignItems: "center",
-    color: "#D3DFB7"
+    color: "#D3DFB7",
   },
   packItemTitle: {
     fontSize: 15,
-    fontFamily:"Poppins-Regular",
+    fontFamily: "Poppins-Regular",
     color: "#D3DFB7",
     width: "100%",
     marginLeft: 30,
   },
   checkBox: {
-    flex: 1, 
-    padding: 10, 
+    flex: 1,
+    padding: 10,
   },
   addButton: {
     alignItems: "center",
+    padding: 5,
     justifyContent: "center",
     backgroundColor: "#D3DFB7",
     paddingVertical: 12,
-    borderRadius: 5,
-    marginTop: 10,
+    borderRadius: 100,
+    //marginTop: 10,
+    width: 70,
   },
   addButtonText: {
     color: "#163532",
-    fontSize: 16,
-    fontFamily:"Poppins-Bold",
+    fontSize: 30,
+    fontFamily: "Poppins-Regular",
   },
   modalContainer: {
     flex: 1,
