@@ -2,14 +2,13 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import {
-  Button,
   Modal,
   ScrollView,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  View,
+  View
 } from "react-native";
 import CheckBox from "react-native-check-box";
 import { useTripContext } from "../contexts/TripContext";
@@ -171,20 +170,40 @@ const PackListScreen = ({ route, onSaveItem }) => {
             placeholder="Enter pack item title"
             value={title}
             onChangeText={setTitle}
+            placeholderTextColor="#163532"
           />
+          {/* Buttons for saving, canceling, and deleting */}
           <View style={styles.buttonContainer}>
-            <Button title="Save" onPress={handleSavePackItem} color="#007BFF" />
-            <Button
-              title="Cancel"
+            <TouchableOpacity
+              style={[styles.button, styles.save]}
+              onPress={handleSavePackItem}
+            >
+              <Text style={styles.buttonTextSave}>Save</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                styles.button,
+                {
+                  backgroundColor: "transparent",
+                  borderColor: "#163532",
+                  borderWidth: 2,
+                },
+              ]}
               onPress={() => setModalVisible(false)}
-              color="#FF3B30"
-            />
+            >
+              <Text style={styles.buttonText}>Cancel</Text>
+            </TouchableOpacity>
             {selectedPackItem && (
-              <Button
-                title="Delete"
+              <TouchableOpacity
+                style={[styles.button, styles.delete]}
                 onPress={() => handleDeletePackItem(selectedPackItem)}
-                color="#FF9500"
-              />
+              >
+                <MaterialCommunityIcons
+                  name="trash-can-outline"
+                  size={25}
+                  color="#163532"
+                />
+              </TouchableOpacity>
             )}
           </View>
         </View>
@@ -245,15 +264,40 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   input: {
-    borderWidth: 1,
-    borderColor: "#E0E0E0",
-    padding: 10,
+    padding: 20,
     marginBottom: 10,
-    borderRadius: 5,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: "#163532",
+    marginTop: 30,
+    marginBottom: 30,
   },
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
+  },
+  save: {
+    backgroundColor: "#163532",
+  },
+  buttonText: {
+    fontFamily: "Poppins-Regular",
+    fontSize: 15,
+  },
+  buttonTextSave: {
+    fontFamily: "Poppins-Regular",
+    fontSize: 15,
+    color: "#D1FFA0",
+  },
+  cancel: {
+    borderColor: "#163532",
+    borderWidth: 2,
+  },
+  button: {
+    flex: 1,
+    paddingVertical: 10,
+    alignItems: "center",
+    borderRadius: 20,
+    marginHorizontal: 5,
   },
 });
 
