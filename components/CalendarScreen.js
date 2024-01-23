@@ -4,9 +4,9 @@ import React, { useEffect, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { Calendar } from "react-native-calendars";
 import { useTripContext } from "../contexts/TripContext";
+import Countdown from "./countdown";
 import IconBar from "./IconBar";
 import ToDoList from "./ToDoList";
-import Countdown from "./countdown";
 
 function CalendarScreen() {
   const { getTrip } = useTripContext();
@@ -19,6 +19,7 @@ function CalendarScreen() {
   const [tripData, setTripData] = useState(routeTripData || {});
   const [selectedDateMarked, setSelectedDateMarked] = useState({});
   const [todosDates, setTodosDates] = useState([]);
+  const [todoData, setTodoData] = useState({});
 
   useEffect(() => {
     const fetchStoredTripData = async () => {
@@ -57,21 +58,6 @@ function CalendarScreen() {
   const handleBackToNewTripPress = () => {
     navigation.navigate("newTrip");
   };
-
-  // const handleDayPress = (day) => {
-  //   const selectedDate = day.dateString;
-  //   setSelectedDate(selectedDate);
-
-  //   // Mark the selected date with a green circle
-  //   setSelectedDateMarked({
-  //     [selectedDate]: { selected: true, textColor: "#000" },
-  //   });
-
-  //   // Add the selected date to the list of dates with todos
-  //   setTodosDates((prevDates) => [...prevDates, selectedDate]);
-
-  //   setShowTodoList(true);
-  // };
 
   const convertToYYYYMMDD = (dateString) => {
     const date = new Date(dateString);
@@ -116,6 +102,13 @@ function CalendarScreen() {
 
     // Only add the selected date to todosDates when saving a todo
     setShowTodoList(true);
+
+    // Optionally, you can clear the existing todos for the selected date
+    setTodoData((prevTodoData) => {
+      const updatedTodoData = { ...prevTodoData };
+      delete updatedTodoData[selectedDate];
+      return updatedTodoData;
+    });
   };
 
   // ...
@@ -130,30 +123,6 @@ function CalendarScreen() {
     // Add the selected date to the list of dates with todos
     setTodosDates((prevDates) => [...prevDates, date]);
   };
-
-  // const renderTodosForDate = () => {
-  //   if (selectedDate) {
-  //     const todosForSelectedDate = todos.filter(
-  //       (todo) => todo.date === selectedDate
-  //     );
-
-  //     if (todosForSelectedDate.length > 0) {
-  //       return (
-  //         <View style={{ backgroundColor: "#163532" }}>
-  //           <Text style={styles.todoHeader}>Todos for {selectedDate}:</Text>
-  //           <FlatList
-  //             data={todosForSelectedDate}
-  //             keyExtractor={(item) => item.text}
-  //             renderItem={({ item }) => (
-  //               <TouchableOpacity onPress={() => handleTodoPress(item)}>
-  //                 <Text style={styles.todoItem}>{item.text}</Text>
-  //               </TouchableOpacity>
-  //             )}
-  //           />
-  //         </View>
-  //       );
-  //     }
-  //   }
 
   //   return null;
   // };
@@ -212,15 +181,6 @@ function CalendarScreen() {
             markingType={"period"}
             markedDates={{
               ...markedDates,
-              ...todosDates.reduce((acc, date) => {
-                acc[date] = {
-                  marked: true,
-                  dotColor: "#B726DC",
-                  color: "transparant",
-                  textColor: "#B726DC",
-                };
-                return acc;
-              }, {}),
             }}
           />
 
@@ -232,6 +192,9 @@ function CalendarScreen() {
             <ToDoList
               selectedDate={selectedDate}
               updateMarkedDates={updateMarkedDates}
+              todoData={todoData}
+              setTodoData={setTodoData}
+              tripId={tripData.id}
             />
           )}
         </View>
@@ -290,7 +253,7 @@ const styles = StyleSheet.create({
   },
   addButton: {
     fontSize: 18,
-    fontFamily:"Poppins-Regular",
+    fontFamily: "Poppins-Regular",
     color: "#163532",
     marginTop: 10,
   },

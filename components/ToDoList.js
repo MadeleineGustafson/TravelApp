@@ -1,12 +1,27 @@
-import DateTimePicker from '@react-native-community/datetimepicker';
-import React, { useState } from 'react';
-import { FlatList, Keyboard, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import Todo from './Todo';
+import DateTimePicker from "@react-native-community/datetimepicker";
+import { default as React, useEffect, useState } from "react";
+import {
+  FlatList,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { useTripContext } from "../contexts/TripContext";
+import Todo from "./Todo";
 
-
-const ToDoList = ({ selectedDate, updateMarkedDates }) => {
+const ToDoList = ({
+  selectedDate,
+  updateMarkedDates,
+  todoData,
+  setTodoData,
+  tripId,
+}) => {
   const [todo, setTodo] = useState("");
-  const [todoItems, setTodoItems] = useState({});
   const [editIndex, setEditIndex] = useState(null);
   const [showStartDateTimePicker, setShowStartDateTimePicker] = useState(false);
   const [showEndDateTimePicker, setShowEndDateTimePicker] = useState(false);
@@ -14,21 +29,35 @@ const ToDoList = ({ selectedDate, updateMarkedDates }) => {
     new Date()
   );
   const [selectedEndDateTime, setSelectedEndDateTime] = useState(new Date());
+  const { getTodoData, saveTodoData } = useTripContext();
+
+  // Log the updated todoData whenever it changes
+  useEffect(() => {
+    console.log(todoData);
+  }, [selectedDate, todoData]);
 
   const handleAddTodo = () => {
     Keyboard.dismiss();
     const newTodo = {
       text: todo,
-      startTime: selectedStartDateTime,
-      endTime: selectedEndDateTime,
+      startTime: selectedStartDateTime.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
+      endTime: selectedEndDateTime.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
+      selectedDate: selectedDate, // Add the selected date
     };
 
     // Update marked dates in CalendarScreen
     updateMarkedDates(selectedDate);
 
-    setTodoItems((prevTodos) => ({
-      ...prevTodos,
-      [selectedDate]: [...(prevTodos[selectedDate] || []), newTodo],
+    // Update todoData state with the new todo
+    setTodoData((prevTodoData) => ({
+      ...prevTodoData,
+      [selectedDate]: [...(prevTodoData[selectedDate] || []), newTodo],
     }));
 
     setTodo("");
@@ -102,103 +131,92 @@ const ToDoList = ({ selectedDate, updateMarkedDates }) => {
 
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={{ flex: 1 }}
     >
+      <View style={styles.container}>
+        <Text style={styles.sectionTitle}>Today's plans</Text>
+        <Text style={styles.sectionTitleNotBold}>
+          {new Date(selectedDate).toLocaleDateString("en-US", {
+            month: "long",
+            day: "numeric",
+          }) + getDaySuffix(new Date(selectedDate).getDate())}
+        </Text>
 
-    <View style={styles.container}>
-      <Text style={styles.sectionTitle}>Today's plans</Text>
-      <Text style={styles.sectionTitleNotBold}>
-        {new Date(selectedDate).toLocaleDateString("en-US", {
-          month: "long",
-          day: "numeric",
-        }) + getDaySuffix(new Date(selectedDate).getDate())}
-      </Text>
-
-      <FlatList
-        data={todoItems[selectedDate] || []}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item, index }) => (
-          <Todo
-            text={item.text}
-            startTime={item.startTime.toLocaleTimeString([], {
-              hour: "2-digit",
-              minute: "2-digit",
-            })}
-            endTime={item.endTime.toLocaleTimeString([], {
-              hour: "2-digit",
-              minute: "2-digit",
-            })}
-            onDelete={() => deleteTodo(index)}
-            onEdit={(newText) => editTodo(index, newText)}
-            onSave={handleEditSave}
-          />
-        )}
-      />
-
-      <View style={styles.dateTimePickerContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder={"Add a todo"}
-          placeholderTextColor={"#163532"}
-          value={todo}
-          onChangeText={(text) => setTodo(text)}
+        <FlatList
+          data={todoData[selectedDate] || []}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item, index }) => (
+            <Todo
+              todo={item} // Pass the entire todo object
+              onDelete={() => deleteTodo(index)}
+              onEdit={(newText) => editTodo(index, newText)}
+              onSave={handleEditSave}
+            />
+          )}
         />
 
-        <TouchableOpacity onPress={() => handleAddTodo()}>
-          <View style={styles.addWrapper}>
-            <Text style={styles.addText}>+</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
-
-      <View style={styles.dateTimePickers}>
-        <TouchableOpacity onPress={() => setShowStartDateTimePicker(true)}>
-          <Text style={styles.timeText}>
-            Start:{" "}
-            {selectedStartDateTime.toLocaleTimeString([], {
-              hour: "2-digit",
-              minute: "2-digit",
-            })}
-          </Text>
-        </TouchableOpacity>
-
-        {showStartDateTimePicker && (
-          <DateTimePicker
-          value={selectedStartDateTime}
-          mode="time"
-          is24Hour={true}
-          display="default"
-            onChange={handleStartDateTimeChange}
-            textColor="white"
+        <View style={styles.dateTimePickerContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder={"Add a todo"}
+            placeholderTextColor={"#163532"}
+            value={todo}
+            onChangeText={(text) => setTodo(text)}
           />
-        )}
 
-        <TouchableOpacity onPress={() => setShowEndDateTimePicker(true)}>
-          <Text style={styles.timeText}>
-            End:{" "}
-            {selectedEndDateTime.toLocaleTimeString([], {
-              hour: "2-digit",
-              minute: "2-digit",
-            })}
-          </Text>
-        </TouchableOpacity>
+          <TouchableOpacity onPress={() => handleAddTodo()}>
+            <View style={styles.addWrapper}>
+              <Text style={styles.addText}>+</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
 
-        {showEndDateTimePicker && (
-          <DateTimePicker
-            value={selectedEndDateTime}
-            mode="time"
-            is24Hour={true}
-            display="default"
-            onChange={handleEndDateTimeChange}
-            textColor="white"
+        <View style={styles.dateTimePickers}>
+          <TouchableOpacity onPress={() => setShowStartDateTimePicker(true)}>
+            <Text style={styles.timeText}>
+              Start:{" "}
+              {selectedStartDateTime.toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
+            </Text>
+          </TouchableOpacity>
+
+          {showStartDateTimePicker && (
+            <DateTimePicker
+              value={selectedStartDateTime}
+              mode="time"
+              is24Hour={true}
+              display="default"
+              onChange={handleStartDateTimeChange}
+              textColor="white"
             />
-            )}
+          )}
 
+          <TouchableOpacity onPress={() => setShowEndDateTimePicker(true)}>
+            <Text style={styles.timeText}>
+              End:{" "}
+              {selectedEndDateTime.toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
+            </Text>
+          </TouchableOpacity>
+
+          {showEndDateTimePicker && (
+            <DateTimePicker
+              value={selectedEndDateTime}
+              mode="time"
+              is24Hour={true}
+              display="default"
+              onChange={handleEndDateTimeChange}
+              textColor="white"
+            />
+          )}
         </View>
       </View>
-  </KeyboardAvoidingView>
-
+    </KeyboardAvoidingView>
   );
 };
 
@@ -210,17 +228,17 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 20,
-    fontFamily:"Poppins-Bold",
-    textAlign: 'left',
-    color: "white"
+    fontFamily: "Poppins-Bold",
+    textAlign: "left",
+    color: "white",
   },
   sectionTitleNotBold: {
     fontSize: 17,
-    fontWeight: 'normal',
-    fontFamily:"Poppins-Regular",
+    fontWeight: "normal",
+    fontFamily: "Poppins-Regular",
     marginBottom: 10,
-    textAlign: 'left',
-    color: "white"
+    textAlign: "left",
+    color: "white",
   },
   input: {
     paddingVertical: 15,
@@ -230,7 +248,7 @@ const styles = StyleSheet.create({
     borderColor: "#C0C0C0",
     borderWidth: 1,
     width: 250,
-    fontFamily:"Poppins-Regular",
+    fontFamily: "Poppins-Regular",
   },
   addWrapper: {
     width: 50,
@@ -266,16 +284,16 @@ const styles = StyleSheet.create({
   },
 
   dateTimePickers: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    color: "#fff"
+    flexDirection: "row",
+    alignItems: "center",
+    color: "#fff",
   },
   addText: {
     fontSize: 20,
   },
   timeText: {
     fontSize: 20,
-    fontFamily:"Poppins-Regular",
+    fontFamily: "Poppins-Regular",
     color: "#D3DFB7",
   },
 });
