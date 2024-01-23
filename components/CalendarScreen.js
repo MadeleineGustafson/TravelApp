@@ -11,9 +11,9 @@ import {
 } from "react-native";
 import { Calendar } from "react-native-calendars";
 import { useTripContext } from "../contexts/TripContext";
-import Countdown from "./countdown";
 import IconBar from "./IconBar";
 import ToDoList from "./ToDoList";
+import Countdown from "./countdown";
 
 function CalendarScreen() {
   const { getTrip } = useTripContext();
@@ -204,7 +204,7 @@ function CalendarScreen() {
 const styles = StyleSheet.create({
   countdownContainer: {
     position: "absolute",
-    top: 10,
+    top: 30,
     right: 10,
   },
   titleText: {
