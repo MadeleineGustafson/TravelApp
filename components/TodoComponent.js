@@ -155,12 +155,30 @@ const TodoComponent = ({ tripId, selectedDate }) => {
         onChangeText={(text) => setEndInput(text)}
       />
       <Button title="Add Todo" onPress={addTodo} />
+      <Text
+        style={{
+          fontFamily: "Poppins-Bold",
+          fontSize: 17,
+          color: "white",
+        }}
+      >
+        {" "}
+        Plans for the day:
+      </Text>
       <FlatList
         data={todos}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <View>
-            <Text>{item.text}</Text>
+            <Text
+              style={{
+                fontFamily: "Poppins-Regular",
+                fontSize: 17,
+                color: "white",
+              }}
+            >
+              {item.text}
+            </Text>
           </View>
         )}
       />

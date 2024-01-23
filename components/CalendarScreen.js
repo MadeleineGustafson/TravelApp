@@ -189,7 +189,6 @@ function CalendarScreen() {
           {selectedDate && (
             <View style={styles.selectedDateContainer}>
               <Text style={styles.selectedDateText}>{selectedDate}</Text>
-              <Text style={styles.plans}>Plans for the day:</Text>
             </View>
           )}
 
