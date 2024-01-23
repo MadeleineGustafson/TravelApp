@@ -6,20 +6,20 @@ import { Calendar } from "react-native-calendars";
 import { useTripContext } from "../contexts/TripContext";
 import Countdown from "./countdown";
 import IconBar from "./IconBar";
-import ToDoList from "./ToDoList";
+import TodoComponent from "./TodoComponent";
 
 function CalendarScreen() {
-  const { getTrip } = useTripContext();
+  const { getTrip, getTodoData } = useTripContext();
   const navigation = useNavigation();
-  const [todos, setTodos] = useState([]);
   const [showTodoList, setShowTodoList] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(null);
+
   const route = useRoute();
   const { tripData: routeTripData, startDate, endDate } = route.params || {};
   const [tripData, setTripData] = useState(routeTripData || {});
   const [selectedDateMarked, setSelectedDateMarked] = useState({});
   const [todosDates, setTodosDates] = useState([]);
-  const [todoData, setTodoData] = useState({});
+  const [todoData, setTodoData] = useState([]);
+  const [selectedDate, setSelectedDate] = useState(null);
 
   useEffect(() => {
     const fetchStoredTripData = async () => {
@@ -29,6 +29,10 @@ function CalendarScreen() {
 
         if (storedTripData) {
           setTripData(storedTripData);
+
+          // Fetch and set todos for the trip
+          const todos = await getTodoData(tripId);
+          setTodoData(todos);
         }
       } catch (error) {
         console.error("Error fetching trip data from AsyncStorage:", error);
@@ -36,16 +40,23 @@ function CalendarScreen() {
     };
 
     fetchStoredTripData();
-  }, [route.params]); // Run the effect when route params change
+  }, [route.params, getTrip, getTodoData]);
 
-  // const handleAddTodoPress = () => {
-  //   navigation.navigate("TodoPage");
-  // };
+  // Use useEffect to load todos when the component mounts
+  useEffect(() => {
+    const loadTodos = async () => {
+      try {
+        const { tripId } = tripData;
+        const todos = await getTodoData(tripId);
+        setTodoData(todos);
+      } catch (error) {
+        console.error("Error loading todos:", error);
+      }
+    };
 
-  // const handleTodoPress = (todo) => {
-  //   // Handle the press on a todo, if needed
-  //   console.log(`Todo pressed: ${todo.text}`);
-  // };
+    // Load todos when the component mounts
+    loadTodos();
+  }, [tripData, getTodoData]);
 
   const today = new Date();
   const dateString = today.toISOString().split("T")[0];
@@ -59,73 +70,27 @@ function CalendarScreen() {
     navigation.navigate("newTrip");
   };
 
-  const convertToYYYYMMDD = (dateString) => {
-    const date = new Date(dateString);
-    return date.toISOString().split("T")[0];
-  };
-
-  const createDateRange = (startDate, endDate) => {
-    const dateRange = [];
-    let currentDate = new Date(startDate);
-    const end = new Date(endDate);
-
-    while (currentDate <= end) {
-      dateRange.push(convertToYYYYMMDD(currentDate));
-      currentDate.setDate(currentDate.getDate() + 1);
-    }
-    return dateRange;
-  };
-
-  const markedDates = {};
-  if (tripData.startDate && tripData.endDate) {
-    const start = convertToYYYYMMDD(tripData.startDate);
-    const end = convertToYYYYMMDD(tripData.endDate);
-    const dateRange = createDateRange(start, end);
-    dateRange.forEach((date, index) => {
-      markedDates[date] = {
-        color: "#D1FFA0",
-        textColor: "#163532",
-        ...(index === 0 && { startingDay: true }),
-        ...(index === dateRange.length - 1 && { endingDay: true }),
-      };
-    });
-  }
-
   const handleDayPress = (day) => {
     const selectedDate = day.dateString;
     setSelectedDate(selectedDate);
 
-    // Mark the selected date with a green circle
+    if (!todosDates.includes(selectedDate)) {
+      setTodosDates((prevDates) => [...prevDates, selectedDate]);
+      updateMarkedDates(selectedDate);
+    }
+
     setSelectedDateMarked({
       [selectedDate]: { selected: true, textColor: "#000" },
     });
-
-    // Only add the selected date to todosDates when saving a todo
     setShowTodoList(true);
-
-    // Optionally, you can clear the existing todos for the selected date
-    setTodoData((prevTodoData) => {
-      const updatedTodoData = { ...prevTodoData };
-      delete updatedTodoData[selectedDate];
-      return updatedTodoData;
-    });
   };
-
-  // ...
 
   const updateMarkedDates = (date) => {
-    // Update marked dates when a todo is added
     setSelectedDateMarked((prevMarkedDates) => ({
       ...prevMarkedDates,
-      [date]: { selected: true, marked: true, textColor: "#B726DC" },
+      [date]: { selected: true, marked: true, dotColor: "#B726DC" },
     }));
-
-    // Add the selected date to the list of dates with todos
-    setTodosDates((prevDates) => [...prevDates, date]);
   };
-
-  //   return null;
-  // };
 
   return (
     <>
@@ -180,23 +145,17 @@ function CalendarScreen() {
             renderDay={renderDay}
             markingType={"period"}
             markedDates={{
-              ...markedDates,
+              ...selectedDateMarked,
             }}
           />
+
+          {showTodoList && (
+            <TodoComponent tripId={tripData.id} selectedDate={selectedDate} />
+          )}
 
           <View style={styles.addTodoContainer}>
             <Text style={styles.addButton}>Press a date to add a todo</Text>
           </View>
-
-          {showTodoList && (
-            <ToDoList
-              selectedDate={selectedDate}
-              updateMarkedDates={updateMarkedDates}
-              todoData={todoData}
-              setTodoData={setTodoData}
-              tripId={tripData.id}
-            />
-          )}
         </View>
       </ScrollView>
     </>

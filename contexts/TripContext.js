@@ -115,30 +115,30 @@ export const TripProvider = ({ children }) => {
   };
 
   //save todo items
-  const saveTodoData = async (tripId, date, todoData) => {
+
+  // Inside TripProvider
+
+  // Save todo items with start and end dates
+  const getTodoData = async (tripId) => {
     try {
-      const existingTodoData = (await getTodoData(tripId, date)) || {};
-
-      // Update todoData for the specific date
-      existingTodoData[date] = todoData;
-
-      // Save the updated todoData to AsyncStorage
-      await AsyncStorage.setItem(
-        `todoData:${tripId}`,
-        JSON.stringify(existingTodoData)
-      );
-    } catch (error) {
-      console.error("Error saving todoData:", error);
-    }
-  };
-
-  const getTodoData = async (tripId, date) => {
-    try {
+      // Retrieve todoData from AsyncStorage based on the provided tripId
       const todoData = await AsyncStorage.getItem(`todoData:${tripId}`);
-      return todoData ? JSON.parse(todoData)[date] || [] : [];
+      return todoData ? JSON.parse(todoData) : [];
     } catch (error) {
       console.error("Error fetching todoData:", error);
       return [];
+    }
+  };
+
+  // Inside saveTodoData
+  const saveTodoData = async (tripId, todoData) => {
+    try {
+      await AsyncStorage.setItem(
+        `todoData:${tripId}`,
+        JSON.stringify(todoData)
+      );
+    } catch (error) {
+      console.error("Error saving todoData:", error);
     }
   };
 
