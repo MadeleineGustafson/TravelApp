@@ -21,6 +21,10 @@ function CalendarScreen() {
   const [todoData, setTodoData] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
 
+  const toggleTodoList = () => {
+    setShowTodoList((prevShowTodoList) => !prevShowTodoList);
+  };
+
   useEffect(() => {
     const fetchStoredTripData = async () => {
       try {
@@ -181,7 +185,26 @@ function CalendarScreen() {
             }}
           />
 
-          <TodoComponent tripId={tripData.id} selectedDate={selectedDate} />
+          {/* Display selected date */}
+          {selectedDate && (
+            <View style={styles.selectedDateContainer}>
+              <Text style={styles.selectedDateText}>{selectedDate}</Text>
+              <Text style={styles.plans}>Plans for the day:</Text>
+            </View>
+          )}
+
+          <View style={styles.toggleButtonContainer}>
+            <Pressable onPress={toggleTodoList} style={styles.toggleButton}>
+              <Text style={styles.toggleButtonText}>
+                {showTodoList ? "Hide Todos" : "Show Todos"}
+              </Text>
+            </Pressable>
+          </View>
+
+          {/* Conditionally render the TodoComponent */}
+          {showTodoList && (
+            <TodoComponent tripId={tripData.id} selectedDate={selectedDate} />
+          )}
 
           <View style={styles.addTodoContainer}>
             <Text style={styles.addButton}>Press a date to add a todo</Text>
@@ -250,6 +273,19 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: "grey",
     marginTop: 10,
+  },
+  selectedDateText: {
+    fontFamily: "Poppins-Regular",
+    color: "white",
+    fontSize: 18,
+  },
+  plans: {
+    fontFamily: "Poppins-Bold",
+    color: "white",
+    fontSize: 22,
+  },
+  toggleButtonText: {
+    backgroundColor: "purple",
   },
 });
 

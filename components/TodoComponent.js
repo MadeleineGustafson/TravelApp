@@ -3,74 +3,104 @@ import { Button, FlatList, Text, TextInput, View } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { useTripContext } from "../contexts/TripContext";
 
+// Function to get current time
+const getCurrentTime = () => {
+  const now = new Date();
+  return now.toLocaleTimeString("sv-SE", {
+    hour: "numeric",
+    minute: "numeric",
+    hour12: false,
+  });
+};
+
 const TodoComponent = ({ tripId, selectedDate }) => {
   const { getTodoData, saveTodoData } = useTripContext();
   const [todo, setTodo] = useState("");
   const [todos, setTodos] = useState([]);
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [selectedTime, setSelectedTime] = useState(null);
-
-  const loadTodos = async () => {
-    try {
-      // Load todos for the specific tripId
-      const allTodos = (await getTodoData(tripId)) || [];
-
-      // Filter todos based on the selected date
-      const todosForSelectedDate = allTodos.filter(
-        (todo) => todo.date === selectedDate
-      );
-
-      // Use the callback form of setTodos to ensure working with the latest state
-      setTodos(todosForSelectedDate);
-    } catch (error) {
-      console.error("Error loading todos:", error);
-    }
-  };
+  const [isStartTimePickerVisible, setStartTimePickerVisibility] =
+    useState(false);
+  const [isEndTimePickerVisible, setEndTimePickerVisibility] = useState(false);
+  const [selectedStartTime, setSelectedStartTime] = useState(null);
+  const [selectedEndTime, setSelectedEndTime] = useState(null);
+  const [startInput, setStartInput] = useState(getCurrentTime());
+  const [endInput, setEndInput] = useState(getCurrentTime());
 
   useEffect(() => {
     loadTodos();
   }, [tripId, selectedDate]);
 
-  const showDatePicker = () => {
-    setDatePickerVisibility(true);
+  const showStartTimePicker = () => {
+    setStartTimePickerVisibility(true);
   };
 
-  const hideDatePicker = () => {
-    setDatePickerVisibility(false);
+  const hideStartTimePicker = () => {
+    setStartTimePickerVisibility(false);
   };
 
-  const handleConfirm = (date) => {
-    // Format the selected time as needed
+  const showEndTimePicker = () => {
+    setEndTimePickerVisibility(true);
+  };
+
+  const hideEndTimePicker = () => {
+    setEndTimePickerVisibility(false);
+  };
+
+  const handleStartTimeConfirm = (date) => {
     const formattedTime = date.toLocaleTimeString("sv-SE", {
       hour: "numeric",
       minute: "numeric",
-      hour24: true,
+      hour12: false,
     });
 
-    setSelectedTime(formattedTime);
-    hideDatePicker();
+    setSelectedStartTime(formattedTime);
+    setStartInput(formattedTime);
+    hideStartTimePicker();
+  };
+
+  const handleEndTimeConfirm = (date) => {
+    const formattedTime = date.toLocaleTimeString("sv-SE", {
+      hour: "numeric",
+      minute: "numeric",
+      hour12: false,
+    });
+
+    setSelectedEndTime(formattedTime);
+    setEndInput(formattedTime);
+    hideEndTimePicker();
   };
 
   const addTodo = async () => {
-    if (todo.trim() !== "" && selectedTime) {
+    if (todo.trim() !== "" && selectedStartTime && selectedEndTime) {
       const newTodo = {
         id: Date.now().toString(),
-        text: `${todo} - ${selectedTime}`,
+        text: `${todo} - ${selectedStartTime} to ${selectedEndTime}`,
         date: selectedDate,
       };
 
-      // Load existing todos
       const existingTodos = (await getTodoData(tripId)) || [];
-
-      // Append the new todo to the existing todos
       const updatedTodos = [...existingTodos, newTodo];
       setTodos(updatedTodos);
 
-      // Save updatedTodos to AsyncStorage
       await saveTodoData(tripId, updatedTodos);
 
       setTodo("");
-      setSelectedTime(null);
+      setSelectedStartTime(null);
+      setSelectedEndTime(null);
+      setStartInput(getCurrentTime());
+      setEndInput(getCurrentTime());
+    }
+  };
+
+  const loadTodos = async () => {
+    try {
+      const allTodos = (await getTodoData(tripId)) || [];
+      const todosForSelectedDate = allTodos.filter(
+        (todo) => todo.date === selectedDate
+      );
+
+      setTodos(todosForSelectedDate);
+    } catch (error) {
+      console.error("Error loading todos:", error);
     }
   };
 
@@ -87,12 +117,42 @@ const TodoComponent = ({ tripId, selectedDate }) => {
         value={todo}
         onChangeText={(text) => setTodo(text)}
       />
-      <Button title="Show Time Picker" onPress={showDatePicker} />
+      <Button title="Enter start time" onPress={showStartTimePicker} />
       <DateTimePickerModal
-        isVisible={isDatePickerVisible}
+        isVisible={isStartTimePickerVisible}
         mode="time"
-        onConfirm={handleConfirm}
-        onCancel={hideDatePicker}
+        onConfirm={handleStartTimeConfirm}
+        onCancel={hideStartTimePicker}
+      />
+      <TextInput
+        style={{
+          height: 40,
+          borderColor: "transparent",
+          borderWidth: 1,
+          marginBottom: 10,
+        }}
+        placeholder="Enter start time"
+        value={startInput}
+        onPress={showStartTimePicker}
+        onChangeText={(text) => setStartInput(text)}
+      />
+      <Button title="Enter end time" onPress={showEndTimePicker} />
+      <DateTimePickerModal
+        isVisible={isEndTimePickerVisible}
+        mode="time"
+        onConfirm={handleEndTimeConfirm}
+        onCancel={hideEndTimePicker}
+      />
+      <TextInput
+        style={{
+          height: 40,
+          borderColor: "transparent",
+          borderWidth: 1,
+          marginBottom: 10,
+        }}
+        placeholder="Enter end time"
+        value={endInput}
+        onChangeText={(text) => setEndInput(text)}
       />
       <Button title="Add Todo" onPress={addTodo} />
       <FlatList
