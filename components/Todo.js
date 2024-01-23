@@ -14,13 +14,13 @@ const Todo = ({ todo, onDelete, onEdit, onSave }) => {
   const [editedText, setEditedText] = useState(todo.text);
   const [loadedData, setLoadedData] = useState(false);
   const [loadedTodo, setLoadedTodo] = useState(null);
-  const { getTodoList, saveTodoList } = useTripContext();
+  const { getTodoData, saveTododata } = useTripContext();
 
   useEffect(() => {
     const fetchTodoData = async () => {
       try {
         // Fetch the todo data for the specific date
-        const todos = await getTodoList(/* Provide the tripId and date here */);
+        const todos = await getTodoData(/* Provide the tripId and date here */);
         const loadedTodo = todos.find((t) => t.id === todo.id); // Assuming todo has an 'id' property
 
         if (loadedTodo) {
@@ -36,7 +36,7 @@ const Todo = ({ todo, onDelete, onEdit, onSave }) => {
     if (!loadedData) {
       fetchTodoData();
     }
-  }, [loadedData, todo.id, getTodoList]);
+  }, [loadedData, todo.id, getTodoData]);
 
   const handleEditToggle = () => {
     setIsEditing(!isEditing);
