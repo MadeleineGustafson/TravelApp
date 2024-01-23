@@ -56,7 +56,7 @@ function Sights({ route }) {
   const handleDeleteSightsNote = async (note) => {
     try {
       // Retrieve existing notes for the trip
-      const existingNotes = await getTripNotes(tripId);
+      const existingNotes = await getSightNotes(tripId);
 
       // Filter out the note to be deleted
       const updatedNotes = existingNotes.filter((item) => item.id !== note.id);

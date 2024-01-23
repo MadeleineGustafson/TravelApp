@@ -1,6 +1,6 @@
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import {
-  Button,
   Linking,
   Modal,
   ScrollView,
@@ -126,32 +126,52 @@ const NotesScreen = ({
             placeholder="Enter note title"
             value={title}
             onChangeText={setTitle}
+            placeholderTextColor="#163532"
           />
 
           {/* Note content input */}
           <TextInput
             style={styles.contentInput}
             multiline
-            placeholder="Enter note content"
+            placeholder="Enter link"
             value={content}
             onChangeText={setContent}
+            placeholderTextColor="#163532"
           />
 
           {/* Buttons for saving, canceling, and deleting */}
           <View style={styles.buttonContainer}>
-            {selectedNote && (
-              <Button
-                title="Delete"
-                onPress={() => handleDeleteNote(selectedNote)}
-                style={styles.delete}
-              />
-            )}
-            <Button title="Save" onPress={handleSaveNote} style={styles.save} />
-            <Button
-              title="Cancel"
+            <TouchableOpacity
+              style={[styles.button, styles.save]}
+              onPress={handleSaveNote}
+            >
+              <Text style={styles.buttonTextSave}>Save</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                styles.button,
+                {
+                  backgroundColor: "transparent",
+                  borderColor: "#163532",
+                  borderWidth: 2,
+                },
+              ]}
               onPress={() => setModalVisible(false)}
-              color="#FF3B30"
-            />
+            >
+              <Text style={styles.buttonText}>Cancel</Text>
+            </TouchableOpacity>
+            {selectedNote && (
+              <TouchableOpacity
+                style={[styles.button, styles.delete]}
+                onPress={() => handleDeleteNote(selectedNote)}
+              >
+                <MaterialCommunityIcons
+                  name="trash-can-outline"
+                  size={25}
+                  color="#163532"
+                />
+              </TouchableOpacity>
+            )}
           </View>
         </View>
       </Modal>
@@ -207,21 +227,24 @@ const styles = StyleSheet.create({
   modalContainer: {
     flex: 1,
     padding: 50,
-    backgroundColor: "#163532",
+    backgroundColor: "#EDF2E1",
   },
   input: {
-    padding: 10,
+    padding: 20,
     marginBottom: 10,
     borderRadius: 20,
-    backgroundColor: "#EDF2E1",
+    borderWidth: 1,
+    borderColor: "#163532",
+    marginTop: 30,
   },
   contentInput: {
     borderRadius: 20,
-    backgroundColor: "#EDF2E1",
-    padding: 10,
+    padding: 20,
     marginBottom: 20,
     height: 150,
     textAlignVertical: "top",
+    borderWidth: 1,
+    borderColor: "#163532",
   },
   buttonContainer: {
     flexDirection: "row",
@@ -230,12 +253,29 @@ const styles = StyleSheet.create({
   linkText: {
     textDecorationLine: "underline",
   },
-  delete: {
-    backgroundColor: "#D1FFA0",
-  },
+
   save: {
-    backgroundColor: "#D1FFA0",
-    textColor: "#D1FFA0",
+    backgroundColor: "#163532",
+  },
+  cancel: {
+    borderColor: "#163532",
+    borderWidth: 2,
+  },
+  buttonText: {
+    fontFamily: "Poppins-Regular",
+    fontSize: 15,
+  },
+  buttonTextSave: {
+    fontFamily: "Poppins-Regular",
+    fontSize: 15,
+    color: "#D1FFA0",
+  },
+  button: {
+    flex: 1,
+    paddingVertical: 10,
+    alignItems: "center",
+    borderRadius: 20,
+    marginHorizontal: 5,
   },
 });
 

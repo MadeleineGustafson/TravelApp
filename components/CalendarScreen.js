@@ -1,4 +1,3 @@
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import {
@@ -12,9 +11,9 @@ import {
 } from "react-native";
 import { Calendar } from "react-native-calendars";
 import { useTripContext } from "../contexts/TripContext";
+import Countdown from "./countdown";
 import IconBar from "./IconBar";
 import ToDoList from "./ToDoList";
-import Countdown from "./countdown";
 
 function CalendarScreen() {
   const { getTrip } = useTripContext();
@@ -154,24 +153,12 @@ function CalendarScreen() {
           <View style={styles.container}>
             {tripData.name && tripData.destination && (
               <Text style={styles.detailText}>
-                {tripData.name}'s trip to {tripData.destination}!
+                {tripData.name}'s trip to {tripData.destination}
               </Text>
             )}
           </View>
           <IconBar tripId={tripData.id} />
-          <View style={styles.navContainer}>
-            <Pressable
-              onPress={handleBackToNewTripPress}
-              style={styles.backButtonPressable}
-            >
-              <MaterialCommunityIcons
-                name="playlist-edit"
-                size={15}
-                color="#163532"
-              />
-              <Text style={styles.backButton}>Change dates</Text>
-            </Pressable>
-          </View>
+          <View style={styles.navContainer}></View>
 
           <Calendar
             style={styles.styleCalendar}
@@ -224,6 +211,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     textAlign: "center",
+    fontFamily: "Poppins-Regular",
     marginTop: 10,
   },
   detailText: {
@@ -232,10 +220,10 @@ const styles = StyleSheet.create({
     marginTop: 10,
     textAlign: "center",
     fontFamily: "Poppins-Bold",
-    color: "white",
+    color: "#EDF2E1",
   },
   styleCalendar: {
-    marginTop: 50,
+    marginTop: 20,
     width: 300,
     backgroundColor: "#163532",
     fontFamily: "Poppins-Bold",
@@ -265,7 +253,7 @@ const styles = StyleSheet.create({
   },
   addButton: {
     fontSize: 18,
-    fontFamily:"Poppins-Regular",
+    fontFamily: "Poppins-Regular",
     color: "#163532",
     marginTop: 10,
   },
