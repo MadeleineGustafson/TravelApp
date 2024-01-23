@@ -128,7 +128,7 @@ const PackListScreen = ({ route, onSaveItem }) => {
         <TouchableOpacity
           onPress={() => navigation.navigate("calendar")} // Navigate to CalendarScreen
         >
-          <MaterialCommunityIcons name="close" size={30} color="#EDF2E1" />
+          <MaterialCommunityIcons name="close" size={25} color="#EDF2E1" style={{marginTop: -30, marginBottom: 20,}} />
         </TouchableOpacity>
       </View>
 
@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#163532",
   },
   title: {
-    fontSize: 28,
+    fontSize: 30,
     fontFamily: "Poppins-Bold",
     marginBottom: 10,
     color: "#D3DFB7",
