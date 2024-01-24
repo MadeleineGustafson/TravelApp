@@ -99,7 +99,23 @@ function IconBar({ tripId }) {
 
 const styles = {
   iconContainer: {
-    marginHorizontal: 20, // Adjust this value to add space between icons
+    width: 70, // Adjust the width for the desired size
+    height: 70, // Adjust the height for the desired size
+    marginHorizontal: 7, // Adjust this value to add space between icons
+    //backgroundColor: "#033126",
+    borderRadius: 20,
+    borderWidth: 0.5,
+    borderColor: "#D1FFA0",
+    //padding: 10,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  iconStyle: {
+    shadowColor: "#588278",
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.6,
+    shadowRadius: 2,
+    elevation: 2,
   },
 };
 

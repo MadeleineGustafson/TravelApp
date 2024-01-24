@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { Text } from 'react-native';
-import { CountdownCircleTimer } from 'react-native-countdown-circle-timer';
+import React, { useEffect, useState } from "react";
+import { Text } from "react-native";
+import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
 
 function Countdown({ startDate }) {
   const [daysRemaining, setDaysRemaining] = useState(0);
@@ -15,8 +15,8 @@ function Countdown({ startDate }) {
 
   const countdownTextStyle = {
     fontSize: 14,
-    fontFamily:"Poppins-Regular",
-    color: '#D1FFA0',
+    fontFamily: "Poppins-Regular",
+    color: "#D1FFA0",
   };
 
   const countdownCircleSize = 65;
@@ -26,21 +26,23 @@ function Countdown({ startDate }) {
   };
 
   return (
-    <CountdownCircleTimer
-      isPlaying
-      duration={daysRemaining * 24 * 3600}
-      colors={['#B726DC', '#B726DC']}
-      size={countdownCircleSize}
-      strokeWidth={3}
-      rotation='clockwise'
-      trailColor='#B726DC'
-    >
-      {({ remainingTime }) => (
-        <Text style={countdownTextStyle}>
-          {Math.ceil(remainingTime / 86400)} days
-        </Text>
-      )}
-    </CountdownCircleTimer>
+    <>
+      <CountdownCircleTimer
+        isPlaying
+        duration={daysRemaining * 24 * 3600}
+        colors={["#B726DC", "#B726DC"]}
+        size={countdownCircleSize}
+        strokeWidth={3}
+        rotation="clockwise"
+        trailColor="#B726DC"
+      >
+        {({ remainingTime }) => (
+          <Text style={countdownTextStyle}>
+            {Math.ceil(remainingTime / 86400)} days
+          </Text>
+        )}
+      </CountdownCircleTimer>
+    </>
   );
 }
 
