@@ -1,6 +1,6 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
-import { Image, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Calendar } from "react-native-calendars";
 import { useTripContext } from "../contexts/TripContext";
 import IconBar from "./IconBar";
@@ -11,7 +11,7 @@ function CalendarScreen() {
   const { getTrip, getTodoData } = useTripContext();
   const navigation = useNavigation();
   const [showTodoList, setShowTodoList] = useState(false);
-
+  
   const route = useRoute();
   const { tripData: routeTripData, startDate, endDate } = route.params || {};
   const [tripData, setTripData] = useState(routeTripData || {});
@@ -184,28 +184,32 @@ function CalendarScreen() {
 
           {/* Display selected date */}
           
-          <Text style={{
-            fontSize: 20,
-            fontFamily: "Poppins-Bold",
-            textAlign: "left",
-            color: "white",
-            marginTop: 30,
-          }}>Today's plans
-          </Text>
+          {/* Conditionally render "Today's plans" based on whether a date is selected */}
+          {selectedDate && (
+            <Text style={{
+              fontSize: 20,
+              fontFamily: "Poppins-Bold",
+              textAlign: "left",
+              color: "white",
+              marginTop: 30,
+            }}>Today's plans
+            </Text>
+          )}
 
+           {/* Conditionally render the selected date */}
           {selectedDate && (
             <View style={styles.selectedDateContainer}>
               <Text style={styles.selectedDateText}>{selectedDate}</Text>
             </View>
           )}
 
-          <View style={styles.toggleButtonContainer}>
+          {/* <View style={styles.toggleButtonContainer}>
             <Pressable onPress={toggleTodoList} style={styles.toggleButton}>
               <Text style={styles.toggleButtonText}>
                 {showTodoList ? "Hide Todos" : "Show Todos"}
               </Text>
             </Pressable>
-          </View>
+          </View> */}
        
 
           {/* Conditionally render the TodoComponent */}
