@@ -205,7 +205,7 @@ const TodoComponent = ({ tripId, selectedDate }) => {
                     color: "#163532",
                   }}
                 >
-                  {`${item.startTime} to ${item.endTime}`}
+                  {`${item.startTime} - ${item.endTime}`}
                 </Text>
               </View>
 
