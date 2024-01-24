@@ -1,7 +1,12 @@
-import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
+import {
+  Ionicons,
+  MaterialCommunityIcons,
+  MaterialIcons,
+} from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import {
+  Image,
   ImageBackground,
   ScrollView,
   StyleSheet,
@@ -45,10 +50,36 @@ function MyTripsScreen() {
         style={{
           flex: 1,
           alignItems: "center",
-          justifyContent: "center",
-          //backgroundColor: "#163532",
+          //justifyContent: "center",
         }}
       >
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            width: 300,
+            marginTop: 60,
+            marginBottom: 20,
+          }}
+        >
+          <TouchableOpacity onPress={() => navigation.navigate("Start")}>
+            <View>
+              <Ionicons name="arrow-back" size={40} color="#D1FFA0" />
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => navigation.navigate("Start")}>
+            <View>
+              <Image
+                source={require("../assets/tp.logo.small.png")}
+                style={{
+                  opacity: "0.5",
+                }}
+              />
+            </View>
+          </TouchableOpacity>
+        </View>
         <Text style={styles.pageTitle}>Your travel plans:</Text>
         <View style={styles.scrollBox}>
           <ScrollView>
@@ -136,6 +167,7 @@ const styles = StyleSheet.create({
     color: "#D1FFA0",
     fontWeight: "bold",
     fontFamily: "Kalnia-Bold",
+    marginTop: 30,
   },
 
   tripText: {

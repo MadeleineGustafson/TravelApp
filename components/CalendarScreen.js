@@ -1,3 +1,4 @@
+import { Ionicons } from "@expo/vector-icons";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import {
@@ -12,9 +13,9 @@ import {
 } from "react-native";
 import { Calendar } from "react-native-calendars";
 import { useTripContext } from "../contexts/TripContext";
+import Countdown from "./countdown";
 import IconBar from "./IconBar";
 import ToDoList from "./ToDoList";
-import Countdown from "./countdown";
 
 function CalendarScreen() {
   const { getTrip } = useTripContext();
@@ -137,19 +138,46 @@ function CalendarScreen() {
   };
 
   return (
-    <>
-      <ScrollView style={{ backgroundColor: "#163532" }}>
-      <TouchableOpacity onPress={() => navigation.navigate("Start")}>
+    <ScrollView style={{ backgroundColor: "#163532" }}>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+          margin: 30,
+          marginBottom: 0,
+          marginTop: 60,
+        }}
+      >
+        <TouchableOpacity onPress={() => navigation.navigate("Start")}>
+          <View>
+            <Ionicons name="arrow-back" size={40} color="#D1FFA0" />
+          </View>
+        </TouchableOpacity>
 
-        <View>
-          <Image source={require("../assets/tp.logo.small.png")} style={styles.logo} />
-        </View>
-      </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("Start")}>
+          <View>
+            <Image
+              source={require("../assets/tp.logo.small.png")}
+              style={{
+                opacity: "0.5",
+              }}
+            />
+          </View>
+        </TouchableOpacity>
+      </View>
+      <View
+        style={{
+          justifyContent: "center",
+          alignItems: "center",
+          padding: 30,
+        }}
+      >
         <View
           style={{
-            justifyContent: "center",
+            flexDirection: "row",
             alignItems: "center",
-            padding: 30,
+            marginRight: 10,
           }}
         >
           <View style={styles.container}>
@@ -160,62 +188,58 @@ function CalendarScreen() {
             )}
           </View>
 
-        <View style={styles.countdownContainer}>
-          <Countdown startDate={new Date(tripData.startDate)} />
+          <View style={styles.countdownContainer}>
+            <Countdown startDate={new Date(tripData.startDate)} />
+          </View>
         </View>
-        
-          <IconBar tripId={tripData.id} />
-          <View style={styles.navContainer}></View>
 
-          <Calendar
-            style={styles.styleCalendar}
-            theme={{
-              calendarBackground: "#163532",
-              monthTextColor: "white",
-              fontFamily: "Poppins-Regular",
-              textMonthFontSize: 22,
-              textMonthFontFamily: "Poppins-Bold",
-              arrowColor: "white",
-              dayTextColor: "#D1FFA0",
-              todayBackgroundColor: "#B726DC",
-            }}
-            onDayPress={handleDayPress}
-            renderDay={renderDay}
-            markingType={"period"}
-            markedDates={{
-              ...markedDates,
-              ...selectedDateMarked,
-            }}
-          />
+        <IconBar tripId={tripData.id} />
+        <View style={styles.navContainer}></View>
 
-          <View style={styles.addTodoContainer}>
-            <Pressable
-              onPress={handleAddTodoPress}
-              style={styles.addTodoPressable}
-            >
-              {/* <MaterialCommunityIcons
+        <Calendar
+          style={styles.styleCalendar}
+          theme={{
+            calendarBackground: "#163532",
+            monthTextColor: "#EDF2E1",
+            fontFamily: "Poppins-Regular",
+            textMonthFontSize: 22,
+            textMonthFontFamily: "Poppins-Regular",
+            arrowColor: "white",
+            dayTextColor: "#D1FFA0",
+            todayBackgroundColor: "#B726DC",
+          }}
+          onDayPress={handleDayPress}
+          renderDay={renderDay}
+          markingType={"period"}
+          markedDates={{
+            ...markedDates,
+            ...selectedDateMarked,
+          }}
+        />
+
+        <View style={styles.addTodoContainer}>
+          <Pressable
+            onPress={handleAddTodoPress}
+            style={styles.addTodoPressable}
+          >
+            {/* <MaterialCommunityIcons
               name="plus-circle-outline"
               size={35}
               color="#163532"
               /> */}
-              <Text style={styles.addButton}>Press a date to add a todo</Text>
-            </Pressable>
-          </View>
-
-          {showTodoList && <ToDoList selectedDate={selectedDate} />}
+            <Text style={styles.addButton}>Press a date to add a todo</Text>
+          </Pressable>
         </View>
-      </ScrollView>
-    </>
+
+        {showTodoList && <ToDoList selectedDate={selectedDate} />}
+      </View>
+    </ScrollView>
   );
 }
 const styles = StyleSheet.create({
-  logo: {
-    marginLeft: 20,
-    marginTop: 20,
-  },
   countdownContainer: {
-    marginTop: 15,
-    alignItems: "center", 
+    //marginTop: 15,
+    alignItems: "center",
   },
   titleText: {
     fontSize: 20,
@@ -225,12 +249,14 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   detailText: {
-    fontSize: 35,
+    fontSize: 27,
     marginLeft: 10,
-    marginTop: 10,
-    textAlign: "center",
+    //marginTop: 10,
+    //textAlign: "center",
     fontFamily: "Poppins-Bold",
     color: "#EDF2E1",
+    //marginRight: 10,
+    padding: 10,
   },
   styleCalendar: {
     marginTop: 20,
@@ -259,7 +285,7 @@ const styles = StyleSheet.create({
     width: "auto",
   },
   container: {
-    alignItems: "center",
+    //alignItems: "space-between",
   },
   addButton: {
     fontSize: 18,

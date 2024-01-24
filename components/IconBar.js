@@ -102,10 +102,11 @@ const styles = {
     width: 70, // Adjust the width for the desired size
     height: 70, // Adjust the height for the desired size
     marginHorizontal: 7, // Adjust this value to add space between icons
-    //backgroundColor: "#033126",
+    backgroundColor: "rgba(209, 255, 160, 0.15)",
+    //opacity: "0.1",
     borderRadius: 20,
-    borderWidth: 0.5,
-    borderColor: "#D1FFA0",
+    // borderWidth: 0.5,
+    // borderColor: "#D1FFA0",
     //padding: 10,
     justifyContent: "center",
     alignItems: "center",

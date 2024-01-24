@@ -11,7 +11,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import bigLine from "../assets/bigLine.png";
+import bigLine from "../assets/road.png";
 import backgroundImage from "../assets/Train_Darker.png";
 
 function StartScreen() {
@@ -68,6 +68,16 @@ function StartScreen() {
         backgroundColor: "#163532",
       }}
     >
+      <Image
+        source={bigLine}
+        style={{
+          position: "absolute",
+          width: "100%",
+          height: "100%",
+          opacity: "0.5",
+        }}
+        resizeMode="cover"
+      />
       <View
         style={{
           position: "relative",
@@ -75,21 +85,11 @@ function StartScreen() {
           width: "100%",
         }}
       >
-        <Image
-          source={bigLine}
-          style={{
-            zIndex: 1,
-            position: "absolute",
-            top: 230,
-            left: 0,
-            right: 50,
-            bottom: 0,
-          }}
-        />
         <View
           style={{
             flexDirection: "row",
             alignItems: "center",
+            marginTop: 200,
             zIndex: 2,
           }}
         >
