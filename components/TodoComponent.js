@@ -1,3 +1,4 @@
+import { FontAwesome5 } from "@expo/vector-icons";
 import React, { useEffect, useState } from "react";
 import { FlatList, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -93,6 +94,21 @@ const TodoComponent = ({ tripId, selectedDate }) => {
     }
   };
 
+  const handleDeleteTodo = async (item) => {
+    try {
+      // Remove the todo from the state
+      const updatedTodos = todos.filter((todo) => todo.id !== item.id);
+      setTodos(updatedTodos);
+
+      // Remove the todo from persistent storage
+      await saveTodoData(tripId, updatedTodos);
+
+      console.log("Todo deleted successfully!");
+    } catch (error) {
+      console.error("Error deleting todo:", error);
+    }
+  };
+
   const loadTodos = async () => {
     try {
       const allTodos = (await getTodoData(tripId)) || [];
@@ -155,21 +171,24 @@ const TodoComponent = ({ tripId, selectedDate }) => {
         onConfirm={handleEndTimeConfirm}
         onCancel={hideEndTimePicker}
       />
-   
-      <TouchableOpacity onPress={() => addTodo()}>
-         <View style={styles.addWrapper}>
-           <Text style={styles.addText}>+</Text>
-         </View>
-      </TouchableOpacity>
 
+       {/* Add button to the right of the time inputs */} 
+       <View style={styles.addButtonContainer}>
+        <TouchableOpacity onPress={() => addTodo()}>
+          <View style={styles.addWrapper}>
+            <Text style={styles.addText}>+</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
 
-      <View style={styles.item}>
-        <View style={styles.itemLeft}>
-          <FlatList
-            data={todos}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-              <View>
+      <View style={styles.itemContainer}>
+        <FlatList
+          data={todos}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <View style={styles.item}>
+              {/* Todo item content */}
+              <View style={styles.itemContent}>
                 <Text
                   style={{
                     fontFamily: "Poppins-Bold",
@@ -190,15 +209,40 @@ const TodoComponent = ({ tripId, selectedDate }) => {
                   {`${item.startTime} to ${item.endTime}`}
                 </Text>
               </View>
-            )}
-          />
-        </View>
+
+              {/* Trash icon */}
+              <TouchableOpacity
+                style={styles.trashIconContainer}
+                onPress={() => handleDeleteTodo(item)}
+              >
+                <FontAwesome5 name="trash" size={20} color="#163532" />
+              </TouchableOpacity>
+            </View>
+          )}
+        />
       </View>
     </ScrollView>
   );
 };
+{/* {isEditing ? (
+  <TouchableOpacity >
+    <Text style={styles.saveText}>
+      <Entypo name="check" size={20} color="#163532" />
+    </Text>
+  </TouchableOpacity>
+) : (
+  <TouchableOpacity >
+    <Text style={styles.editText}>
+      <Feather name="edit" size={18} color="#163532" />
+    </Text>
+  </TouchableOpacity>
+)} */}
 
 const styles = StyleSheet.create({
+  itemContainer: {
+    marginTop: 10, 
+    marginBottom: 10, 
+  },
   item: {
     backgroundColor: "#D3DFB7",
     padding: 15,
@@ -217,7 +261,13 @@ const styles = StyleSheet.create({
   timeInputContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 10,
+    alignItems: "center", 
+  },
+  itemContent: {
+    flex: 1,
+  },
+  trashIconContainer: {
+    marginLeft: 10,
   },
   input: {
     paddingVertical: 15,
@@ -228,6 +278,13 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     width: 300,
     fontFamily: "Poppins-Regular",
+  },
+  addButtonContainer: {
+    alignItems: "flex-end", // Align the button to the right
+    marginBottom: 10,
+  },
+  buttonsContainer: {
+    flexDirection: "row",
   },
   timeInputLabel: {
     fontFamily: "Poppins-Regular",
@@ -255,6 +312,7 @@ const styles = StyleSheet.create({
   addText: {
     fontSize: 20,
   },
+  
 })
 
 export default TodoComponent;
