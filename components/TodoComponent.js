@@ -1,6 +1,15 @@
 import { FontAwesome5 } from "@expo/vector-icons";
 import React, { useEffect, useState } from "react";
-import { FlatList, KeyboardAvoidingView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import {
+  FlatList,
+  KeyboardAvoidingView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { useTripContext } from "../contexts/TripContext";
 
@@ -74,7 +83,7 @@ const TodoComponent = ({ tripId, selectedDate }) => {
     if (todo.trim() !== "" && selectedStartTime && selectedEndTime) {
       const newTodo = {
         id: Date.now().toString(),
-        text: todo,  // Store the todo text separately
+        text: todo, // Store the todo text separately
         startTime: selectedStartTime,
         endTime: selectedEndTime,
         date: selectedDate,
@@ -121,15 +130,14 @@ const TodoComponent = ({ tripId, selectedDate }) => {
       console.error("Error loading todos:", error);
     }
   };
-  
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={{ flex: 1 }}
     >
-
-    <ScrollView>
-      <View style={styles.dateTimePickerContainer}>
+      <ScrollView>
+        <View style={styles.dateTimePickerContainer}>
           <TextInput
             style={styles.input}
             placeholder={"Add a todo"}
@@ -145,86 +153,82 @@ const TodoComponent = ({ tripId, selectedDate }) => {
           </TouchableOpacity>
         </View>
 
-      {/* Wrap "Enter start time" and "Enter end time" in a View with horizontal layout */}
-      <View style={styles.timeInputContainer}>
-        <TouchableOpacity onPress={showStartTimePicker}>
-          <Text style={styles.timeInputLabel}>Starts</Text>
-        </TouchableOpacity>
-        <Text style={styles.timeInput}>
-        {selectedStartTime}
-        </Text>
-      </View>
+        {/* Wrap "Enter start time" and "Enter end time" in a View with horizontal layout */}
+        <View style={styles.timeInputContainer}>
+          <TouchableOpacity onPress={showStartTimePicker}>
+            <Text style={styles.timeInputLabel}>Starts</Text>
+          </TouchableOpacity>
+          <Text style={styles.timeInput}>{selectedStartTime}</Text>
+        </View>
 
-      <DateTimePickerModal
-        isVisible={isStartTimePickerVisible}
-        mode="time"
-        onConfirm={handleStartTimeConfirm}
-        onCancel={hideStartTimePicker}
-      />
-
-       {/* "Enter end time" label and text input */}
-       <View style={styles.timeInputContainer}>
-        <TouchableOpacity onPress={showEndTimePicker}>
-          <Text style={styles.timeInputLabel}>Ends</Text>
-        </TouchableOpacity>
-        <Text style={styles.timeInput}>
-        {selectedEndTime}
-        </Text>
-      </View>
-
-        
-      <DateTimePickerModal
-        isVisible={isEndTimePickerVisible}
-        mode="time"
-        onConfirm={handleEndTimeConfirm}
-        onCancel={hideEndTimePicker}
-      />
-
-      <View style={styles.itemContainer}>
-        <FlatList
-          data={todos}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <View style={styles.item}>
-              {/* Todo item content */}
-              <View style={styles.itemContent}>
-                <Text
-                  style={{
-                    fontFamily: "Poppins-Bold",
-                    fontSize: 17,
-                    color: "#163532",
-                  }}
-                >
-                  {item.text}
-                </Text>
-
-                <Text
-                  style={{
-                    fontFamily: "Poppins-Regular",
-                    fontSize: 14,
-                    color: "#163532",
-                  }}
-                >
-                  {`${item.startTime} - ${item.endTime}`}
-                </Text>
-              </View>
-
-              {/* Trash icon */}
-              <TouchableOpacity
-                style={styles.trashIconContainer}
-                onPress={() => handleDeleteTodo(item)}
-              >
-                <FontAwesome5 name="trash" size={20} color="#163532" />
-              </TouchableOpacity>
-            </View>
-          )}
+        <DateTimePickerModal
+          isVisible={isStartTimePickerVisible}
+          mode="time"
+          onConfirm={handleStartTimeConfirm}
+          onCancel={hideStartTimePicker}
         />
-      </View>
-    </ScrollView>
-</KeyboardAvoidingView>
+
+        {/* "Enter end time" label and text input */}
+        <View style={styles.timeInputContainer}>
+          <TouchableOpacity onPress={showEndTimePicker}>
+            <Text style={styles.timeInputLabel}>Ends</Text>
+          </TouchableOpacity>
+          <Text style={styles.timeInput}>{selectedEndTime}</Text>
+        </View>
+
+        <DateTimePickerModal
+          isVisible={isEndTimePickerVisible}
+          mode="time"
+          onConfirm={handleEndTimeConfirm}
+          onCancel={hideEndTimePicker}
+        />
+
+        <View style={styles.itemContainer}>
+          <FlatList
+            data={todos}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <View style={styles.item}>
+                {/* Todo item content */}
+                <View style={styles.itemContent}>
+                  <Text
+                    style={{
+                      fontFamily: "Poppins-Bold",
+                      fontSize: 17,
+                      color: "#163532",
+                    }}
+                  >
+                    {item.text}
+                  </Text>
+
+                  <Text
+                    style={{
+                      fontFamily: "Poppins-Regular",
+                      fontSize: 14,
+                      color: "#163532",
+                    }}
+                  >
+                    {`${item.startTime} - ${item.endTime}`}
+                  </Text>
+                </View>
+
+                {/* Trash icon */}
+                <TouchableOpacity
+                  style={styles.trashIconContainer}
+                  onPress={() => handleDeleteTodo(item)}
+                >
+                  <FontAwesome5 name="trash" size={20} color="#163532" />
+                </TouchableOpacity>
+              </View>
+            )}
+          />
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
-{/* {isEditing ? (
+{
+  /* {isEditing ? (
   <TouchableOpacity >
     <Text style={styles.saveText}>
       <Entypo name="check" size={20} color="#163532" />
@@ -236,7 +240,8 @@ const TodoComponent = ({ tripId, selectedDate }) => {
       <Feather name="edit" size={18} color="#163532" />
     </Text>
   </TouchableOpacity>
-)} */}
+)} */
+}
 
 const styles = StyleSheet.create({
   dateTimePickerContainer: {
@@ -246,8 +251,8 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   itemContainer: {
-    marginTop: 10, 
-    marginBottom: 10, 
+    marginTop: 10,
+    marginBottom: 10,
   },
   item: {
     backgroundColor: "#D3DFB7",
@@ -267,7 +272,7 @@ const styles = StyleSheet.create({
   timeInputContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center", 
+    alignItems: "center",
     marginTop: 10,
   },
   itemContent: {
@@ -287,7 +292,7 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins-Regular",
   },
   addButtonContainer: {
-    alignItems: "flex-end", 
+    alignItems: "flex-end",
     marginBottom: 10,
   },
   buttonsContainer: {
@@ -316,7 +321,6 @@ const styles = StyleSheet.create({
   addText: {
     fontSize: 20,
   },
-  
-})
+});
 
 export default TodoComponent;
