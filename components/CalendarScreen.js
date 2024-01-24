@@ -2,6 +2,7 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import {
   FlatList,
+  Image,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -11,9 +12,9 @@ import {
 } from "react-native";
 import { Calendar } from "react-native-calendars";
 import { useTripContext } from "../contexts/TripContext";
-import Countdown from "./countdown";
 import IconBar from "./IconBar";
 import ToDoList from "./ToDoList";
+import Countdown from "./countdown";
 
 function CalendarScreen() {
   const { getTrip } = useTripContext();
@@ -138,15 +139,16 @@ function CalendarScreen() {
   return (
     <>
       <ScrollView style={{ backgroundColor: "#163532" }}>
-        <View style={styles.countdownContainer}>
-          <Countdown startDate={new Date(tripData.startDate)} />
-        </View>
+      <TouchableOpacity onPress={() => navigation.navigate("Start")}>
 
+        <View>
+          <Image source={require("../assets/tp.logo.small.png")} style={styles.logo} />
+        </View>
+      </TouchableOpacity>
         <View
           style={{
             justifyContent: "center",
             alignItems: "center",
-            marginTop: 65,
             padding: 30,
           }}
         >
@@ -157,6 +159,11 @@ function CalendarScreen() {
               </Text>
             )}
           </View>
+
+        <View style={styles.countdownContainer}>
+          <Countdown startDate={new Date(tripData.startDate)} />
+        </View>
+        
           <IconBar tripId={tripData.id} />
           <View style={styles.navContainer}></View>
 
@@ -202,10 +209,13 @@ function CalendarScreen() {
   );
 }
 const styles = StyleSheet.create({
+  logo: {
+    marginLeft: 20,
+    marginTop: 20,
+  },
   countdownContainer: {
-    position: "absolute",
-    top: 10,
-    right: 10,
+    marginTop: 15,
+    alignItems: "center", 
   },
   titleText: {
     fontSize: 20,

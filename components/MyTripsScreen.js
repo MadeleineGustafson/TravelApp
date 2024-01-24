@@ -77,7 +77,7 @@ function MyTripsScreen() {
           ))}
         </ScrollView>
       </View>
-      {trips.length === 0 && <Text>No trips available</Text>}
+      {trips.length === 0 && <Text style={{fontFamily: "Poppins-Bold", fontSize: 20, color: "#D1FFA0"}}>No trips available, please create a new trip!</Text>}
 
       <TouchableOpacity onPress={navigateToNewTrip}>
         <View style={styles.button}>
