@@ -71,8 +71,14 @@ function Restaurant({ route }) {
     }
   };
   return (
-    <>
-      <View style={{ justifyContent: "flex-start", margin: 20, marginTop: 40 }}>
+    <View style={{ flex: 1, backgroundColor: "#EDF2E1" }}>
+      <View
+        style={{
+          justifyContent: "flex-start",
+          margin: 20,
+          marginTop: 40,
+        }}
+      >
         <TouchableOpacity
           onPress={() => navigation.navigate("calendar")} // Navigate to CalendarScreen
         >
@@ -80,22 +86,28 @@ function Restaurant({ route }) {
         </TouchableOpacity>
       </View>
       <View
-        style={{ flex: 1, alignItems: "center", marginTop: 10, margin: 20 }}
+        style={{
+          flex: 1,
+          alignItems: "center",
+          marginTop: 0,
+          margin: 20,
+        }}
       >
         <View
           style={{
             flexDirection: "row",
-            alignItems: "center",
+            alignItems: "flex-end",
             justifyContent: "center",
             margin: 10,
+            marginLeft: 21,
           }}
         >
-          <MaterialCommunityIcons name="food" size={70} color="#163532" />
+          <MaterialCommunityIcons name="food" size={75} color="#163532" />
           <View style={{ flexDirection: "column", marginLeft: 10, flex: 1 }}>
-            <Text style={styles.title}>Restaurants</Text>
+            <Text style={styles.title}>RESTAURANTS</Text>
             <Text style={styles.text}>
-              On this page, you can save information or links to restaurants you
-              want to visit during your travels!
+              Save information or links to restaurants you want to visit during
+              your travels!
             </Text>
           </View>
         </View>
@@ -106,23 +118,21 @@ function Restaurant({ route }) {
           onDeleteNote={(note) => handleDeleteRestaurantNote(note)}
         />
       </View>
-    </>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   title: {
-    fontSize: 36,
-    fontFamily: "Poppins-Bold",
-    //marginBottom: 10,
+    fontSize: 30,
+    fontWeight: "bold",
     color: "#163532",
+    fontFamily: "Poppins-Bold",
   },
   text: {
     fontSize: 16,
-    fontFamily:"Poppins-Regular",
-    //padding: 10,
-    //marginBottom: 10,
-    color: "#333",
+    color: "#163532",
+    fontFamily: "Poppins-Regular",
   },
 });
 

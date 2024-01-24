@@ -59,7 +59,7 @@ function IconBar({ tripId }) {
 
 const styles = {
   iconContainer: {
-    marginHorizontal: 10, // Adjust this value to add space between icons
+    marginHorizontal: 20, // Adjust this value to add space between icons
   },
 };
 

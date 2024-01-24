@@ -12,6 +12,7 @@ function WeatherScreen() {
   const [city, setCity] = useState("");
   const [weatherData, setWeatherData] = useState(null);
   const openWeatherKey = "54cb9f7bd3775537e7736c0c2bec3b9c";
+  const [error, setError] = useState("");
 
   const search = async () => {
     if (city === "") {
@@ -19,15 +20,24 @@ function WeatherScreen() {
     }
 
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=Metric&appid=${openWeatherKey}`;
-
     try {
       const response = await fetch(url);
-      const data = await response.json();
-      // Handle the fetched data as needed
-      console.log("Weather data:", data);
 
-      // Set the weather data in the state
-      setWeatherData(data);
+      // Check if the response indicates an error
+      if (!response.ok) {
+        const errorData = await response.json();
+        const errorMessage = errorData.message || "Invalid city";
+        setError(errorMessage);
+        setWeatherData(null);
+      } else {
+        const data = await response.json();
+        // Handle the fetched data as needed
+        console.log("Weather data:", data);
+
+        // Set the weather data in the state and clear the error
+        setWeatherData(data);
+        setError("");
+      }
     } catch (error) {
       console.error("Error fetching weather data:", error);
     }
@@ -75,6 +85,13 @@ function WeatherScreen() {
         </TouchableOpacity>
       </View>
 
+       {/* Display error message if there is an error */}
+       {error !== "" && (
+        <View style={styles.errorContainer}>
+          <Text style={styles.errorText}>{error}</Text>
+        </View>
+      )}
+
       {/* Render weather data if available */}
       {weatherData && (
         <View style={styles.weatherDataContainer}>
@@ -117,7 +134,7 @@ const styles = StyleSheet.create({
     padding: 10,
     width: 200,
     borderRadius: 20,
-    fontFamily:"Poppins-Regular",
+    fontFamily: "Poppins-Regular",
     backgroundColor: "#EDF2E1",
     marginBottom: 10,
     marginRight: 10,
@@ -137,7 +154,7 @@ const styles = StyleSheet.create({
   },
   location: {
     fontSize: 30,
-    fontFamily:"Poppins-Regular",
+    fontFamily: "Poppins-Regular",
     color: "#EDF2E1",
     margin: 10,
     textAlign: "center",
@@ -146,32 +163,43 @@ const styles = StyleSheet.create({
     fontSize: 45,
     color: "#D1FFA0",
     textAlign: "center",
-    fontFamily:"Poppins-Bold",
+    fontFamily: "Poppins-Bold",
     margin: 20,
   },
   infotext: {
     fontSize: 13,
-    fontFamily:"Poppins-Regular",
+    fontFamily: "Poppins-Regular",
     color: "#EDF2E1",
     textAlign: "center",
     paddingRight: 10,
   },
   infotextwind: {
     fontSize: 13,
-    fontFamily:"Poppins-Regular",
+    fontFamily: "Poppins-Regular",
     color: "#EDF2E1",
     textAlign: "center",
     paddingLeft: 10,
   },
   weather: {
     fontSize: 20,
-    fontFamily:"Poppins-Regular",
+    fontFamily: "Poppins-Regular",
     color: "#EDF2E1",
     textAlign: "center",
   },
   iconContainer: {
     alignItems: "center",
     marginTop: 10,
+  },
+  errorContainer: {
+    marginTop: 10,
+    padding: 10,
+    backgroundColor: "#FFC0C0", // Customize the background color for error
+    borderRadius: 5,
+  },
+  errorText: {
+    color: "#FF0000", // Customize the text color for error
+    textAlign: "center",
+    fontFamily: "Poppins-Regular",
   },
 });
 
