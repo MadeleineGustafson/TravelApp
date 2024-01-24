@@ -148,15 +148,11 @@ const TodoComponent = ({ tripId, selectedDate }) => {
       {/* Wrap "Enter start time" and "Enter end time" in a View with horizontal layout */}
       <View style={styles.timeInputContainer}>
         <TouchableOpacity onPress={showStartTimePicker}>
-          <Text style={styles.timeInputLabel}>Enter start time</Text>
+          <Text style={styles.timeInputLabel}>Starts</Text>
         </TouchableOpacity>
-        <TextInput
-          style={styles.timeInput}
-          placeholder="Enter start time"
-          value={startInput}
-          onPress={showStartTimePicker}
-          onChangeText={(text) => setStartInput(text)}
-        />
+        <Text style={styles.timeInput}>
+        {selectedStartTime}
+        </Text>
       </View>
 
       <DateTimePickerModal
@@ -169,14 +165,11 @@ const TodoComponent = ({ tripId, selectedDate }) => {
        {/* "Enter end time" label and text input */}
        <View style={styles.timeInputContainer}>
         <TouchableOpacity onPress={showEndTimePicker}>
-          <Text style={styles.timeInputLabel}>Enter end time</Text>
+          <Text style={styles.timeInputLabel}>Ends</Text>
         </TouchableOpacity>
-        <TextInput
-          style={styles.timeInput}
-          placeholder="Enter end time"
-          value={endInput}
-          onChangeText={(text) => setEndInput(text)}
-        />
+        <Text style={styles.timeInput}>
+        {selectedEndTime}
+        </Text>
       </View>
 
         
@@ -275,6 +268,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center", 
+    marginTop: 10,
   },
   itemContent: {
     flex: 1,
@@ -293,24 +287,21 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins-Regular",
   },
   addButtonContainer: {
-    alignItems: "flex-end", // Align the button to the right
+    alignItems: "flex-end", 
     marginBottom: 10,
   },
   buttonsContainer: {
     flexDirection: "row",
   },
   timeInputLabel: {
-    fontFamily: "Poppins-Regular",
+    fontFamily: "Poppins-Bold",
     fontSize: 16,
     color: "#D3DFB7",
   },
   timeInput: {
-    height: 40,
-    borderColor: "transparent",
-    borderWidth: 1,
+    fontSize: 16,
+    fontFamily: "Poppins-Regular",
     color: "#D3DFB7",
-    flex: 1, // Take up remaining space
-    marginLeft: 10, // Add some space between label and input
   },
   addWrapper: {
     width: 50,

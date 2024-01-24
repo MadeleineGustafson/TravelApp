@@ -186,20 +186,17 @@ function CalendarScreen() {
           
           {/* Conditionally render "Today's plans" based on whether a date is selected */}
           {selectedDate && (
-            <Text style={{
-              fontSize: 20,
-              fontFamily: "Poppins-Bold",
-              textAlign: "left",
-              color: "white",
-              marginTop: 30,
-            }}>Today's plans
-            </Text>
-          )}
-
-           {/* Conditionally render the selected date */}
-          {selectedDate && (
-            <View style={styles.selectedDateContainer}>
-              <Text style={styles.selectedDateText}>{selectedDate}</Text>
+            <View style={{ flexDirection: 'column', alignItems: "flex-start", marginLeft: -150, marginTop: 20, }}>
+              <Text style={{
+                fontSize: 20,
+                fontFamily: "Poppins-Bold",
+                color: "white",
+                marginRight: 10,
+              }}>Today's plans</Text>
+              
+              <View style={styles.selectedDateContainer}>
+                <Text style={styles.selectedDateText}>{selectedDate}</Text>
+              </View>
             </View>
           )}
 
@@ -276,7 +273,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   addButton: {
-    fontSize: 18,
+    fontSize: 16,
     fontFamily: "Poppins-Regular",
     fontFamily: "Poppins-Regular",
     color: "white",
