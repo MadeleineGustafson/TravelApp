@@ -1,6 +1,6 @@
 import { FontAwesome5 } from "@expo/vector-icons";
 import React, { useEffect, useState } from "react";
-import { FlatList, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { FlatList, KeyboardAvoidingView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { useTripContext } from "../contexts/TripContext";
 
@@ -123,13 +123,28 @@ const TodoComponent = ({ tripId, selectedDate }) => {
   };
   
   return (
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={{ flex: 1 }}
+    >
+
     <ScrollView>
-      <TextInput
-        style={styles.input}
-        placeholder="Enter your todo"
-        value={todo}
-        onChangeText={(text) => setTodo(text)}
-      />
+      <View style={styles.dateTimePickerContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder={"Add a todo"}
+            placeholderTextColor={"#163532"}
+            value={todo}
+            onChangeText={(text) => setTodo(text)}
+          />
+
+          <TouchableOpacity onPress={() => addTodo()}>
+            <View style={styles.addWrapper}>
+              <Text style={styles.addText}>+</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+
       {/* Wrap "Enter start time" and "Enter end time" in a View with horizontal layout */}
       <View style={styles.timeInputContainer}>
         <TouchableOpacity onPress={showStartTimePicker}>
@@ -172,15 +187,6 @@ const TodoComponent = ({ tripId, selectedDate }) => {
         onCancel={hideEndTimePicker}
       />
 
-       {/* Add button to the right of the time inputs */} 
-       <View style={styles.addButtonContainer}>
-        <TouchableOpacity onPress={() => addTodo()}>
-          <View style={styles.addWrapper}>
-            <Text style={styles.addText}>+</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
-
       <View style={styles.itemContainer}>
         <FlatList
           data={todos}
@@ -222,6 +228,7 @@ const TodoComponent = ({ tripId, selectedDate }) => {
         />
       </View>
     </ScrollView>
+</KeyboardAvoidingView>
   );
 };
 {/* {isEditing ? (
@@ -239,6 +246,12 @@ const TodoComponent = ({ tripId, selectedDate }) => {
 )} */}
 
 const styles = StyleSheet.create({
+  dateTimePickerContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: 10,
+  },
   itemContainer: {
     marginTop: 10, 
     marginBottom: 10, 
@@ -274,9 +287,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     backgroundColor: "#D3DFB7",
     borderRadius: 60,
-    borderColor: "#C0C0C0",
+    borderColor: "#D3DFB7",
     borderWidth: 1,
-    width: 300,
+    width: 250,
     fontFamily: "Poppins-Regular",
   },
   addButtonContainer: {
@@ -295,7 +308,7 @@ const styles = StyleSheet.create({
     height: 40,
     borderColor: "transparent",
     borderWidth: 1,
-    color: "white",
+    color: "#D3DFB7",
     flex: 1, // Take up remaining space
     marginLeft: 10, // Add some space between label and input
   },
