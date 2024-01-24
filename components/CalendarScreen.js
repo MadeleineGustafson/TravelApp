@@ -1,17 +1,25 @@
+import { Ionicons } from "@expo/vector-icons";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { Calendar } from "react-native-calendars";
 import { useTripContext } from "../contexts/TripContext";
+import Countdown from "./countdown";
 import IconBar from "./IconBar";
 import TodoComponent from "./TodoComponent";
-import Countdown from "./countdown";
 
 function CalendarScreen() {
   const { getTrip, getTodoData } = useTripContext();
   const navigation = useNavigation();
   const [showTodoList, setShowTodoList] = useState(false);
-  
+
   const route = useRoute();
   const { tripData: routeTripData, startDate, endDate } = route.params || {};
   const [tripData, setTripData] = useState(routeTripData || {});
@@ -130,103 +138,138 @@ function CalendarScreen() {
   return (
     <>
       <ScrollView style={{ backgroundColor: "#163532" }}>
-      <TouchableOpacity onPress={() => navigation.navigate("Start")}>
-
-        <View>
-          <Image source={require("../assets/tp.logo.small.png")} style={styles.logo} />
-        </View>
-      </TouchableOpacity>
-        <View
-          style={{
-            justifyContent: "center",
-            alignItems: "center",
-            padding: 30,
-          }}
-        >
-          <View style={styles.container}>
-            {tripData.name && tripData.destination && (
-              <Text style={styles.detailText}>
-                {tripData.name}'s trip to {tripData.destination}
-              </Text>
-            )}
-          </View>
-
-        <View style={styles.countdownContainer}>
-          <Countdown startDate={new Date(tripData.startDate)} />
-        </View>
-        
-          <IconBar tripId={tripData.id} />
-          <View style={styles.navContainer}></View>
-
-          <Calendar
-            style={styles.styleCalendar}
-            theme={{
-              calendarBackground: "#163532",
-              monthTextColor: "white",
-              fontFamily: "Poppins-Regular",
-              textMonthFontSize: 22,
-              textMonthFontFamily: "Poppins-Bold",
-              arrowColor: "white",
-              dayTextColor: "#D1FFA0",
-              todayBackgroundColor: "#B726DC",
+        <View style={{ justifyContent: "center", alignItems: "center" }}>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+              width: 300,
+              marginTop: 60,
+              marginBottom: 20,
             }}
-            onDayPress={handleDayPress}
-            renderDay={renderDay}
-            markingType={"period"}
-            markedDates={{
-              ...markedDates,
-            }}
-          />
-         
-          <View style={styles.addTodoContainer}>
-            <Text style={styles.addButton}>Press a date to add a todo</Text>
+          >
+            <TouchableOpacity onPress={() => navigation.navigate("myTrips")}>
+              <View>
+                <Ionicons name="arrow-back" size={40} color="#D1FFA0" />
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate("Start")}>
+              <View>
+                <Image
+                  source={require("../assets/tp.logo.small.png")}
+                  style={{
+                    opacity: "0.5",
+                  }}
+                />
+              </View>
+            </TouchableOpacity>
           </View>
-
-          {/* Display selected date */}
-          
-          {/* Conditionally render "Today's plans" based on whether a date is selected */}
-          {selectedDate && (
-            <View style={{ flexDirection: 'column', alignItems: "flex-start", marginLeft: -150, marginTop: 20, }}>
-              <Text style={{
-                fontSize: 20,
-                fontFamily: "Poppins-Bold",
-                color: "white",
+          <View
+            style={{
+              justifyContent: "center",
+              alignItems: "center",
+              padding: 30,
+            }}
+          >
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
                 marginRight: 10,
-              }}>Today's plans</Text>
-              
-              <View style={styles.selectedDateContainer}>
-                <Text style={styles.selectedDateText}>{selectedDate}</Text>
+              }}
+            >
+              <View style={styles.container}>
+                {tripData.name && tripData.destination && (
+                  <Text style={styles.detailText}>
+                    {tripData.name}'s trip to {tripData.destination}
+                  </Text>
+                )}
+              </View>
+
+              <View style={styles.countdownContainer}>
+                <Countdown startDate={new Date(tripData.startDate)} />
               </View>
             </View>
-          )}
 
-          {/* <View style={styles.toggleButtonContainer}>
+            <IconBar tripId={tripData.id} />
+            <View style={styles.navContainer}></View>
+
+            <Calendar
+              style={styles.styleCalendar}
+              theme={{
+                calendarBackground: "#163532",
+                monthTextColor: "white",
+                fontFamily: "Poppins-Regular",
+                textMonthFontSize: 22,
+                textMonthFontFamily: "Poppins-Bold",
+                arrowColor: "white",
+                dayTextColor: "#D1FFA0",
+                todayBackgroundColor: "#B726DC",
+              }}
+              onDayPress={handleDayPress}
+              renderDay={renderDay}
+              markingType={"period"}
+              markedDates={{
+                ...markedDates,
+              }}
+            />
+
+            <View style={styles.addTodoContainer}>
+              <Text style={styles.addButton}>Press a date to add a todo</Text>
+            </View>
+
+            {/* Display selected date */}
+
+            {/* Conditionally render "Today's plans" based on whether a date is selected */}
+            {selectedDate && (
+              <View
+                style={{
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  marginLeft: -150,
+                  marginTop: 20,
+                }}
+              >
+                <Text
+                  style={{
+                    fontSize: 20,
+                    fontFamily: "Poppins-Bold",
+                    color: "#EDF2E1",
+                    marginRight: 10,
+                  }}
+                >
+                  Today's plans
+                </Text>
+
+                <View style={styles.selectedDateContainer}>
+                  <Text style={styles.selectedDateText}>{selectedDate}</Text>
+                </View>
+              </View>
+            )}
+
+            {/* <View style={styles.toggleButtonContainer}>
             <Pressable onPress={toggleTodoList} style={styles.toggleButton}>
               <Text style={styles.toggleButtonText}>
                 {showTodoList ? "Hide Todos" : "Show Todos"}
               </Text>
             </Pressable>
           </View> */}
-       
 
-          {/* Conditionally render the TodoComponent */}
-          {showTodoList && (
-            <TodoComponent tripId={tripData.id} selectedDate={selectedDate} />
-          )}
-
+            {/* Conditionally render the TodoComponent */}
+            {showTodoList && (
+              <TodoComponent tripId={tripData.id} selectedDate={selectedDate} />
+            )}
+          </View>
         </View>
       </ScrollView>
     </>
   );
 }
 const styles = StyleSheet.create({
-  logo: {
-    marginLeft: 20,
-    marginTop: 20,
-  },
   countdownContainer: {
-    marginTop: 15,
-    alignItems: "center", 
+    //marginTop: 15,
+    alignItems: "center",
   },
   titleText: {
     fontSize: 20,
@@ -236,18 +279,21 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   detailText: {
-    fontSize: 35,
+    fontSize: 27,
     marginLeft: 10,
-    marginTop: 10,
-    textAlign: "center",
+    //marginTop: 10,
+    //textAlign: "center",
     fontFamily: "Poppins-Bold",
     color: "#EDF2E1",
+    //marginRight: 10,
+    padding: 10,
   },
   styleCalendar: {
     marginTop: 20,
     width: 300,
     backgroundColor: "#163532",
     fontFamily: "Poppins-Bold",
+    shadowColor: "#588278",
   },
   day: {
     textAlign: "center",
@@ -270,7 +316,7 @@ const styles = StyleSheet.create({
     width: "auto",
   },
   container: {
-    alignItems: "center",
+    //alignItems: "space-between",
   },
   addButton: {
     fontSize: 16,

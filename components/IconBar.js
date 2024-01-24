@@ -24,13 +24,35 @@ function IconBar({ tripId }) {
         onPress={() => navigateToScreen("restaurants", { tripId })}
         style={styles.iconContainer}
       >
-        <MaterialCommunityIcons name="food" size={50} color="#D1FFA0" />
+        <MaterialCommunityIcons
+          name="food"
+          size={50}
+          color="#D1FFA0"
+          style={{
+            shadowColor: "#588278", // For iOS
+            shadowOffset: { width: 0, height: 5 },
+            shadowOpacity: 0.6,
+            shadowRadius: 2,
+            elevation: 2,
+          }}
+        />
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => navigateToScreen("sights", { tripId })}
         style={styles.iconContainer}
       >
-        <MaterialCommunityIcons name="ferris-wheel" size={50} color="#D1FFA0" />
+        <MaterialCommunityIcons
+          name="ferris-wheel"
+          size={50}
+          color="#D1FFA0"
+          style={{
+            shadowColor: "#588278", // For iOS
+            shadowOffset: { width: 0, height: 5 },
+            shadowOpacity: 0.6,
+            shadowRadius: 2,
+            elevation: 2,
+          }}
+        />
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
@@ -39,7 +61,18 @@ function IconBar({ tripId }) {
         }}
         style={styles.iconContainer}
       >
-        <Entypo name="list" size={58} color="#D1FFA0" />
+        <Entypo
+          name="list"
+          size={58}
+          color="#D1FFA0"
+          style={{
+            shadowColor: "#588278", // For iOS
+            shadowOffset: { width: 0, height: 5 },
+            shadowOpacity: 0.6,
+            shadowRadius: 2,
+            elevation: 2,
+          }}
+        />
         {/* <MaterialIcons name="notes" size={50} color="#D1FFA0" /> */}
       </TouchableOpacity>
 
@@ -51,6 +84,13 @@ function IconBar({ tripId }) {
           name="sun-thermometer"
           size={50}
           color="#D1FFA0"
+          style={{
+            shadowColor: "#588278", // For iOS
+            shadowOffset: { width: 1, height: 5 },
+            shadowOpacity: 0.6,
+            shadowRadius: 2,
+            elevation: 2,
+          }}
         />
       </TouchableOpacity>
     </View>
@@ -59,7 +99,22 @@ function IconBar({ tripId }) {
 
 const styles = {
   iconContainer: {
-    marginHorizontal: 20, // Adjust this value to add space between icons
+    width: 70, // Adjust the width for the desired size
+    height: 70, // Adjust the height for the desired size
+    marginHorizontal: 7, // Adjust this value to add space between icons
+    backgroundColor: "rgba(209, 255, 160, 0.15)",
+
+    borderRadius: 20,
+
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  iconStyle: {
+    shadowColor: "#588278",
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.6,
+    shadowRadius: 2,
+    elevation: 2,
   },
 };
 

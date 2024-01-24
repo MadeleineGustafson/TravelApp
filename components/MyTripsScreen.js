@@ -1,13 +1,20 @@
-import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
+import {
+  Ionicons,
+  MaterialCommunityIcons,
+  MaterialIcons,
+} from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import {
+  Image,
+  ImageBackground,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
+import backgroundImage from "../assets/Vector2.png";
 import { useTripContext } from "../contexts/TripContext";
 
 function MyTripsScreen() {
@@ -29,62 +36,109 @@ function MyTripsScreen() {
   };
 
   return (
-    <View
+    <ImageBackground
+      source={backgroundImage}
       style={{
         flex: 1,
         alignItems: "center",
         justifyContent: "center",
         backgroundColor: "#163532",
       }}
+      resizeMode="cover"
     >
-      <Text style={styles.pageTitle}>Your travel plans:</Text>
-      <View style={styles.scrollBox}>
-        <ScrollView>
-          {trips.map((trip) => (
-            <TouchableOpacity
-              key={trip.id}
-              onPress={() => navigateToCalendar(trip)}
-              onLongPress={() => setShowActions(trip.id)}
-              style={styles.tripContainer}
-            >
-              <View style={styles.tripContainerBig}>
-                <View style={styles.tripContainerSmall}>
-                  <Text style={styles.tripText}>{trip.destination}</Text>
-                  <Text style={styles.smallTripText}>
-                    {new Date(trip.startDate).toLocaleDateString()} -
-                    {new Date(trip.endDate).toLocaleDateString()}
-                  </Text>
-                </View>
-                <MaterialIcons
-                  name="arrow-forward-ios"
-                  size={40}
-                  color="#D1FFA0"
-                  style={{ marginLeft: 40 }}
-                />
-              </View>
+      <View
+        style={{
+          flex: 1,
+          alignItems: "center",
+          //justifyContent: "center",
+        }}
+      >
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            width: 300,
+            marginTop: 60,
+            marginBottom: 20,
+          }}
+        >
+          <TouchableOpacity onPress={() => navigation.navigate("Start")}>
+            <View>
+              <Ionicons name="arrow-back" size={40} color="#D1FFA0" />
+            </View>
+          </TouchableOpacity>
 
-              {showActions === trip.id && (
-                <View style={styles.actionsContainer}>
-                  <MaterialCommunityIcons
-                    name="trash-can-outline"
-                    size={30}
+          <TouchableOpacity onPress={() => navigation.navigate("Start")}>
+            <View>
+              <Image
+                source={require("../assets/tp.logo.small.png")}
+                style={{
+                  opacity: "0.5",
+                }}
+              />
+            </View>
+          </TouchableOpacity>
+        </View>
+        <Text style={styles.pageTitle}>Your travel plans:</Text>
+        <View style={styles.scrollBox}>
+          <ScrollView>
+            {trips.map((trip) => (
+              <TouchableOpacity
+                key={trip.id}
+                onPress={() => navigateToCalendar(trip)}
+                onLongPress={() => setShowActions(trip.id)}
+                style={styles.tripContainer}
+              >
+                <View style={styles.tripContainerBig}>
+                  <View style={styles.tripContainerSmall}>
+                    <Text style={styles.tripText}>{trip.destination}</Text>
+                    <Text style={styles.smallTripText}>
+                      {new Date(trip.startDate).toLocaleDateString()} -
+                      {new Date(trip.endDate).toLocaleDateString()}
+                    </Text>
+                  </View>
+                  <MaterialIcons
+                    name="arrow-forward-ios"
+                    size={40}
                     color="#D1FFA0"
-                    onPress={() => handleDeleteTrip(trip.id)}
+                    style={{ marginLeft: 40 }}
                   />
                 </View>
-              )}
-            </TouchableOpacity>
-          ))}
-        </ScrollView>
-      </View>
-      {trips.length === 0 && <Text style={{fontFamily: "Poppins-Bold", fontSize: 20, color: "#D1FFA0"}}>No trips available, please create a new trip!</Text>}
 
-      <TouchableOpacity onPress={navigateToNewTrip}>
-        <View style={styles.button}>
-          <Text style={styles.buttonText}>Create New Trip</Text>
+                {showActions === trip.id && (
+                  <View style={styles.actionsContainer}>
+                    <MaterialCommunityIcons
+                      name="trash-can-outline"
+                      size={30}
+                      color="#D1FFA0"
+                      onPress={() => handleDeleteTrip(trip.id)}
+                    />
+                  </View>
+                )}
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
         </View>
-      </TouchableOpacity>
-    </View>
+        {trips.length === 0 && (
+          <Text
+            style={{
+              fontFamily: "Poppins-Bold",
+              fontSize: 20,
+              color: "#D1FFA0",
+            }}
+          >
+            No trips available, please create a new trip!
+          </Text>
+        )}
+
+        <TouchableOpacity onPress={navigateToNewTrip}>
+          <View style={styles.button}>
+            <Text style={styles.buttonText}>CREATE NEW TRIP</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+    </ImageBackground>
   );
 }
 
@@ -112,19 +166,20 @@ const styles = StyleSheet.create({
     fontSize: 30,
     color: "#D1FFA0",
     fontWeight: "bold",
-    fontFamily:"Kalnia-Bold"
+    fontFamily: "Kalnia-Bold",
+    marginTop: 30,
   },
 
   tripText: {
     fontSize: 23,
     color: "#EDF2E1",
-    fontFamily:"Poppins-Bold"
+    fontFamily: "Poppins-Bold",
   },
 
   smallTripText: {
     fontSize: 14,
     color: "#EDF2E1",
-    fontFamily:"Poppins-Regular"
+    fontFamily: "Poppins-Regular",
   },
 
   actionsContainer: {
@@ -144,8 +199,8 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: "#163532",
-    fontSize: 18,
-    fontFamily:"Poppins-Bold"
+    fontSize: 15,
+    fontFamily: "Poppins-Bold",
   },
 });
 

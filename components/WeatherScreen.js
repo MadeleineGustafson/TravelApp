@@ -78,15 +78,13 @@ function WeatherScreen() {
           value={city}
           onChangeText={(text) => setCity(text)}
         />
-        <TouchableOpacity style={styles.submitButton}>
-          <Text style={styles.submitButtonText} onPress={handleSearch}>
-            <MaterialIcons name="search" size={25} color="#163532" />
-          </Text>
+        <TouchableOpacity style={styles.submitButton} onPress={handleSearch}>
+          <MaterialIcons name="search" size={25} color="#163532" />
         </TouchableOpacity>
       </View>
 
-       {/* Display error message if there is an error */}
-       {error !== "" && (
+      {/* Display error message if there is an error */}
+      {error !== "" && (
         <View style={styles.errorContainer}>
           <Text style={styles.errorText}>{error}</Text>
         </View>
@@ -142,13 +140,13 @@ const styles = StyleSheet.create({
   submitButton: {
     backgroundColor: "#D1FFA0",
     borderRadius: 20,
-    width: 60,
+    width: 41,
     marginBottom: 10,
-    padding: 10,
+    //padding: 10,
+    alignItems: "center",
+    justifyContent: "center",
   },
-  submitButtonText: {
-    textAlign: "center",
-  },
+
   weatherDataContainer: {
     marginTop: 20,
   },

@@ -288,8 +288,9 @@ const styles = StyleSheet.create({
     borderRadius: 60,
     borderColor: "#D3DFB7",
     borderWidth: 1,
-    width: 250,
+    width: 240,
     fontFamily: "Poppins-Regular",
+    margin: 10,
   },
   addButtonContainer: {
     alignItems: "flex-end",
