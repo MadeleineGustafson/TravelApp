@@ -2,9 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import {
-  FlatList,
   Image,
-  Pressable,
   ScrollView,
   StyleSheet,
   Text,
@@ -15,18 +13,24 @@ import { Calendar } from "react-native-calendars";
 import { useTripContext } from "../contexts/TripContext";
 import Countdown from "./countdown";
 import IconBar from "./IconBar";
-import ToDoList from "./ToDoList";
+import TodoComponent from "./TodoComponent";
 
 function CalendarScreen() {
-  const { getTrip } = useTripContext();
+  const { getTrip, getTodoData } = useTripContext();
   const navigation = useNavigation();
-  const [todos, setTodos] = useState([]);
   const [showTodoList, setShowTodoList] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(null);
+
   const route = useRoute();
   const { tripData: routeTripData, startDate, endDate } = route.params || {};
   const [tripData, setTripData] = useState(routeTripData || {});
   const [selectedDateMarked, setSelectedDateMarked] = useState({});
+  const [todosDates, setTodosDates] = useState([]);
+  const [todoData, setTodoData] = useState([]);
+  const [selectedDate, setSelectedDate] = useState(null);
+
+  const toggleTodoList = () => {
+    setShowTodoList((prevShowTodoList) => !prevShowTodoList);
+  };
 
   useEffect(() => {
     const fetchStoredTripData = async () => {
@@ -36,6 +40,10 @@ function CalendarScreen() {
 
         if (storedTripData) {
           setTripData(storedTripData);
+
+          // Fetch and set todos for the trip
+          const todos = await getTodoData(tripId);
+          setTodoData(todos);
         }
       } catch (error) {
         console.error("Error fetching trip data from AsyncStorage:", error);
@@ -43,16 +51,23 @@ function CalendarScreen() {
     };
 
     fetchStoredTripData();
-  }, [route.params]); // Run the effect when route params change
+  }, [route.params, getTrip, getTodoData]);
 
-  const handleAddTodoPress = () => {
-    navigation.navigate("TodoPage");
-  };
+  // Use useEffect to load todos when the component mounts
+  useEffect(() => {
+    const loadTodos = async () => {
+      try {
+        const { tripId } = tripData;
+        const todos = await getTodoData(tripId);
+        setTodoData(todos);
+      } catch (error) {
+        console.error("Error loading todos:", error);
+      }
+    };
 
-  const handleTodoPress = (todo) => {
-    // Handle the press on a todo, if needed
-    console.log(`Todo pressed: ${todo.text}`);
-  };
+    // Load todos when the component mounts
+    loadTodos();
+  }, [tripData, getTodoData]);
 
   const today = new Date();
   const dateString = today.toISOString().split("T")[0];
@@ -70,12 +85,22 @@ function CalendarScreen() {
     const selectedDate = day.dateString;
     setSelectedDate(selectedDate);
 
-    // Mark the selected date with a green circle
-    setSelectedDateMarked({
-      [selectedDate]: { selected: true, textColor: "#B726DC" },
-    });
+    if (!todosDates.includes(selectedDate)) {
+      setTodosDates((prevDates) => [...prevDates, selectedDate]);
+      updateMarkedDates(selectedDate);
+    }
 
+    setSelectedDateMarked({
+      [selectedDate]: { selected: true, textColor: "#000" },
+    });
     setShowTodoList(true);
+  };
+
+  const updateMarkedDates = (date) => {
+    setSelectedDateMarked((prevMarkedDates) => ({
+      ...prevMarkedDates,
+      [date]: { selected: true, marked: true, dotColor: "#B726DC" },
+    }));
   };
 
   const convertToYYYYMMDD = (dateString) => {
@@ -110,131 +135,135 @@ function CalendarScreen() {
     });
   }
 
-  const renderTodosForDate = () => {
-    if (selectedDate) {
-      const todosForSelectedDate = todos.filter(
-        (todo) => todo.date === selectedDate
-      );
-
-      if (todosForSelectedDate.length > 0) {
-        return (
-          <View style={{ backgroundColor: "#163532" }}>
-            <Text style={styles.todoHeader}>Todos for {selectedDate}:</Text>
-            <FlatList
-              data={todosForSelectedDate}
-              keyExtractor={(item) => item.text}
-              renderItem={({ item }) => (
-                <TouchableOpacity onPress={() => handleTodoPress(item)}>
-                  <Text style={styles.todoItem}>{item.text}</Text>
-                </TouchableOpacity>
-              )}
-            />
-          </View>
-        );
-      }
-    }
-
-    return null;
-  };
-
   return (
-    <ScrollView style={{ backgroundColor: "#163532" }}>
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
-          margin: 30,
-          marginBottom: 0,
-          marginTop: 60,
-        }}
-      >
-        <TouchableOpacity onPress={() => navigation.navigate("myTrips")}>
-          <View>
-            <Ionicons name="arrow-back" size={40} color="#D1FFA0" />
+    <>
+      <ScrollView style={{ backgroundColor: "#163532" }}>
+        <View style={{ justifyContent: "center", alignItems: "center" }}>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+              width: 300,
+              marginTop: 60,
+              marginBottom: 20,
+            }}
+          >
+            <TouchableOpacity onPress={() => navigation.navigate("myTrips")}>
+              <View>
+                <Ionicons name="arrow-back" size={40} color="#D1FFA0" />
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate("Start")}>
+              <View>
+                <Image
+                  source={require("../assets/tp.logo.small.png")}
+                  style={{
+                    opacity: "0.5",
+                  }}
+                />
+              </View>
+            </TouchableOpacity>
           </View>
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={() => navigation.navigate("Start")}>
-          <View>
-            <Image
-              source={require("../assets/tp.logo.small.png")}
+          <View
+            style={{
+              justifyContent: "center",
+              alignItems: "center",
+              padding: 30,
+            }}
+          >
+            <View
               style={{
-                opacity: "0.5",
+                flexDirection: "row",
+                alignItems: "center",
+                marginRight: 10,
+              }}
+            >
+              <View style={styles.container}>
+                {tripData.name && tripData.destination && (
+                  <Text style={styles.detailText}>
+                    {tripData.name}'s trip to {tripData.destination}
+                  </Text>
+                )}
+              </View>
+
+              <View style={styles.countdownContainer}>
+                <Countdown startDate={new Date(tripData.startDate)} />
+              </View>
+            </View>
+
+            <IconBar tripId={tripData.id} />
+            <View style={styles.navContainer}></View>
+
+            <Calendar
+              style={styles.styleCalendar}
+              theme={{
+                calendarBackground: "#163532",
+                monthTextColor: "white",
+                fontFamily: "Poppins-Regular",
+                textMonthFontSize: 22,
+                textMonthFontFamily: "Poppins-Bold",
+                arrowColor: "white",
+                dayTextColor: "#D1FFA0",
+                todayBackgroundColor: "#B726DC",
+              }}
+              onDayPress={handleDayPress}
+              renderDay={renderDay}
+              markingType={"period"}
+              markedDates={{
+                ...markedDates,
               }}
             />
-          </View>
-        </TouchableOpacity>
-      </View>
-      <View
-        style={{
-          justifyContent: "center",
-          alignItems: "center",
-          padding: 30,
-        }}
-      >
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            marginRight: 10,
-          }}
-        >
-          <View style={styles.container}>
-            {tripData.name && tripData.destination && (
-              <Text style={styles.detailText}>
-                {tripData.name}'s trip to {tripData.destination}
+
+            <View style={styles.addTodoContainer}>
+              <Text style={styles.addButton}>Press a date to add a todo</Text>
+            </View>
+
+            {/* Display selected date */}
+
+            {/* Conditionally render "Today's plans" based on whether a date is selected */}
+            {selectedDate && (
+              <View
+                style={{
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  marginLeft: -150,
+                  marginTop: 20,
+                }}
+              >
+                <Text
+                  style={{
+                    fontSize: 20,
+                    fontFamily: "Poppins-Bold",
+                    color: "#EDF2E1",
+                    marginRight: 10,
+                  }}
+                >
+                  Today's plans
+                </Text>
+
+                <View style={styles.selectedDateContainer}>
+                  <Text style={styles.selectedDateText}>{selectedDate}</Text>
+                </View>
+              </View>
+            )}
+
+            {/* <View style={styles.toggleButtonContainer}>
+            <Pressable onPress={toggleTodoList} style={styles.toggleButton}>
+              <Text style={styles.toggleButtonText}>
+                {showTodoList ? "Hide Todos" : "Show Todos"}
               </Text>
+            </Pressable>
+          </View> */}
+
+            {/* Conditionally render the TodoComponent */}
+            {showTodoList && (
+              <TodoComponent tripId={tripData.id} selectedDate={selectedDate} />
             )}
           </View>
-
-          <View style={styles.countdownContainer}>
-            <Countdown startDate={new Date(tripData.startDate)} />
-          </View>
         </View>
-
-        <IconBar tripId={tripData.id} />
-        <View style={styles.navContainer}></View>
-
-        <Calendar
-          style={styles.styleCalendar}
-          theme={{
-            calendarBackground: "#163532",
-
-            monthTextColor: "#EDF2E1",
-            fontFamily: "Poppins-Regular",
-            textMonthFontSize: 22,
-            textMonthFontFamily: "Poppins-Regular",
-            arrowColor: "white",
-            dayTextColor: "#D1FFA0",
-            todayBackgroundColor: "#B726DC",
-          }}
-          onDayPress={handleDayPress}
-          renderDay={renderDay}
-          markingType={"period"}
-          markedDates={{
-            ...markedDates,
-            ...selectedDateMarked,
-          }}
-        />
-
-        <View style={styles.addTodoContainer}>
-          <Pressable
-            onPress={handleAddTodoPress}
-            style={styles.addTodoPressable}
-          >
-            {/* <MaterialCommunityIcons
-              name="plus-circle-outline"
-              size={35}
-              color="#163532"
-              /> */}
-            <Text style={styles.addButton}>Press a date to add a todo</Text>
-          </Pressable>
-        </View>
-
-        {showTodoList && <ToDoList selectedDate={selectedDate} />}
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </>
   );
 }
 const styles = StyleSheet.create({
@@ -290,15 +319,29 @@ const styles = StyleSheet.create({
     //alignItems: "space-between",
   },
   addButton: {
-    fontSize: 18,
+    fontSize: 16,
     fontFamily: "Poppins-Regular",
-    color: "#163532",
+    fontFamily: "Poppins-Regular",
+    color: "white",
     marginTop: 10,
   },
   backButton: {
     fontSize: 13,
     color: "grey",
     marginTop: 10,
+  },
+  selectedDateText: {
+    fontFamily: "Poppins-Regular",
+    color: "white",
+    fontSize: 18,
+  },
+  plans: {
+    fontFamily: "Poppins-Bold",
+    color: "white",
+    fontSize: 22,
+  },
+  toggleButtonText: {
+    backgroundColor: "purple",
   },
 });
 

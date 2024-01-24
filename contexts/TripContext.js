@@ -114,32 +114,68 @@ export const TripProvider = ({ children }) => {
     }
   };
 
+  //save todo items
+
+  // Inside TripProvider
+
+  // Save todo items with start and end dates
+  const getTodoData = async (tripId) => {
+    try {
+      // Retrieve todoData from AsyncStorage based on the provided tripId
+      const todoData = await AsyncStorage.getItem(`todoData:${tripId}`);
+      return todoData ? JSON.parse(todoData) : [];
+    } catch (error) {
+      console.error("Error fetching todoData:", error);
+      return [];
+    }
+  };
+
+  // Inside saveTodoData
+  const saveTodoData = async (tripId, todoData) => {
+    try {
+      await AsyncStorage.setItem(
+        `todoData:${tripId}`,
+        JSON.stringify(todoData)
+      );
+    } catch (error) {
+      console.error("Error saving todoData:", error);
+    }
+  };
+
   // Save and retrieve packing list items
-   const getPackingList = async (tripId) => {
+  const getPackingList = async (tripId) => {
     try {
       const packingList = await AsyncStorage.getItem(`packingList:${tripId}`);
-      console.log("Fetched packing list for tripId:", tripId, "Data:", packingList);
+      console.log(
+        "Fetched packing list for tripId:",
+        tripId,
+        "Data:",
+        packingList
+      );
       return packingList ? JSON.parse(packingList) : [];
     } catch (error) {
       console.error("Error fetching packing list:", error);
       return [];
     }
   };
-  
 
   // Inside savePackingList
   const savePackingList = async (tripId, packingList) => {
     try {
-      await AsyncStorage.setItem(`packingList:${tripId}`, JSON.stringify(packingList));
-      console.log("Saved packing list for tripId:", tripId, "Data:", packingList);
+      await AsyncStorage.setItem(
+        `packingList:${tripId}`,
+        JSON.stringify(packingList)
+      );
+      console.log(
+        "Saved packing list for tripId:",
+        tripId,
+        "Data:",
+        packingList
+      );
     } catch (error) {
       console.error("Error saving packing list:", error);
     }
   };
-
-
-  
-  
 
   const value = {
     trips,
@@ -152,6 +188,8 @@ export const TripProvider = ({ children }) => {
     saveRestaurantNotes,
     getSightNotes,
     saveSightNotes,
+    getTodoData,
+    saveTodoData,
     getPackingList,
     savePackingList,
   };
