@@ -177,8 +177,22 @@ function CalendarScreen() {
               ...markedDates,
             }}
           />
+         
+          <View style={styles.addTodoContainer}>
+            <Text style={styles.addButton}>Press a date to add a todo</Text>
+          </View>
 
           {/* Display selected date */}
+          
+          <Text style={{
+            fontSize: 20,
+            fontFamily: "Poppins-Bold",
+            textAlign: "left",
+            color: "white",
+            marginTop: 30,
+          }}>Today's plans
+          </Text>
+
           {selectedDate && (
             <View style={styles.selectedDateContainer}>
               <Text style={styles.selectedDateText}>{selectedDate}</Text>
@@ -192,15 +206,13 @@ function CalendarScreen() {
               </Text>
             </Pressable>
           </View>
+       
 
           {/* Conditionally render the TodoComponent */}
           {showTodoList && (
             <TodoComponent tripId={tripData.id} selectedDate={selectedDate} />
           )}
 
-          <View style={styles.addTodoContainer}>
-            <Text style={styles.addButton}>Press a date to add a todo</Text>
-          </View>
         </View>
       </ScrollView>
     </>
@@ -263,7 +275,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: "Poppins-Regular",
     fontFamily: "Poppins-Regular",
-    color: "#163532",
+    color: "white",
     marginTop: 10,
   },
   backButton: {

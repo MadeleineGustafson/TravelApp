@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, FlatList, Text, TextInput, View } from "react-native";
+import { FlatList, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { useTripContext } from "../contexts/TripContext";
 
@@ -73,7 +73,9 @@ const TodoComponent = ({ tripId, selectedDate }) => {
     if (todo.trim() !== "" && selectedStartTime && selectedEndTime) {
       const newTodo = {
         id: Date.now().toString(),
-        text: `${todo} - ${selectedStartTime} to ${selectedEndTime}`,
+        text: todo,  // Store the todo text separately
+        startTime: selectedStartTime,
+        endTime: selectedEndTime,
         date: selectedDate,
       };
 
@@ -103,9 +105,9 @@ const TodoComponent = ({ tripId, selectedDate }) => {
       console.error("Error loading todos:", error);
     }
   };
-
+  
   return (
-    <View>
+    <ScrollView>
       <TextInput
         style={{
           height: 40,
@@ -117,7 +119,16 @@ const TodoComponent = ({ tripId, selectedDate }) => {
         value={todo}
         onChangeText={(text) => setTodo(text)}
       />
-      <Button title="Enter start time" onPress={showStartTimePicker} />
+      <TouchableOpacity onPress={showStartTimePicker}>
+      <Text
+        style={{
+        fontFamily: "Poppins-Regular",
+        fontSize: 16,
+        color: "#D3DFB7"
+      }}>Enter start time
+      </Text>
+      </TouchableOpacity> 
+
       <DateTimePickerModal
         isVisible={isStartTimePickerVisible}
         mode="time"
@@ -130,13 +141,23 @@ const TodoComponent = ({ tripId, selectedDate }) => {
           borderColor: "transparent",
           borderWidth: 1,
           marginBottom: 10,
+          color: "white"
         }}
         placeholder="Enter start time"
         value={startInput}
         onPress={showStartTimePicker}
         onChangeText={(text) => setStartInput(text)}
       />
-      <Button title="Enter end time" onPress={showEndTimePicker} />
+      <TouchableOpacity onPress={showEndTimePicker}>
+        <Text
+          style={{
+          fontFamily: "Poppins-Regular",
+          fontSize: 16,
+          color: "#D3DFB7"
+          }}>Enter end time
+        </Text>
+      </TouchableOpacity> 
+
       <DateTimePickerModal
         isVisible={isEndTimePickerVisible}
         mode="time"
@@ -149,22 +170,22 @@ const TodoComponent = ({ tripId, selectedDate }) => {
           borderColor: "transparent",
           borderWidth: 1,
           marginBottom: 10,
+          color: "white"
         }}
         placeholder="Enter end time"
         value={endInput}
         onChangeText={(text) => setEndInput(text)}
       />
-      <Button title="Add Todo" onPress={addTodo} />
-      <Text
+      <TouchableOpacity onPress={addTodo}>
+        <Text
         style={{
-          fontFamily: "Poppins-Bold",
-          fontSize: 17,
-          color: "white",
-        }}
-      >
-        {" "}
-        Plans for the day:
+        fontFamily: "Poppins-Regular",
+        fontSize: 17,
+        color: "white",
+      }}> Add todo 
       </Text>
+      </TouchableOpacity>
+
       <FlatList
         data={todos}
         keyExtractor={(item) => item.id}
@@ -179,10 +200,20 @@ const TodoComponent = ({ tripId, selectedDate }) => {
             >
               {item.text}
             </Text>
+
+            <Text
+              style={{
+                fontFamily: "Poppins-Regular",
+                fontSize: 14,
+                color: "#D3DFB7",
+              }}
+            >
+              {`${item.startTime} to ${item.endTime}`}
+            </Text>
           </View>
         )}
       />
-    </View>
+    </ScrollView>
   );
 };
 
