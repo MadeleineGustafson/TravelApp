@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FlatList, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { FlatList, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { useTripContext } from "../contexts/TripContext";
 
@@ -109,25 +109,24 @@ const TodoComponent = ({ tripId, selectedDate }) => {
   return (
     <ScrollView>
       <TextInput
-        style={{
-          height: 40,
-          borderColor: "gray",
-          borderWidth: 1,
-          marginBottom: 10,
-        }}
+        style={styles.input}
         placeholder="Enter your todo"
         value={todo}
         onChangeText={(text) => setTodo(text)}
       />
-      <TouchableOpacity onPress={showStartTimePicker}>
-      <Text
-        style={{
-        fontFamily: "Poppins-Regular",
-        fontSize: 16,
-        color: "#D3DFB7"
-      }}>Enter start time
-      </Text>
-      </TouchableOpacity> 
+      {/* Wrap "Enter start time" and "Enter end time" in a View with horizontal layout */}
+      <View style={styles.timeInputContainer}>
+        <TouchableOpacity onPress={showStartTimePicker}>
+          <Text style={styles.timeInputLabel}>Enter start time</Text>
+        </TouchableOpacity>
+        <TextInput
+          style={styles.timeInput}
+          placeholder="Enter start time"
+          value={startInput}
+          onPress={showStartTimePicker}
+          onChangeText={(text) => setStartInput(text)}
+        />
+      </View>
 
       <DateTimePickerModal
         isVisible={isStartTimePickerVisible}
@@ -135,86 +134,127 @@ const TodoComponent = ({ tripId, selectedDate }) => {
         onConfirm={handleStartTimeConfirm}
         onCancel={hideStartTimePicker}
       />
-      <TextInput
-        style={{
-          height: 40,
-          borderColor: "transparent",
-          borderWidth: 1,
-          marginBottom: 10,
-          color: "white"
-        }}
-        placeholder="Enter start time"
-        value={startInput}
-        onPress={showStartTimePicker}
-        onChangeText={(text) => setStartInput(text)}
-      />
-      <TouchableOpacity onPress={showEndTimePicker}>
-        <Text
-          style={{
-          fontFamily: "Poppins-Regular",
-          fontSize: 16,
-          color: "#D3DFB7"
-          }}>Enter end time
-        </Text>
-      </TouchableOpacity> 
 
+       {/* "Enter end time" label and text input */}
+       <View style={styles.timeInputContainer}>
+        <TouchableOpacity onPress={showEndTimePicker}>
+          <Text style={styles.timeInputLabel}>Enter end time</Text>
+        </TouchableOpacity>
+        <TextInput
+          style={styles.timeInput}
+          placeholder="Enter end time"
+          value={endInput}
+          onChangeText={(text) => setEndInput(text)}
+        />
+      </View>
+
+        
       <DateTimePickerModal
         isVisible={isEndTimePickerVisible}
         mode="time"
         onConfirm={handleEndTimeConfirm}
         onCancel={hideEndTimePicker}
       />
-      <TextInput
-        style={{
-          height: 40,
-          borderColor: "transparent",
-          borderWidth: 1,
-          marginBottom: 10,
-          color: "white"
-        }}
-        placeholder="Enter end time"
-        value={endInput}
-        onChangeText={(text) => setEndInput(text)}
-      />
-      <TouchableOpacity onPress={addTodo}>
-        <Text
-        style={{
-        fontFamily: "Poppins-Regular",
-        fontSize: 17,
-        color: "white",
-      }}> Add todo 
-      </Text>
+   
+      <TouchableOpacity onPress={() => addTodo()}>
+         <View style={styles.addWrapper}>
+           <Text style={styles.addText}>+</Text>
+         </View>
       </TouchableOpacity>
 
-      <FlatList
-        data={todos}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <View>
-            <Text
-              style={{
-                fontFamily: "Poppins-Regular",
-                fontSize: 17,
-                color: "white",
-              }}
-            >
-              {item.text}
-            </Text>
 
-            <Text
-              style={{
-                fontFamily: "Poppins-Regular",
-                fontSize: 14,
-                color: "#D3DFB7",
-              }}
-            >
-              {`${item.startTime} to ${item.endTime}`}
-            </Text>
-          </View>
-        )}
-      />
+      <View style={styles.item}>
+        <View style={styles.itemLeft}>
+          <FlatList
+            data={todos}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <View>
+                <Text
+                  style={{
+                    fontFamily: "Poppins-Bold",
+                    fontSize: 17,
+                    color: "#163532",
+                  }}
+                >
+                  {item.text}
+                </Text>
+
+                <Text
+                  style={{
+                    fontFamily: "Poppins-Regular",
+                    fontSize: 14,
+                    color: "#163532",
+                  }}
+                >
+                  {`${item.startTime} to ${item.endTime}`}
+                </Text>
+              </View>
+            )}
+          />
+        </View>
+      </View>
     </ScrollView>
   );
 };
+
+const styles = StyleSheet.create({
+  item: {
+    backgroundColor: "#D3DFB7",
+    padding: 15,
+    borderRadius: 15,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 20,
+    width: 300,
+  },
+  itemLeft: {
+    flexDirection: "row",
+    alignItems: "center",
+    flexWrap: "wrap",
+  },
+  timeInputContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 10,
+  },
+  input: {
+    paddingVertical: 15,
+    paddingHorizontal: 15,
+    backgroundColor: "#D3DFB7",
+    borderRadius: 60,
+    borderColor: "#C0C0C0",
+    borderWidth: 1,
+    width: 300,
+    fontFamily: "Poppins-Regular",
+  },
+  timeInputLabel: {
+    fontFamily: "Poppins-Regular",
+    fontSize: 16,
+    color: "#D3DFB7",
+  },
+  timeInput: {
+    height: 40,
+    borderColor: "transparent",
+    borderWidth: 1,
+    color: "white",
+    flex: 1, // Take up remaining space
+    marginLeft: 10, // Add some space between label and input
+  },
+  addWrapper: {
+    width: 50,
+    height: 50,
+    backgroundColor: "#D3DFB7",
+    borderRadius: 60,
+    justifyContent: "center",
+    alignItems: "center",
+    borderColor: "#C0C0C0",
+    borderWidth: 1,
+  },
+  addText: {
+    fontSize: 20,
+  },
+})
 
 export default TodoComponent;
