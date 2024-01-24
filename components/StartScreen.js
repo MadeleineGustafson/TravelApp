@@ -11,8 +11,8 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import backgroundImage from "../assets/Train_Darker.png";
 import bigLine from "../assets/bigLine.png";
+import backgroundImage from "../assets/Train_Darker.png";
 
 function StartScreen() {
   const navigation = useNavigation();
@@ -22,9 +22,9 @@ function StartScreen() {
   };
 
   const [fontsLoaded] = useFonts({
-    'Kalnia-Bold': require("../assets/fonts/Kalnia-Bold.ttf"),
-    'Poppins-Bold': require("../assets/fonts/Poppins-Bold.ttf"),
-    'Poppins-Regular': require("../assets/fonts/Poppins-Regular.ttf")
+    "Kalnia-Bold": require("../assets/fonts/Kalnia-Bold.ttf"),
+    "Poppins-Bold": require("../assets/fonts/Poppins-Bold.ttf"),
+    "Poppins-Regular": require("../assets/fonts/Poppins-Regular.ttf"),
   });
 
   const animatedValue = useRef(new Animated.Value(0)).current;
@@ -95,14 +95,14 @@ function StartScreen() {
         >
           <Text
             style={{
-              fontSize: 55,
+              fontSize: 45,
               fontFamily: "Kalnia-Bold",
               color: "#D1FFA0",
               margin: 20,
               top: -70,
             }}
           >
-            Travel Planner
+            TRAVEL PLANNER
           </Text>
           <Animated.View style={{ transform: [{ translateX }] }}>
             <MaterialIcons
@@ -118,7 +118,7 @@ function StartScreen() {
           style={{
             margin: 20,
             fontFamily: "Poppins-Regular",
-            fontSize: 18,
+            fontSize: 16,
             color: "#EDF2E1",
             top: -100,
           }}
@@ -128,22 +128,36 @@ function StartScreen() {
 
         <TouchableOpacity
           onPress={navigateToMyTrips}
-          style={{ zIndex: 2, top: -60 }}
+          style={{
+            zIndex: 2,
+            top: -60,
+            shadowColor: "black", // For iOS
+            shadowOffset: { width: 0, height: 5 },
+            shadowOpacity: 0.2,
+            shadowRadius: 2,
+            elevation: 2, // For Android
+          }}
         >
           <View
             style={{
               backgroundColor: "#D1FFA0",
-              padding: 10,
-              borderRadius: 14,
+              padding: 14,
+              borderRadius: 30,
               justifyContent: "flex-start",
-              width: 140,
+              width: 190,
               margin: 20,
+              justifyContent: "center",
+              alignItems: "center",
             }}
           >
             <Text
-              style={{ color: "#163532", fontSize: 15, fontFamily: "Poppins-Bold" }}
+              style={{
+                color: "#163532",
+                fontSize: 15,
+                fontFamily: "Poppins-Bold",
+              }}
             >
-              Start planning!
+              START PLANNING!
             </Text>
           </View>
         </TouchableOpacity>
