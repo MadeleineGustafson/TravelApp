@@ -149,7 +149,7 @@ function CalendarScreen() {
           marginTop: 60,
         }}
       >
-        <TouchableOpacity onPress={() => navigation.navigate("Start")}>
+        <TouchableOpacity onPress={() => navigation.navigate("myTrips")}>
           <View>
             <Ionicons name="arrow-back" size={40} color="#D1FFA0" />
           </View>
@@ -200,6 +200,7 @@ function CalendarScreen() {
           style={styles.styleCalendar}
           theme={{
             calendarBackground: "#163532",
+
             monthTextColor: "#EDF2E1",
             fontFamily: "Poppins-Regular",
             textMonthFontSize: 22,
@@ -263,6 +264,7 @@ const styles = StyleSheet.create({
     width: 300,
     backgroundColor: "#163532",
     fontFamily: "Poppins-Bold",
+    shadowColor: "#588278",
   },
   day: {
     textAlign: "center",

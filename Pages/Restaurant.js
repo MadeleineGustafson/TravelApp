@@ -82,7 +82,7 @@ function Restaurant({ route }) {
         <TouchableOpacity
           onPress={() => navigation.navigate("calendar")} // Navigate to CalendarScreen
         >
-          <MaterialCommunityIcons name="close" size={30} color="#163532" />
+          <MaterialCommunityIcons name="close" size={40} color="#163532" />
         </TouchableOpacity>
       </View>
       <View

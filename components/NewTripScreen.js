@@ -351,10 +351,11 @@ const styles = StyleSheet.create({
     width: 200,
     marginVertical: 20,
     alignItems: "center",
+    marginBottom: 50,
   },
   buttonText: {
     color: "#163532",
-    fontSize: 18,
+    fontSize: 15,
     fontWeight: "bold",
     fontFamily: "Poppins-Bold",
   },

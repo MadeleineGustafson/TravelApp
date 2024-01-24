@@ -8,7 +8,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View
+  View,
 } from "react-native";
 import CheckBox from "react-native-check-box";
 import { useTripContext } from "../contexts/TripContext";
@@ -108,10 +108,8 @@ const PackListScreen = ({ route, onSaveItem }) => {
     setSelectedPackItem(null);
     setModalVisible(false);
 
-    // Corrected line, replace onDeleteItem with onSaveItem
-    if (typeof onSaveItem === "function") {
-      onSaveItem(selectedPackItem, title, content);
-    }
+    // Save the updated items to async storage
+    savePackingList(tripId, updatedPackItems);
 
     console.log("Pack item deleted successfully!");
   };
@@ -122,36 +120,51 @@ const PackListScreen = ({ route, onSaveItem }) => {
         style={{
           justifyContent: "flex-start",
           margin: 10,
+
           marginTop: 40,
         }}
       >
         <TouchableOpacity
           onPress={() => navigation.navigate("calendar")} // Navigate to CalendarScreen
         >
-          <MaterialCommunityIcons name="close" size={25} color="#EDF2E1" style={{marginTop: -30, marginBottom: 20,}} />
+          <MaterialCommunityIcons
+            name="close"
+            size={40}
+            color="#EDF2E1"
+            style={{ marginTop: -20, marginBottom: 20, marginLeft: -150 }}
+          />
         </TouchableOpacity>
       </View>
 
       <Text style={styles.title}>My packing list:</Text>
 
-      <ScrollView style={styles.packItemList}>
-        {packItems.map((packItem) => (
-          <TouchableOpacity
-            key={packItem.id}
-            onPress={() => handleEditPackItem(packItem)}
-          >
-            <View style={styles.packItemContainer}>
-              <CheckBox
-                style={styles.checkBox}
-                onClick={() => handleToggleCheckbox(packItem)}
-                isChecked={packItem.checked}
-                checkBoxColor="#D3DFB7"
-              />
-              <Text style={styles.packItemTitle}>{packItem.title}</Text>
-            </View>
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
+      {packItems.length === 0 ? (
+        <View style={styles.placeholderContainer}>
+          <Text style={styles.placeholderText}>
+            Your packing list is empty.
+          </Text>
+          <Text style={styles.placeholderText}>Tap "+" to add items.</Text>
+        </View>
+      ) : (
+        <ScrollView style={styles.packItemList}>
+          {packItems.map((packItem) => (
+            <TouchableOpacity
+              key={packItem.id}
+              onPress={() => handleEditPackItem(packItem)}
+            >
+              <View style={styles.packItemContainer}>
+                <CheckBox
+                  style={styles.checkBox}
+                  onClick={() => handleToggleCheckbox(packItem)}
+                  isChecked={packItem.checked}
+                  checkBoxColor="#D3DFB7"
+                />
+                <Text style={styles.packItemTitle}>{packItem.title}</Text>
+              </View>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+      )}
 
       <TouchableOpacity
         style={styles.addButton}
@@ -216,6 +229,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 40,
+    alignItems: "center",
     backgroundColor: "#163532",
   },
   title: {
@@ -233,7 +247,7 @@ const styles = StyleSheet.create({
     color: "#D3DFB7",
   },
   packItemTitle: {
-    fontSize: 15,
+    fontSize: 17,
     fontFamily: "Poppins-Regular",
     color: "#D3DFB7",
     width: "100%",
@@ -298,6 +312,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 20,
     marginHorizontal: 5,
+  },
+  placeholderContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  placeholderText: {
+    fontSize: 18,
+    fontFamily: "Poppins-Regular",
+    color: "#D3DFB7",
+    opacity: "0.5",
   },
 });
 

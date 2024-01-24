@@ -134,7 +134,7 @@ function MyTripsScreen() {
 
         <TouchableOpacity onPress={navigateToNewTrip}>
           <View style={styles.button}>
-            <Text style={styles.buttonText}>Create New Trip</Text>
+            <Text style={styles.buttonText}>CREATE NEW TRIP</Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: "#163532",
-    fontSize: 18,
+    fontSize: 15,
     fontFamily: "Poppins-Bold",
   },
 });

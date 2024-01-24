@@ -75,7 +75,7 @@ function Sights({ route }) {
     <View style={{ flex: 1, backgroundColor: "#EDF2E1" }}>
       <View style={{ justifyContent: "flex-start", margin: 20, marginTop: 40 }}>
         <TouchableOpacity onPress={() => navigation.navigate("calendar")}>
-          <MaterialCommunityIcons name="close" size={30} color="#163532" />
+          <MaterialCommunityIcons name="close" size={40} color="#163532" />
         </TouchableOpacity>
       </View>
       <View
@@ -92,8 +92,8 @@ function Sights({ route }) {
           <View style={{ flexDirection: "column", marginLeft: 10, flex: 1 }}>
             <Text style={styles.title}>SIGHTS</Text>
             <Text style={styles.text}>
-              Here you can save information about sights and attractions you
-              want to visit during your trip!
+              Save information about sights and attractions you want to visit
+              during your trip!
             </Text>
           </View>
         </View>
