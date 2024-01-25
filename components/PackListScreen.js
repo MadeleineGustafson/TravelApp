@@ -322,7 +322,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: "Poppins-Regular",
     color: "#D3DFB7",
-    opacity: "0.5",
+    opacity: 0.5,
   },
 });
 
