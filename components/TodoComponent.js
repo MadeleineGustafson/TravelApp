@@ -131,12 +131,87 @@ const TodoComponent = ({ tripId, selectedDate }) => {
     }
   };
 
+  const getDaySuffix = (day) => {
+    if (day >= 11 && day <= 13) {
+      return "th";
+    }
+
+    const lastDigit = day % 10;
+    switch (lastDigit) {
+      case 1:
+        return "st";
+      case 2:
+        return "nd";
+      case 3:
+        return "rd";
+      default:
+        return "th";
+    }
+  };
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={{ flex: 1 }}
     >
+
       <ScrollView>
+      <View style={styles.horizontalLine} />
+
+        <View style={styles.itemContainer}>
+          <FlatList
+            data={todos}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <View style={styles.item}>
+                {/* Todo item content */}
+                <View style={styles.itemContent}>
+                      <Text
+                        style={{
+                          fontFamily: "Poppins-Regular",
+                          fontSize: 14,
+                          color: "#163532",
+                        }}
+                      >
+                        {`${new Date(selectedDate).toLocaleDateString("en-US", {
+                        month: "long",
+                        day: "numeric",
+                      }) + getDaySuffix(new Date(selectedDate).getDate())}`}
+                      </Text>
+                  <Text
+                    style={{
+                      fontFamily: "Poppins-Bold",
+                      fontSize: 17,
+                      color: "#163532",
+                    }}
+                  >
+                    {item.text}
+                  </Text>
+
+                  <Text
+                    style={{
+                      fontFamily: "Poppins-Regular",
+                      fontSize: 14,
+                      color: "#163532",
+                    }}
+                  >
+                    {`${item.startTime} - ${item.endTime}`}
+                  </Text>
+
+                </View>
+
+                {/* Trash icon */}
+                <TouchableOpacity
+                  style={styles.trashIconContainer}
+                  onPress={() => handleDeleteTodo(item)}
+                >
+                  <FontAwesome5 name="trash" size={20} color="#163532" />
+                </TouchableOpacity>
+              </View>
+            )}
+          />
+            <View style={styles.horizontalLine} />
+        </View>
         <View style={styles.dateTimePickerContainer}>
           <TextInput
             style={styles.input}
@@ -183,46 +258,6 @@ const TodoComponent = ({ tripId, selectedDate }) => {
           onCancel={hideEndTimePicker}
         />
 
-        <View style={styles.itemContainer}>
-          <FlatList
-            data={todos}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-              <View style={styles.item}>
-                {/* Todo item content */}
-                <View style={styles.itemContent}>
-                  <Text
-                    style={{
-                      fontFamily: "Poppins-Bold",
-                      fontSize: 17,
-                      color: "#163532",
-                    }}
-                  >
-                    {item.text}
-                  </Text>
-
-                  <Text
-                    style={{
-                      fontFamily: "Poppins-Regular",
-                      fontSize: 14,
-                      color: "#163532",
-                    }}
-                  >
-                    {`${item.startTime} - ${item.endTime}`}
-                  </Text>
-                </View>
-
-                {/* Trash icon */}
-                <TouchableOpacity
-                  style={styles.trashIconContainer}
-                  onPress={() => handleDeleteTodo(item)}
-                >
-                  <FontAwesome5 name="trash" size={20} color="#163532" />
-                </TouchableOpacity>
-              </View>
-            )}
-          />
-        </View>
       </ScrollView>
     </KeyboardAvoidingView>
   );
@@ -249,6 +284,11 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     marginTop: 10,
+  },
+   horizontalLine: {
+    borderBottomColor: '#D3DFB7',
+    borderBottomWidth: 1,
+    marginVertical: 10, // Adjust this value to control the spacing above and below the FlatList
   },
   itemContainer: {
     marginTop: 10,
