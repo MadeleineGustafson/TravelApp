@@ -229,7 +229,7 @@ function NewTripScreen() {
                 </View>
               )}
 
-              <Text style={styles.labelText}>Enter last day of your trip</Text>
+              <Text style={styles.labelText}>Enter last day of your trip:</Text>
               {!showEndPicker && (
                 <Pressable onPress={toggleEndDatePicker}>
                   <TextInput

@@ -11,9 +11,9 @@ import {
 } from "react-native";
 import { Calendar } from "react-native-calendars";
 import { useTripContext } from "../contexts/TripContext";
-import Countdown from "./countdown";
 import IconBar from "./IconBar";
 import TodoComponent from "./TodoComponent";
+import Countdown from "./countdown";
 
 function CalendarScreen() {
   const { getTrip, getTodoData } = useTripContext();
@@ -135,6 +135,24 @@ function CalendarScreen() {
     });
   }
 
+  const getDaySuffix = (day) => {
+    if (day >= 11 && day <= 13) {
+      return "th";
+    }
+
+    const lastDigit = day % 10;
+    switch (lastDigit) {
+      case 1:
+        return "st";
+      case 2:
+        return "nd";
+      case 3:
+        return "rd";
+      default:
+        return "th";
+    }
+  };
+
   return (
     <>
       <ScrollView style={{ backgroundColor: "#163532" }}>
@@ -243,7 +261,10 @@ function CalendarScreen() {
                 </Text>
 
                 <View style={styles.selectedDateContainer}>
-                  <Text style={styles.selectedDateText}>{selectedDate}</Text>
+                  <Text style={styles.selectedDateText}>{new Date(selectedDate).toLocaleDateString("en-US", {
+                    month: "long",
+                    day: "numeric",
+                  }) + getDaySuffix(new Date(selectedDate).getDate())}</Text>
                 </View>
               </View>
             )}
