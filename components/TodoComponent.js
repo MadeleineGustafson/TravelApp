@@ -1,7 +1,6 @@
 import { FontAwesome5 } from "@expo/vector-icons";
 import React, { useEffect, useState } from "react";
 import {
-  FlatList,
   KeyboardAvoidingView,
   ScrollView,
   StyleSheet,
@@ -161,56 +160,53 @@ const TodoComponent = ({ tripId, selectedDate }) => {
         {todos.length > 0 && <View style={styles.horizontalLine} />}
 
         <View style={styles.itemContainer}>
-          <FlatList
-            data={todos}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-              <View style={styles.item}>
-                {/* Todo item content */}
-                <View style={styles.itemContent}>
-                  <Text
-                    style={{
-                      fontFamily: "Poppins-Regular",
-                      fontSize: 14,
-                      color: "#163532",
-                    }}
-                  >
-                    {item.date}
-                  </Text>
-                  <Text
-                    style={{
-                      fontFamily: "Poppins-Bold",
-                      fontSize: 17,
-                      color: "#163532",
-                    }}
-                  >
-                    {item.text}
-                  </Text>
-
-                  <Text
-                    style={{
-                      fontFamily: "Poppins-Regular",
-                      fontSize: 14,
-                      color: "#163532",
-                    }}
-                  >
-                    {`${item.startTime} - ${item.endTime}`}
-                  </Text>
-                </View>
-
-                {/* Trash icon */}
-                <TouchableOpacity
-                  style={styles.trashIconContainer}
-                  onPress={() => handleDeleteTodo(item)}
+          {/* Map over todos array to render individual items */}
+          {todos.map((item) => (
+            <View key={item.id} style={styles.item}>
+              {/* Todo item content */}
+              <View style={styles.itemContent}>
+                <Text
+                  style={{
+                    fontFamily: "Poppins-Regular",
+                    fontSize: 14,
+                    color: "#163532",
+                  }}
                 >
-                  <FontAwesome5 name="trash" size={20} color="#163532" />
-                </TouchableOpacity>
+                  {item.date}
+                </Text>
+                <Text
+                  style={{
+                    fontFamily: "Poppins-Bold",
+                    fontSize: 17,
+                    color: "#163532",
+                  }}
+                >
+                  {item.text}
+                </Text>
+                <Text
+                  style={{
+                    fontFamily: "Poppins-Regular",
+                    fontSize: 14,
+                    color: "#163532",
+                  }}
+                >
+                  {`${item.startTime} - ${item.endTime}`}
+                </Text>
               </View>
-            )}
-          />
+
+              {/* Trash icon */}
+              <TouchableOpacity
+                style={styles.trashIconContainer}
+                onPress={() => handleDeleteTodo(item)}
+              >
+                <FontAwesome5 name="trash" size={20} color="#163532" />
+              </TouchableOpacity>
+            </View>
+          ))}
           {/* Conditionally render the first horizontal line */}
           {todos.length > 0 && <View style={styles.horizontalLine} />}
         </View>
+
         <View style={styles.dateTimePickerContainer}>
           <TextInput
             style={styles.input}
@@ -266,8 +262,6 @@ const TodoComponent = ({ tripId, selectedDate }) => {
     </KeyboardAvoidingView>
   );
 };
-{
-}
 
 const styles = StyleSheet.create({
   dateTimePickerContainer: {
