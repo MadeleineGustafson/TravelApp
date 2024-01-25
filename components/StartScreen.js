@@ -11,7 +11,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import bigLine from "../assets/road.png";
+import bigLine from "../assets/Trainroadplane.png";
 import backgroundImage from "../assets/Train_Darker.png";
 
 function StartScreen() {
@@ -99,7 +99,7 @@ function StartScreen() {
               fontFamily: "Kalnia-Bold",
               color: "#D1FFA0",
               margin: 20,
-              top: -70,
+              top: -90,
             }}
           >
             TRAVEL PLANNER
@@ -109,7 +109,7 @@ function StartScreen() {
               name="train"
               size={55}
               color="#EDF2E1"
-              style={{ top: -32 }}
+              style={{ top: -62 }}
             />
           </Animated.View>
         </View>
@@ -120,7 +120,7 @@ function StartScreen() {
             fontFamily: "Poppins-Regular",
             fontSize: 16,
             color: "#EDF2E1",
-            top: -100,
+            top: -120,
           }}
         >
           Make your travel planning easier
@@ -130,7 +130,7 @@ function StartScreen() {
           onPress={navigateToMyTrips}
           style={{
             zIndex: 2,
-            top: -60,
+            top: -90,
             shadowColor: "black", // For iOS
             shadowOffset: { width: 0, height: 5 },
             shadowOpacity: 0.2,
@@ -145,7 +145,8 @@ function StartScreen() {
               borderRadius: 30,
               justifyContent: "flex-start",
               width: 190,
-              margin: 20,
+              margin: 10,
+              marginLeft: 18,
               justifyContent: "center",
               alignItems: "center",
             }}
