@@ -10,7 +10,6 @@ import MyTripsScreen from "./components/MyTripsScreen";
 import NewTripScreen from "./components/NewTripScreen";
 import PackListScreen from "./components/PackListScreen";
 import StartScreen from "./components/StartScreen";
-import ToDoList from "./components/ToDoList";
 
 const Stack = createNativeStackNavigator();
 
@@ -31,7 +30,6 @@ function Main() {
         <Stack.Screen name="notes" component={Notes} />
         <Stack.Screen name="packlist" component={PackListScreen} />
         <Stack.Screen name="weather" component={Weather} />
-        <Stack.Screen name="TodoPage" component={ToDoList} />
       </Stack.Navigator>
     </NavigationContainer>
   );
