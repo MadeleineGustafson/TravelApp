@@ -99,7 +99,9 @@ function WeatherScreen() {
           <Text style={styles.weather}>
             {weatherData.weather[0].description}
           </Text>
-          <Text style={styles.temp}>{weatherData.main.temp} c°</Text>
+          <Text style={styles.temp}>
+            {Math.round(weatherData.main.temp)} C°
+          </Text>
           <View
             style={{
               flexDirection: "row",
