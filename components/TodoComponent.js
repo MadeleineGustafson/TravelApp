@@ -150,10 +150,8 @@ const TodoComponent = ({ tripId, selectedDate }) => {
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={{ flex: 1 }}
-    >
+    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={{ flex: 1 }}>
+    
       <ScrollView>
         {/* Conditionally render the first horizontal line */}
         {todos.length > 0 && <View style={styles.horizontalLine} />}
