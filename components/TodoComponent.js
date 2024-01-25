@@ -156,7 +156,8 @@ const TodoComponent = ({ tripId, selectedDate }) => {
     >
 
       <ScrollView>
-      <View style={styles.horizontalLine} />
+      {/* Conditionally render the first horizontal line */}
+      {todos.length > 0 && <View style={styles.horizontalLine} />}
 
         <View style={styles.itemContainer}>
           <FlatList
@@ -210,7 +211,8 @@ const TodoComponent = ({ tripId, selectedDate }) => {
               </View>
             )}
           />
-            <View style={styles.horizontalLine} />
+            {/* Conditionally render the first horizontal line */}
+        {todos.length > 0 && <View style={styles.horizontalLine} />}
         </View>
         <View style={styles.dateTimePickerContainer}>
           <TextInput
@@ -283,7 +285,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginTop: 10,
   },
    horizontalLine: {
     borderBottomColor: '#D3DFB7',
