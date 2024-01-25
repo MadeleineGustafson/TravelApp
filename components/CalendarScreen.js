@@ -84,6 +84,7 @@ function CalendarScreen() {
   const handleDayPress = (day) => {
     const selectedDate = day.dateString;
     setSelectedDate(selectedDate);
+    console.log("Selected Date:", selectedDate);
 
     if (!todosDates.includes(selectedDate)) {
       setTodosDates((prevDates) => [...prevDates, selectedDate]);
