@@ -154,10 +154,9 @@ const TodoComponent = ({ tripId, selectedDate }) => {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={{ flex: 1 }}
     >
-
       <ScrollView>
-      {/* Conditionally render the first horizontal line */}
-      {todos.length > 0 && <View style={styles.horizontalLine} />}
+        {/* Conditionally render the first horizontal line */}
+        {todos.length > 0 && <View style={styles.horizontalLine} />}
 
         <View style={styles.itemContainer}>
           <FlatList
@@ -167,15 +166,15 @@ const TodoComponent = ({ tripId, selectedDate }) => {
               <View style={styles.item}>
                 {/* Todo item content */}
                 <View style={styles.itemContent}>
-                      <Text
-                        style={{
-                          fontFamily: "Poppins-Regular",
-                          fontSize: 14,
-                          color: "#163532",
-                        }}
-                      >
-                        {item.date}
-                      </Text>
+                  <Text
+                    style={{
+                      fontFamily: "Poppins-Regular",
+                      fontSize: 14,
+                      color: "#163532",
+                    }}
+                  >
+                    {item.date}
+                  </Text>
                   <Text
                     style={{
                       fontFamily: "Poppins-Bold",
@@ -195,7 +194,6 @@ const TodoComponent = ({ tripId, selectedDate }) => {
                   >
                     {`${item.startTime} - ${item.endTime}`}
                   </Text>
-
                 </View>
 
                 {/* Trash icon */}
@@ -208,13 +206,13 @@ const TodoComponent = ({ tripId, selectedDate }) => {
               </View>
             )}
           />
-            {/* Conditionally render the first horizontal line */}
-        {todos.length > 0 && <View style={styles.horizontalLine} />}
+          {/* Conditionally render the first horizontal line */}
+          {todos.length > 0 && <View style={styles.horizontalLine} />}
         </View>
         <View style={styles.dateTimePickerContainer}>
           <TextInput
             style={styles.input}
-            placeholder={"Add a todo"}
+            placeholder={"Write a todo"}
             placeholderTextColor={"#163532"}
             value={todo}
             onChangeText={(text) => setTodo(text)}
@@ -229,7 +227,10 @@ const TodoComponent = ({ tripId, selectedDate }) => {
 
         {/* Wrap "Enter start time" and "Enter end time" in a View with horizontal layout */}
         <View style={styles.timeInputContainer}>
-          <TouchableOpacity onPress={showStartTimePicker}>
+          <TouchableOpacity
+            onPress={showStartTimePicker}
+            style={styles.timeButton}
+          >
             <Text style={styles.timeInputLabel}>Starts</Text>
           </TouchableOpacity>
           <Text style={styles.timeInput}>{selectedStartTime}</Text>
@@ -244,7 +245,10 @@ const TodoComponent = ({ tripId, selectedDate }) => {
 
         {/* "Enter end time" label and text input */}
         <View style={styles.timeInputContainer}>
-          <TouchableOpacity onPress={showEndTimePicker}>
+          <TouchableOpacity
+            onPress={showEndTimePicker}
+            style={styles.timeButton}
+          >
             <Text style={styles.timeInputLabel}>Ends</Text>
           </TouchableOpacity>
           <Text style={styles.timeInput}>{selectedEndTime}</Text>
@@ -256,25 +260,11 @@ const TodoComponent = ({ tripId, selectedDate }) => {
           onConfirm={handleEndTimeConfirm}
           onCancel={hideEndTimePicker}
         />
-
       </ScrollView>
     </KeyboardAvoidingView>
   );
 };
 {
-  /* {isEditing ? (
-  <TouchableOpacity >
-    <Text style={styles.saveText}>
-      <Entypo name="check" size={20} color="#163532" />
-    </Text>
-  </TouchableOpacity>
-) : (
-  <TouchableOpacity >
-    <Text style={styles.editText}>
-      <Feather name="edit" size={18} color="#163532" />
-    </Text>
-  </TouchableOpacity>
-)} */
 }
 
 const styles = StyleSheet.create({
@@ -283,8 +273,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
-   horizontalLine: {
-    borderBottomColor: '#D3DFB7',
+  horizontalLine: {
+    borderBottomColor: "#D3DFB7",
     borderBottomWidth: 1,
     marginVertical: 10, // Adjust this value to control the spacing above and below the FlatList
   },
@@ -312,6 +302,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     marginTop: 10,
+    margin: 10,
   },
   itemContent: {
     flex: 1,
@@ -339,13 +330,13 @@ const styles = StyleSheet.create({
   },
   timeInputLabel: {
     fontFamily: "Poppins-Bold",
-    fontSize: 16,
+    fontSize: 14,
     color: "#D3DFB7",
   },
   timeInput: {
-    fontSize: 16,
+    fontSize: 19,
     fontFamily: "Poppins-Regular",
-    color: "#D3DFB7",
+    color: "#D1FFA0",
   },
   addWrapper: {
     width: 50,
@@ -359,6 +350,15 @@ const styles = StyleSheet.create({
   },
   addText: {
     fontSize: 20,
+  },
+  timeButton: {
+    borderWidth: 2,
+    borderColor: "#D3DFB7",
+    padding: 8,
+    width: 80,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 20,
   },
 });
 

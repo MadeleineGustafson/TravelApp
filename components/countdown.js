@@ -30,7 +30,7 @@ function Countdown({ startDate }) {
       <CountdownCircleTimer
         isPlaying
         duration={daysRemaining * 24 * 3600}
-        colors={["#B726DC", "#B726DC"]}
+        colors={["#B726DC", "#D1FFA0"]}
         size={countdownCircleSize}
         strokeWidth={3}
         rotation="clockwise"

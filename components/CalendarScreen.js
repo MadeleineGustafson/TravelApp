@@ -11,9 +11,9 @@ import {
 } from "react-native";
 import { Calendar } from "react-native-calendars";
 import { useTripContext } from "../contexts/TripContext";
+import Countdown from "./countdown";
 import IconBar from "./IconBar";
 import TodoComponent from "./TodoComponent";
-import Countdown from "./countdown";
 
 function CalendarScreen() {
   const { getTrip, getTodoData } = useTripContext();
@@ -176,7 +176,7 @@ function CalendarScreen() {
                 <Image
                   source={require("../assets/tp.logo.small.png")}
                   style={{
-                    opacity: "0.5",
+                    opacity: 0.5,
                   }}
                 />
               </View>
@@ -260,21 +260,15 @@ function CalendarScreen() {
                 </Text>
 
                 <View style={styles.selectedDateContainer}>
-                  <Text style={styles.selectedDateText}>{new Date(selectedDate).toLocaleDateString("en-US", {
-                    month: "long",
-                    day: "numeric",
-                  }) + getDaySuffix(new Date(selectedDate).getDate())}</Text>
+                  <Text style={styles.selectedDateText}>
+                    {new Date(selectedDate).toLocaleDateString("en-US", {
+                      month: "long",
+                      day: "numeric",
+                    }) + getDaySuffix(new Date(selectedDate).getDate())}
+                  </Text>
                 </View>
               </View>
             )}
-
-            {/* <View style={styles.toggleButtonContainer}>
-            <Pressable onPress={toggleTodoList} style={styles.toggleButton}>
-              <Text style={styles.toggleButtonText}>
-                {showTodoList ? "Hide Todos" : "Show Todos"}
-              </Text>
-            </Pressable>
-          </View> */}
 
             {/* Conditionally render the TodoComponent */}
             {showTodoList && (
@@ -288,7 +282,6 @@ function CalendarScreen() {
 }
 const styles = StyleSheet.create({
   countdownContainer: {
-    //marginTop: 15,
     alignItems: "center",
   },
   titleText: {
@@ -301,11 +294,10 @@ const styles = StyleSheet.create({
   detailText: {
     fontSize: 27,
     marginLeft: 10,
-    //marginTop: 10,
-    //textAlign: "center",
+
     fontFamily: "Poppins-Bold",
     color: "#EDF2E1",
-    //marginRight: 10,
+
     padding: 10,
   },
   styleCalendar: {
@@ -335,15 +327,14 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     width: "auto",
   },
-  container: {
-    //alignItems: "space-between",
-  },
+
   addButton: {
     fontSize: 16,
     fontFamily: "Poppins-Regular",
     fontFamily: "Poppins-Regular",
     color: "white",
     marginTop: 10,
+    opacity: 0.5,
   },
   backButton: {
     fontSize: 13,
@@ -352,7 +343,7 @@ const styles = StyleSheet.create({
   },
   selectedDateText: {
     fontFamily: "Poppins-Regular",
-    color: "white",
+    color: "#D1FFA0",
     fontSize: 18,
   },
   plans: {
