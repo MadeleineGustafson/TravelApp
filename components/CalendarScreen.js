@@ -11,9 +11,9 @@ import {
 } from "react-native";
 import { Calendar } from "react-native-calendars";
 import { useTripContext } from "../contexts/TripContext";
+import Countdown from "./countdown";
 import IconBar from "./IconBar";
 import TodoComponent from "./TodoComponent";
-import Countdown from "./countdown";
 
 function CalendarScreen() {
   const { getTrip, getTodoData } = useTripContext();
@@ -234,7 +234,7 @@ function CalendarScreen() {
             />
 
             <View style={styles.addTodoContainer}>
-              <Text style={styles.addButton}>Press a date to add a todo</Text>
+              <Text style={styles.addtext}>Press a date to add a todo</Text>
             </View>
 
             {/* Display selected date */}
@@ -261,10 +261,12 @@ function CalendarScreen() {
                 </Text>
 
                 <View style={styles.selectedDateContainer}>
-                  <Text style={styles.selectedDateText}>{new Date(selectedDate).toLocaleDateString("en-US", {
-                    month: "long",
-                    day: "numeric",
-                  }) + getDaySuffix(new Date(selectedDate).getDate())}</Text>
+                  <Text style={styles.selectedDateText}>
+                    {new Date(selectedDate).toLocaleDateString("en-US", {
+                      month: "long",
+                      day: "numeric",
+                    }) + getDaySuffix(new Date(selectedDate).getDate())}
+                  </Text>
                 </View>
               </View>
             )}
@@ -339,12 +341,13 @@ const styles = StyleSheet.create({
   container: {
     //alignItems: "space-between",
   },
-  addButton: {
-    fontSize: 16,
+  addtext: {
+    fontSize: 14,
     fontFamily: "Poppins-Regular",
     fontFamily: "Poppins-Regular",
-    color: "white",
+    color: "#EDF2E1",
     marginTop: 10,
+    opacity: 0.5,
   },
   backButton: {
     fontSize: 13,
@@ -353,7 +356,7 @@ const styles = StyleSheet.create({
   },
   selectedDateText: {
     fontFamily: "Poppins-Regular",
-    color: "white",
+    color: "#D1FFA0",
     fontSize: 18,
   },
   plans: {

@@ -80,13 +80,22 @@ const TodoComponent = ({ tripId, selectedDate }) => {
   };
 
   const addTodo = async () => {
-    if (todo.trim() !== "" && selectedStartTime && selectedEndTime) {
+    if (
+      todo.trim() !== "" &&
+      selectedStartTime &&
+      selectedEndTime &&
+      selectedDate
+    ) {
       const newTodo = {
         id: Date.now().toString(),
-        text: todo, // Store the todo text separately
+        text: todo,
         startTime: selectedStartTime,
         endTime: selectedEndTime,
-        date: selectedDate,
+        date: new Date(selectedDate).toLocaleDateString("en-US", {
+          weekday: "short",
+          month: "long",
+          day: "numeric",
+        }),
       };
 
       const existingTodos = (await getTodoData(tripId)) || [];
@@ -154,10 +163,9 @@ const TodoComponent = ({ tripId, selectedDate }) => {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={{ flex: 1 }}
     >
-
       <ScrollView>
-      {/* Conditionally render the first horizontal line */}
-      {todos.length > 0 && <View style={styles.horizontalLine} />}
+        {/* Conditionally render the first horizontal line */}
+        {todos.length > 0 && <View style={styles.horizontalLine} />}
 
         <View style={styles.itemContainer}>
           <FlatList
@@ -167,18 +175,15 @@ const TodoComponent = ({ tripId, selectedDate }) => {
               <View style={styles.item}>
                 {/* Todo item content */}
                 <View style={styles.itemContent}>
-                      <Text
-                        style={{
-                          fontFamily: "Poppins-Regular",
-                          fontSize: 14,
-                          color: "#163532",
-                        }}
-                      >
-                        {`${new Date(selectedDate).toLocaleDateString("en-US", {
-                        month: "long",
-                        day: "numeric",
-                      }) + getDaySuffix(new Date(selectedDate).getDate())}`}
-                      </Text>
+                  <Text
+                    style={{
+                      fontFamily: "Poppins-Regular",
+                      fontSize: 14,
+                      color: "#163532",
+                    }}
+                  >
+                    {item.date}
+                  </Text>
                   <Text
                     style={{
                       fontFamily: "Poppins-Bold",
@@ -198,7 +203,6 @@ const TodoComponent = ({ tripId, selectedDate }) => {
                   >
                     {`${item.startTime} - ${item.endTime}`}
                   </Text>
-
                 </View>
 
                 {/* Trash icon */}
@@ -211,8 +215,8 @@ const TodoComponent = ({ tripId, selectedDate }) => {
               </View>
             )}
           />
-            {/* Conditionally render the first horizontal line */}
-        {todos.length > 0 && <View style={styles.horizontalLine} />}
+          {/* Conditionally render the first horizontal line */}
+          {todos.length > 0 && <View style={styles.horizontalLine} />}
         </View>
         <View style={styles.dateTimePickerContainer}>
           <TextInput
@@ -232,8 +236,11 @@ const TodoComponent = ({ tripId, selectedDate }) => {
 
         {/* Wrap "Enter start time" and "Enter end time" in a View with horizontal layout */}
         <View style={styles.timeInputContainer}>
-          <TouchableOpacity onPress={showStartTimePicker}>
-            <Text style={styles.timeInputLabel}>Starts</Text>
+          <TouchableOpacity
+            onPress={showStartTimePicker}
+            style={styles.littleButton}
+          >
+            <Text style={styles.timeInputLabel}>STARTS</Text>
           </TouchableOpacity>
           <Text style={styles.timeInput}>{selectedStartTime}</Text>
         </View>
@@ -247,8 +254,11 @@ const TodoComponent = ({ tripId, selectedDate }) => {
 
         {/* "Enter end time" label and text input */}
         <View style={styles.timeInputContainer}>
-          <TouchableOpacity onPress={showEndTimePicker}>
-            <Text style={styles.timeInputLabel}>Ends</Text>
+          <TouchableOpacity
+            onPress={showEndTimePicker}
+            style={styles.littleButton}
+          >
+            <Text style={styles.timeInputLabel}>ENDS</Text>
           </TouchableOpacity>
           <Text style={styles.timeInput}>{selectedEndTime}</Text>
         </View>
@@ -259,25 +269,11 @@ const TodoComponent = ({ tripId, selectedDate }) => {
           onConfirm={handleEndTimeConfirm}
           onCancel={hideEndTimePicker}
         />
-
       </ScrollView>
     </KeyboardAvoidingView>
   );
 };
 {
-  /* {isEditing ? (
-  <TouchableOpacity >
-    <Text style={styles.saveText}>
-      <Entypo name="check" size={20} color="#163532" />
-    </Text>
-  </TouchableOpacity>
-) : (
-  <TouchableOpacity >
-    <Text style={styles.editText}>
-      <Feather name="edit" size={18} color="#163532" />
-    </Text>
-  </TouchableOpacity>
-)} */
 }
 
 const styles = StyleSheet.create({
@@ -286,8 +282,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
-   horizontalLine: {
-    borderBottomColor: '#D3DFB7',
+  horizontalLine: {
+    borderBottomColor: "#D3DFB7",
     borderBottomWidth: 1,
     marginVertical: 10, // Adjust this value to control the spacing above and below the FlatList
   },
@@ -315,7 +311,18 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     marginTop: 10,
+    margin: 10,
   },
+  littleButton: {
+    borderColor: "#D3DFB7",
+    borderWidth: 2,
+    borderRadius: 20,
+    padding: 7,
+    width: 100,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
   itemContent: {
     flex: 1,
   },
@@ -342,13 +349,13 @@ const styles = StyleSheet.create({
   },
   timeInputLabel: {
     fontFamily: "Poppins-Bold",
-    fontSize: 16,
+    fontSize: 14,
     color: "#D3DFB7",
   },
   timeInput: {
-    fontSize: 16,
+    fontSize: 20,
     fontFamily: "Poppins-Regular",
-    color: "#D3DFB7",
+    color: "#D1FFA0",
   },
   addWrapper: {
     width: 50,
@@ -361,7 +368,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   addText: {
-    fontSize: 20,
+    fontSize: 28,
   },
 });
 
