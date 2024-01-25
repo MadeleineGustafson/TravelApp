@@ -26,7 +26,7 @@ function IconBar({ tripId }) {
       >
         <MaterialCommunityIcons
           name="food"
-          size={50}
+          size={40}
           color="#D1FFA0"
           style={{
             shadowColor: "#588278", // For iOS
@@ -43,7 +43,7 @@ function IconBar({ tripId }) {
       >
         <MaterialCommunityIcons
           name="ferris-wheel"
-          size={50}
+          size={40}
           color="#D1FFA0"
           style={{
             shadowColor: "#588278", // For iOS
@@ -63,7 +63,7 @@ function IconBar({ tripId }) {
       >
         <Entypo
           name="list"
-          size={58}
+          size={48}
           color="#D1FFA0"
           style={{
             shadowColor: "#588278", // For iOS
@@ -82,7 +82,7 @@ function IconBar({ tripId }) {
       >
         <MaterialCommunityIcons
           name="sun-thermometer"
-          size={50}
+          size={40}
           color="#D1FFA0"
           style={{
             shadowColor: "#588278", // For iOS
@@ -99,8 +99,8 @@ function IconBar({ tripId }) {
 
 const styles = {
   iconContainer: {
-    width: 70, // Adjust the width for the desired size
-    height: 70, // Adjust the height for the desired size
+    width: 63, // Adjust the width for the desired size
+    height: 63, // Adjust the height for the desired size
     marginHorizontal: 7, // Adjust this value to add space between icons
     backgroundColor: "rgba(209, 255, 160, 0.15)",
 
