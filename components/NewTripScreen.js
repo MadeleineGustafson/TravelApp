@@ -153,7 +153,7 @@ function NewTripScreen() {
                   <Image
                     source={require("../assets/tp.logo.small.png")}
                     style={{
-                      opacity: "0.5",
+                      opacity: 0.5,
                     }}
                   />
                 </View>
@@ -229,9 +229,7 @@ function NewTripScreen() {
                 </View>
               )}
 
-              <Text style={styles.labelText}>
-                Enter the last day of your trip
-              </Text>
+              <Text style={styles.labelText}>Enter last day of your trip</Text>
               {!showEndPicker && (
                 <Pressable onPress={toggleEndDatePicker}>
                   <TextInput
@@ -284,7 +282,7 @@ function NewTripScreen() {
                     { backgroundColor: isFormValid ? "#D1FFA0" : "gray" },
                   ]}
                 >
-                  <Text style={styles.buttonText}>Create New Trip</Text>
+                  <Text style={styles.buttonText}>CREATE NEW TRIP</Text>
                 </View>
               </TouchableOpacity>
             </SafeAreaView>
@@ -320,7 +318,7 @@ const styles = StyleSheet.create({
     color: "#D1FFA0",
     alignSelf: "flex-start",
     marginBottom: 5,
-    marginTop: 10,
+    marginTop: 0,
   },
   input: {
     height: 40,

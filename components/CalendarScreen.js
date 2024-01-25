@@ -159,7 +159,7 @@ function CalendarScreen() {
                 <Image
                   source={require("../assets/tp.logo.small.png")}
                   style={{
-                    opacity: "0.5",
+                    opacity: 0.5,
                   }}
                 />
               </View>
@@ -202,7 +202,7 @@ function CalendarScreen() {
                 monthTextColor: "white",
                 fontFamily: "Poppins-Regular",
                 textMonthFontSize: 22,
-                textMonthFontFamily: "Poppins-Bold",
+                textMonthFontFamily: "Poppins-Regular",
                 arrowColor: "white",
                 dayTextColor: "#D1FFA0",
                 todayBackgroundColor: "#B726DC",

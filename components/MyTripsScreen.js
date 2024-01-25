@@ -74,7 +74,7 @@ function MyTripsScreen() {
               <Image
                 source={require("../assets/tp.logo.small.png")}
                 style={{
-                  opacity: "0.5",
+                  opacity: 0.5,
                 }}
               />
             </View>
