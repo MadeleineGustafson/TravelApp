@@ -85,26 +85,34 @@ const NotesScreen = ({
       <View style={styles.littlecontainer}>
         <Text style={styles.title}>{titleText}</Text>
         <Text style={styles.title}>{descriptionText}</Text>
-        <ScrollView style={styles.noteList}>
-          {notesData.map((note) => (
-            <TouchableOpacity
-              key={note.id}
-              onPress={() => handleEditNote(note)}
-              style={styles.bubble}
-            >
-              <Text style={styles.noteTitle}>{note.title}</Text>
-              <Text
-                style={[
-                  styles.noteSmallText,
-                  isLink(note.content) && styles.linkText,
-                ]}
-                onPress={() => handleLinkPress(note.content)}
+        {notesData.length > 0 ? (
+          <ScrollView style={styles.noteList}>
+            {notesData.map((note) => (
+              <TouchableOpacity
+                key={note.id}
+                onPress={() => handleEditNote(note)}
+                style={styles.bubble}
               >
-                {note.content}
-              </Text>
-            </TouchableOpacity>
-          ))}
-        </ScrollView>
+                <Text style={styles.noteTitle}>{note.title}</Text>
+                <Text
+                  style={[
+                    styles.noteSmallText,
+                    isLink(note.content) && styles.linkText,
+                  ]}
+                  onPress={() => handleLinkPress(note.content)}
+                >
+                  {note.content}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+        ) : (
+          <View style={styles.placeholderContainer}>
+            <Text style={styles.placeholderText}>
+              Tap "+" to add new notes!
+            </Text>
+          </View>
+        )}
       </View>
       <View style={{ justifyContent: "center", alignItems: "center" }}>
         <TouchableOpacity
@@ -276,6 +284,19 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 20,
     marginHorizontal: 5,
+  },
+  placeholderContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  placeholderText: {
+    fontFamily: "Poppins-Regular",
+    fontSize: 18,
+    color: "#163532",
+    textAlign: "center",
+    opacity: 0.7,
   },
 });
 
