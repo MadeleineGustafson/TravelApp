@@ -164,7 +164,6 @@ function CalendarScreen() {
               alignItems: "center",
               width: 300,
               marginTop: 60,
-              marginBottom: 20,
             }}
           >
             <TouchableOpacity onPress={() => navigation.navigate("myTrips")}>
@@ -220,7 +219,7 @@ function CalendarScreen() {
                 monthTextColor: "white",
                 fontFamily: "Poppins-Regular",
                 textMonthFontSize: 22,
-                textMonthFontFamily: "Poppins-Bold",
+                textMonthFontFamily: "Poppins-Regular",
                 arrowColor: "white",
                 dayTextColor: "#D1FFA0",
                 todayBackgroundColor: "#B726DC",

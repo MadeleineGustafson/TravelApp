@@ -174,10 +174,7 @@ const TodoComponent = ({ tripId, selectedDate }) => {
                           color: "#163532",
                         }}
                       >
-                        {`${new Date(selectedDate).toLocaleDateString("en-US", {
-                        month: "long",
-                        day: "numeric",
-                      }) + getDaySuffix(new Date(selectedDate).getDate())}`}
+                        {item.date}
                       </Text>
                   <Text
                     style={{

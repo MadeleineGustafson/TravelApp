@@ -74,13 +74,14 @@ function MyTripsScreen() {
               <Image
                 source={require("../assets/tp.logo.small.png")}
                 style={{
-                  opacity: "0.5",
+                  opacity: 0.5,
                 }}
               />
             </View>
           </TouchableOpacity>
         </View>
-        <Text style={styles.pageTitle}>Your travel plans:</Text>
+          
+          <Text style={styles.pageTitle}>Your travel plans:</Text>
         <View style={styles.scrollBox}>
           <ScrollView>
             {trips.map((trip) => (
@@ -120,17 +121,6 @@ function MyTripsScreen() {
             ))}
           </ScrollView>
         </View>
-        {trips.length === 0 && (
-          <Text
-            style={{
-              fontFamily: "Poppins-Bold",
-              fontSize: 20,
-              color: "#D1FFA0",
-            }}
-          >
-            No trips available, please create a new trip!
-          </Text>
-        )}
 
         <TouchableOpacity onPress={navigateToNewTrip}>
           <View style={styles.button}>
