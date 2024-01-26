@@ -12,7 +12,6 @@ import {
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { useTripContext } from "../contexts/TripContext";
 
-// Function to get current time
 const getCurrentTime = () => {
   const now = new Date();
   return now.toLocaleTimeString("sv-SE", {
@@ -82,7 +81,7 @@ const TodoComponent = ({ tripId, selectedDate }) => {
     if (todo.trim() !== "" && selectedStartTime && selectedEndTime) {
       const newTodo = {
         id: Date.now().toString(),
-        text: todo, // Store the todo text separately
+        text: todo,
         startTime: selectedStartTime,
         endTime: selectedEndTime,
         date: selectedDate,
@@ -272,7 +271,7 @@ const styles = StyleSheet.create({
   horizontalLine: {
     borderBottomColor: "#D3DFB7",
     borderBottomWidth: 1,
-    marginVertical: 10, // Adjust this value to control the spacing above and below the FlatList
+    marginVertical: 10,
   },
   itemContainer: {
     marginTop: 10,

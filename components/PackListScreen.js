@@ -29,7 +29,7 @@ const PackListScreen = ({ route, onSaveItem }) => {
         console.log("Fetching trip items for tripId:", tripId);
         const items = await getPackingList(tripId);
         console.log("Fetched trip items:", items);
-        setPackItems(items || []); // Ensure items is not undefined
+        setPackItems(items || []);
       } catch (error) {
         console.error("Error fetching trip items:", error);
       }
@@ -53,7 +53,6 @@ const PackListScreen = ({ route, onSaveItem }) => {
           : item
       );
       setPackItems((prevPackItems) => {
-        // Use the state updater function to ensure the correct state
         const newState = updatedPackItems;
         savePackingList(tripId, newState);
         return newState;
@@ -66,7 +65,6 @@ const PackListScreen = ({ route, onSaveItem }) => {
         checked: false,
       };
       setPackItems((prevPackItems) => {
-        // Use the state updater function to ensure the correct state
         const newState = [...prevPackItems, newPackItem];
         savePackingList(tripId, newState);
         return newState;
@@ -86,7 +84,6 @@ const PackListScreen = ({ route, onSaveItem }) => {
         : packItem
     );
     setPackItems((prevPackItems) => {
-      // Use the state updater function to ensure the correct state
       const newState = updatedPackItems;
       savePackingList(tripId, newState);
       return newState;
@@ -124,9 +121,7 @@ const PackListScreen = ({ route, onSaveItem }) => {
           marginTop: 40,
         }}
       >
-        <TouchableOpacity
-          onPress={() => navigation.navigate("calendar")} // Navigate to CalendarScreen
-        >
+        <TouchableOpacity onPress={() => navigation.navigate("calendar")}>
           <MaterialCommunityIcons
             name="close"
             size={40}

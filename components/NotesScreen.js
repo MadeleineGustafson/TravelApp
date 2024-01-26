@@ -27,14 +27,12 @@ const NotesScreen = ({
 
   const handleSaveNote = () => {
     if (selectedNote) {
-      // If a note is selected, update it
       const updatedNotes = notes.map((note) =>
         note.id === selectedNote.id ? { ...note, title, content } : note
       );
       setNotes(updatedNotes);
       setSelectedNote(null);
     } else {
-      // If no note is selected, add a new note
       const newNote = {
         id: Date.now(),
         title,
@@ -57,19 +55,16 @@ const NotesScreen = ({
     onEditNote && onEditNote(note);
   };
 
-  // Function to handle deleting a note
   const handleDeleteNote = (note) => {
     const updatedNotes = notes.filter((item) => item.id !== note.id);
     setNotes(updatedNotes);
     setSelectedNote(null);
     setModalVisible(false);
 
-    // Use the onDeleteNote prop to update the state in the parent component
     onDeleteNote(note);
   };
 
   const handleLinkPress = (url) => {
-    // Open the link using Linking API
     Linking.openURL(url);
   };
 
