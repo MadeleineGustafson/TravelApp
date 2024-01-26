@@ -10,7 +10,7 @@ function Weather() {
       style={{
         flex: 1,
         alignItems: "center",
-        //justifyContent: "center",
+
         backgroundColor: "#163532",
       }}
     >
@@ -22,9 +22,7 @@ function Weather() {
           marginTop: 40,
         }}
       >
-        <TouchableOpacity
-          onPress={() => navigation.navigate("calendar")} // Navigate to CalendarScreen
-        >
+        <TouchableOpacity onPress={() => navigation.navigate("calendar")}>
           <MaterialCommunityIcons name="close" size={30} color="white" />
         </TouchableOpacity>
       </View>

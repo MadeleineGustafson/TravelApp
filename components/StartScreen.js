@@ -11,8 +11,8 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import backgroundImage from "../assets/Train_Darker.png";
 import bigLine from "../assets/Trainroadplane.png";
+import backgroundImage from "../assets/Train_Darker.png";
 
 function StartScreen() {
   const navigation = useNavigation();
@@ -55,7 +55,7 @@ function StartScreen() {
 
   const translateX = animatedValue.interpolate({
     inputRange: [0, 1],
-    outputRange: [0, -10], // Adjust the value for the desired horizontal distance
+    outputRange: [0, -10],
   });
 
   return (
@@ -131,11 +131,11 @@ function StartScreen() {
           style={{
             zIndex: 2,
             top: -90,
-            shadowColor: "black", // For iOS
+            shadowColor: "black",
             shadowOffset: { width: 0, height: 5 },
             shadowOpacity: 0.2,
             shadowRadius: 2,
-            elevation: 2, // For Android
+            elevation: 2,
           }}
         >
           <View

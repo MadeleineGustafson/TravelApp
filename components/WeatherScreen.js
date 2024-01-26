@@ -49,7 +49,7 @@ function WeatherScreen() {
 
   const renderWeatherIcon = () => {
     if (!weatherData || !weatherData.weather || !weatherData.weather[0]) {
-      return null; // Return null or a default icon if weather data is not available
+      return null;
     }
 
     const description = weatherData.weather[0].description;
@@ -144,7 +144,6 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     width: 41,
     marginBottom: 10,
-    //padding: 10,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -193,11 +192,11 @@ const styles = StyleSheet.create({
   errorContainer: {
     marginTop: 10,
     padding: 10,
-    backgroundColor: "#FFC0C0", // Customize the background color for error
+    backgroundColor: "#FFC0C0",
     borderRadius: 5,
   },
   errorText: {
-    color: "#FF0000", // Customize the text color for error
+    color: "#FF0000",
     textAlign: "center",
     fontFamily: "Poppins-Regular",
   },

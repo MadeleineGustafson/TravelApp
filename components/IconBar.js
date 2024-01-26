@@ -29,7 +29,7 @@ function IconBar({ tripId }) {
           size={40}
           color="#D1FFA0"
           style={{
-            shadowColor: "#588278", // For iOS
+            shadowColor: "#588278",
             shadowOffset: { width: 0, height: 5 },
             shadowOpacity: 0.6,
             shadowRadius: 2,
@@ -46,7 +46,7 @@ function IconBar({ tripId }) {
           size={40}
           color="#D1FFA0"
           style={{
-            shadowColor: "#588278", // For iOS
+            shadowColor: "#588278",
             shadowOffset: { width: 0, height: 5 },
             shadowOpacity: 0.6,
             shadowRadius: 2,
@@ -66,14 +66,13 @@ function IconBar({ tripId }) {
           size={48}
           color="#D1FFA0"
           style={{
-            shadowColor: "#588278", // For iOS
+            shadowColor: "#588278",
             shadowOffset: { width: 0, height: 5 },
             shadowOpacity: 0.6,
             shadowRadius: 2,
             elevation: 2,
           }}
         />
-        {/* <MaterialIcons name="notes" size={50} color="#D1FFA0" /> */}
       </TouchableOpacity>
 
       <TouchableOpacity
@@ -85,7 +84,7 @@ function IconBar({ tripId }) {
           size={40}
           color="#D1FFA0"
           style={{
-            shadowColor: "#588278", // For iOS
+            shadowColor: "#588278",
             shadowOffset: { width: 1, height: 5 },
             shadowOpacity: 0.6,
             shadowRadius: 2,
@@ -99,9 +98,9 @@ function IconBar({ tripId }) {
 
 const styles = {
   iconContainer: {
-    width: 63, // Adjust the width for the desired size
-    height: 63, // Adjust the height for the desired size
-    marginHorizontal: 7, // Adjust this value to add space between icons
+    width: 63,
+    height: 63,
+    marginHorizontal: 7,
     backgroundColor: "rgba(209, 255, 160, 0.15)",
 
     borderRadius: 20,

@@ -48,7 +48,7 @@ function NewTripScreen() {
     if (type === "set") {
       const currentDate = selectedDate;
       setStartDate(currentDate);
-      setChosenStartDate(currentDate.toISOString().split("T")[0]); // Update chosen date
+      setChosenStartDate(currentDate.toISOString().split("T")[0]);
       if (Platform.OS === "android") {
         toggleStartDatePicker();
       }
@@ -56,7 +56,6 @@ function NewTripScreen() {
       toggleStartDatePicker();
     }
 
-    // Check if all required fields are filled
     validateForm();
   };
 
@@ -64,7 +63,7 @@ function NewTripScreen() {
     if (type === "set") {
       const currentDate = selectedDate;
       setEndDate(currentDate);
-      setChosenEndDate(currentDate.toISOString().split("T")[0]); // Update chosen date
+      setChosenEndDate(currentDate.toISOString().split("T")[0]);
       if (Platform.OS === "android") {
         toggleEndDatePicker();
       }
@@ -111,7 +110,6 @@ function NewTripScreen() {
         );
         addTrip(newTrip);
 
-        // Navigate to the "calendar" screen
         navigation.navigate("calendar", { tripData: newTrip });
       } catch (error) {
         console.error("Error saving trip data:", error);

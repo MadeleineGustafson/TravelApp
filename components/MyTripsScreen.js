@@ -50,7 +50,6 @@ function MyTripsScreen() {
         style={{
           flex: 1,
           alignItems: "center",
-          //justifyContent: "center",
         }}
       >
         <View
@@ -80,8 +79,8 @@ function MyTripsScreen() {
             </View>
           </TouchableOpacity>
         </View>
-          
-          <Text style={styles.pageTitle}>Your travel plans:</Text>
+
+        <Text style={styles.pageTitle}>Your travel plans:</Text>
         <View style={styles.scrollBox}>
           <ScrollView>
             {trips.map((trip) => (
@@ -135,8 +134,8 @@ function MyTripsScreen() {
 const styles = StyleSheet.create({
   tripContainer: {
     padding: 10,
-    borderBottomWidth: 1, // Add bottom border
-    borderBottomColor: "#D1FFA0", // Border color
+    borderBottomWidth: 1,
+    borderBottomColor: "#D1FFA0",
     margin: 10,
   },
   scrollBox: {
